@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from './components/Sidebar/Sidebar.jsx';
+import CustomRoutes from './routes.js';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -24,7 +24,7 @@ const theme = createMuiTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Sidebar/>
+      <CustomRoutes />
       </ThemeProvider>
   );
 }

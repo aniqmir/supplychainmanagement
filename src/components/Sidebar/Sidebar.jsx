@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -9,20 +9,22 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+  },
+  logout: {
+    flexGrow:1
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -59,8 +61,8 @@ const useStyles = makeStyles(theme => ({
   },
   drawerOpen: {
     width: drawerWidth,
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
+    paddingLeft: theme.spacing(),
+    paddingRight: theme.spacing(),
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -98,15 +100,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MiniDrawer() {
+export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+
+  const [open, setOpen] = React.useState(true);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  function handleListItemClick(event, index) {
+  
+  useEffect(()=>{
+    props.listitemnames.map((route,key)=>{
+      if(route===props.path.slice('/')){
+          setSelectedIndex(key)
+      }
+      return null
+    })
+  })
+
+  function handleListItemClick(event, index,text) {
     setSelectedIndex(index);
+    props.history.push('/'+ text)
   }
 
 
@@ -118,106 +132,93 @@ export default function MiniDrawer() {
     setOpen(false);
   }
 
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        color='default'
-        position="fixed"
-        elevation={0}
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Dashboard
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx(classes.background,{
+  function logout(){
+    localStorage.clear()
+    window.location.reload()
+}
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar
+          color='default'
+          position="fixed"
+          elevation={0}
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, {
+                [classes.hide]: open,
+              })}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              {props.path.charAt(0).toUpperCase()+props.path.slice(1)}
+            </Typography>
+              <div className={classes.logout}/>
+            <Button onClick={()=>logout()}>
+              Logout
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          elevation={0}
+          variant="permanent"
+          className={clsx(classes.drawer, {
             [classes.drawerOpen]: open,
             [classes.drawerClose]: !open,
-          }),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbar}>
-          <Typography variant='caption'>Supply Chain Management</Typography>
-          <IconButton onClick={handleDrawerClose}
+          })}
           classes={{
-            root:classes.listitemicon
-          }}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem
-            alignItems='center' 
-            button key={text}  
-            selected={selectedIndex === index}
-            onClick={event => handleListItemClick(event, index)}
+            paper: clsx(classes.background,{
+              [classes.drawerOpen]: open,
+              [classes.drawerClose]: !open,
+            }),
+          }}
+          open={open}
+        >
+          <div className={classes.toolbar}>
+            <Typography variant='caption'>{props.heading}</Typography>
+            <IconButton onClick={handleDrawerClose}
             classes={{
-              selected:classes.selected
-            }}
-            >
-              <ListItemIcon  
+              root:classes.listitemicon
+            }}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            {props.listitemnames.map((text, index) => (
+              <ListItem
+              alignItems='center' 
+              button key={text}  
+              selected={selectedIndex === index}
+              onClick={event => handleListItemClick(event,index,text)}
               classes={{
-                root:classes.listitemicon
-              }} >
-              {index % 2 === 0 ? <InboxIcon/> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </main>
-    </div>
-  );
+                selected:classes.selected
+              }}
+              >
+                <ListItemIcon  
+                classes={{
+                  root:classes.listitemicon
+                }} >
+                {props.icon[index]}
+                </ListItemIcon>
+                <ListItemText primary={text.charAt(0).toUpperCase() + text.slice(1)} />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+            {props.view}
+        </main>
+      </div>
+    );
 }
