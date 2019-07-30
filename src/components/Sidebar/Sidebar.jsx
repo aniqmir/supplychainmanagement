@@ -16,6 +16,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const drawerWidth = 240;
 
@@ -109,10 +110,11 @@ export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(
+    !useMediaQuery(theme.breakpoints.down("sm"))
+  );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
   useEffect(() => {
     props.listitemnames.map((route, key) => {
       if (route === props.path.slice("/")) {

@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import MaterialTable from "material-table";
-import Grow from "@material-ui/core/Grow";
+import Fade from "@material-ui/core/Fade";
 
 export default function MaterialTableDemo() {
   const [
@@ -12,104 +12,156 @@ export default function MaterialTableDemo() {
       { title: "Name", field: "name" },
       { title: "Surname", field: "surname" },
       { title: "Username", field: "username" },
-      { title: "Salestax", field: "salestax", type: "numeric" }
-      //   {
-      //     title: "Birth Place",
-      //     field: "birthCity",
-      //     lookup: { 34: "İstanbul", 63: "Şanlıurfa", 75: "Rawalpindi" }
-      //   }
+      { title: "Salestax", field: "salestax", type: "numeric" },
+      { title: "Percentage", field: "percentage", type: "string" }
     ],
     data: [
-      { name: "Mehmet", surname: "Baran", username: "MehmatB", salestax: 63 },
+      {
+        name: "Mehmet",
+        surname: "Baran",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zerya Betül",
         surname: "Baran",
         username: "MehmatB",
-        salestax: 63
+        salestax: 3500,
+        percentage: "35%"
       },
-      { name: "Rawal", surname: "Pindi", username: "MehmatB", salestax: 63 },
+      {
+        name: "Rawal",
+        surname: "Pindi",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zorawar",
         surname: "Shah",
         username: "MehmatB",
-        salestax: 63
+        salestax: 34500,
+        percentage: "345%"
       },
-      { name: "Mehmet", surname: "Baran", username: "MehmatB", salestax: 63 },
+      {
+        name: "Mehmet",
+        surname: "Baran",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zerya Betül",
         surname: "Baran",
         username: "MehmatB",
-        salestax: 63
+        salestax: 5500,
+        percentage: "55%"
       },
-      { name: "Rawal", surname: "Pindi", username: "MehmatB", salestax: 63 },
+      {
+        name: "Rawal",
+        surname: "Pindi",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zorawar",
         surname: "Shah",
         username: "MehmatB",
-        salestax: 63
+        salestax: 31500,
+        percentage: "315%"
       },
-      { name: "Mehmet", surname: "Baran", username: "MehmatB", salestax: 63 },
+      {
+        name: "Mehmet",
+        surname: "Baran",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zerya Betül",
         surname: "Baran",
         username: "MehmatB",
-        salestax: 63
+        salestax: 35000,
+        percentage: "350%"
       },
-      { name: "Rawal", surname: "Pindi", username: "MehmatB", salestax: 63 },
+      {
+        name: "Rawal",
+        surname: "Pindi",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zorawar",
         surname: "Shah",
         username: "MehmatB",
-        salestax: 63
+        salestax: 2500,
+        percentage: "25%"
       },
-      { name: "Mehmet", surname: "Baran", username: "MehmatB", salestax: 63 },
+      {
+        name: "Mehmet",
+        surname: "Baran",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zerya Betül",
         surname: "Baran",
         username: "MehmatB",
-        salestax: 63
+        salestax: 7500,
+        percentage: "75%"
       },
-      { name: "Rawal", surname: "Pindi", username: "MehmatB", salestax: 63 },
+      {
+        name: "Rawal",
+        surname: "Pindi",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zorawar",
         surname: "Shah",
         username: "MehmatB",
-        salestax: 63
+        salestax: 63,
+        percentage: "65%"
       },
-      { name: "Mehmet", surname: "Baran", username: "MehmatB", salestax: 63 },
+      {
+        name: "Mehmet",
+        surname: "Baran",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zerya Betül",
         surname: "Baran",
         username: "MehmatB",
-        salestax: 63
+        salestax: 6300,
+        percentage: "65%"
       },
-      { name: "Rawal", surname: "Pindi", username: "MehmatB", salestax: 63 },
+      {
+        name: "Rawal",
+        surname: "Pindi",
+        username: "MehmatB",
+        salestax: 63,
+        percentage: "65%"
+      },
       {
         name: "Zorawar",
         surname: "Shah",
         username: "MehmatB",
-        salestax: 63
-      },
-      { name: "Mehmet", surname: "Baran", username: "MehmatB", salestax: 63 },
-      {
-        name: "Zerya Betül",
-        surname: "Baran",
-        username: "MehmatB",
-        salestax: 63
-      },
-      { name: "Rawal", surname: "Pindi", username: "MehmatB", salestax: 63 },
-      {
-        name: "Zorawar",
-        surname: "Shah",
-        username: "MehmatB",
-        salestax: 63
+        salestax: 6500,
+        percentage: "65%"
       }
     ]
   });
 
   return (
     <Grid container>
-      <Grow in={true} timeout={1500}>
+      <Fade in={true} timeout={1500}>
         <Grid item xs={7} sm={10} md={12}>
           <MaterialTable
             title="SalesTax Table"
@@ -122,15 +174,20 @@ export default function MaterialTableDemo() {
             options={{
               headerStyle: {
                 backgroundColor: "black",
-                color: "pink"
+                color: "pink",
+                border: "1px solid pink"
               },
               rowStyle: {
-                backgroundColor: "#EEE"
+                backgroundColor: "#EEE",
+                textAlign: "left"
               },
               searchFieldStyle: {
-                border: "0.5px solid",
-                padding: "7px"
-              }
+                border: "0.1px solid",
+                borderRadius: "3px",
+                padding: "7px",
+                boxShadow: "0 .5rem 1rem rgba(0,0,0,0.15)"
+              },
+              paginationType: "stepped"
             }}
             //   editable={{
             //     onRowAdd: newData =>
@@ -163,7 +220,7 @@ export default function MaterialTableDemo() {
             //   }}
           />
         </Grid>
-      </Grow>
+      </Fade>
     </Grid>
   );
 }

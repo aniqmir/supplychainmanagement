@@ -1,10 +1,10 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
-import DashboardView from "../../views/DashboardView/DashboardView.jsx";
-import ProfilesView from "../../views/ProfilesView/ProfilesView.jsx";
-import RequestView from "../../views/RequestView/RequestView.jsx";
-import SalestaxView from "../../views/SalestaxView/SalestaxView.jsx";
+import DashboardView from "../../views/SuperAdminViews/DashboardView/DashboardView.jsx";
+import ProfilesView from "../../views/SuperAdminViews/ProfilesView/ProfilesView.jsx";
+import RequestView from "../../views/SuperAdminViews/RequestView/RequestView.jsx";
+import SalestaxView from "../../views/SuperAdminViews/SalestaxView/SalestaxView.jsx";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
@@ -16,21 +16,22 @@ export default function Dashboard(props) {
 
   const icons = [<DashboardIcon />, <PeopleIcon />, <Request />, <Salestax />];
 
-  const view = {
-    dashboard: <DashboardView />,
-    profiles: <ProfilesView />,
-    request: <RequestView />,
-    salestax: <SalestaxView />
-  };
-
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
+  const token = localStorage.getItem("token");
 
   const pathname = props.location.pathname.split("/");
   const viewname = pathname[1];
 
-  if (!loggedIn) {
+  const view = {
+    dashboard: <DashboardView token={token} />,
+    profiles: <ProfilesView token={token} />,
+    request: <RequestView token={token} />,
+    salestax: <SalestaxView token={token} />
+  };
+
+  if (!loggedIn || token.length === 0) {
     return <Redirect to="/" />;
-  } else if (loggedIn) {
+  } else if (loggedIn && token.length !== 0) {
     return (
       <Sidebar
         history={props.history}

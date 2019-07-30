@@ -28,7 +28,7 @@ export default function ResponsiveDialog(props) {
             <DialogContentText>{props.data.name}</DialogContentText>
           </Typography>
           <Typography component="div" variant="h5">
-            <DialogContentText>{props.data.surname}</DialogContentText>{" "}
+            <DialogContentText>{props.data.phone}</DialogContentText>{" "}
           </Typography>
         </DialogContent>
         <DialogActions>
