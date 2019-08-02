@@ -19,6 +19,7 @@ function CustomRoutes() {
           <Route exact path="/profiles" component={SuperAdmin} />
           <Route exact path="/request" component={SuperAdmin} />
           <Route exact path="/salestax" component={SuperAdmin} />
+          <Route exact path="/createprofile" component={SuperAdmin} />
         </div>
       );
     } else if (type === "admin") {

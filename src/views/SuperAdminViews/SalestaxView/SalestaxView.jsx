@@ -173,9 +173,9 @@ export default function MaterialTableDemo() {
             }}
             options={{
               headerStyle: {
-                backgroundColor: "black",
-                color: "pink",
-                border: "1px solid pink"
+                backgroundColor: "silver",
+                color: "black",
+                cursor: "pointer"
               },
               rowStyle: {
                 backgroundColor: "#EEE",

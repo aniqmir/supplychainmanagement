@@ -40,9 +40,7 @@ export default function Requests(props) {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/superadmin/profile/filter/false`, {
-        headers: { Authorization: "bearer " + props.token }
-      })
+      .get(`${BASE_URL}/superadmin/profile/filter/false`)
       .then(res => {
         setData(res.data["data"]["profiles"]);
         setLoading(false);

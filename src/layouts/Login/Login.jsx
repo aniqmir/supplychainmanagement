@@ -79,7 +79,6 @@ export default function Login(props) {
 
   function loggedInfunc(e) {
     e.preventDefault();
-    console.log("called");
     axios
       .post(`https://supplychaininventory-api.herokuapp.com/api/auth`, {
         email: values.email,
@@ -120,6 +119,10 @@ export default function Login(props) {
     //   props.history.push("/dashboard");
     //   window.location.reload();
     // }
+  }
+
+  function signUpfunc() {
+    console.log("Sign Up");
   }
 
   if (!loggedIn) {
@@ -199,7 +202,7 @@ export default function Login(props) {
                   className={classes.button}
                   variant="outlined"
                   size="large"
-                  // onClick={() => loggedInfunc()}
+                  onClick={() => signUpfunc()}
                 >
                   Sign Up
                 </Button>
