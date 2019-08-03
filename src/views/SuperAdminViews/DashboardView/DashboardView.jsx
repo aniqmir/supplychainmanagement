@@ -3,6 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import Card from "../../../components/Card/Card.jsx";
 import Grow from "@material-ui/core/Grow";
 
+import Clock from "react-live-clock";
+
 const data1 = [
   {
     image:
@@ -26,6 +28,15 @@ const data1 = [
 export default function Dashboard() {
   return (
     <Grid container spacing={3}>
+      <Grid item xs={12} sm={12} md={12}>
+        <h3>
+          <Clock
+            format={" h:mm:ss/dddd, MMMM Do, YYYY"}
+            ticking={true}
+            // timezone={"US/Pacific"}
+          />
+        </h3>
+      </Grid>
       {data1.map((type, key) => {
         return (
           <Grow in={true} key={key} timeout={1000 * (key + 1)}>
