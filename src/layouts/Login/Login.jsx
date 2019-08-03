@@ -3,7 +3,10 @@ import { Redirect } from "react-router-dom";
 import { Button, TextField, Grid, Typography } from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Fade from "@material-ui/core/Fade";
+
 import axios from "axios";
+
+import Notification from "../../components/Notification/Notification.jsx";
 
 const backgroundStyle = {
   backgroundImage:
@@ -67,9 +70,12 @@ export default function Login(props) {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
-    email: "",
-    password: ""
+    email: undefined,
+    password: undefined
   });
+
+  const [open, setOpen] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -77,53 +83,74 @@ export default function Login(props) {
 
   const loggedIn = localStorage.getItem("loggedIn");
 
+  function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  }
+
   function loggedInfunc(e) {
     e.preventDefault();
-    axios
-      .post(`https://supplychaininventory-api.herokuapp.com/api/auth`, {
-        email: values.email,
-        password: values.password
-      })
-      .then(res => {
-        if (res.data.success === true && res.data.type === undefined) {
-          localStorage.setItem("type", "Superadmin");
-          localStorage.setItem("loggedIn", true);
-          localStorage.setItem("token", res["data"]["data"].token);
-          props.history.push("/dashboard");
-          window.location.reload();
-        } else {
-          localStorage.setItem("type", "admin");
-          localStorage.setItem("loggedIn", true);
-          localStorage.setItem("token", res.data.token);
-          props.history.push("/dashboard");
-          window.location.reload();
-        }
-      })
-      .catch(error => alert(error.response));
-    // if (values.email === "superadmin") {
-    //   localStorage.clear();
-    //   localStorage.setItem("type", "Superadmin");
-    //   localStorage.setItem("loggedIn", true);
-    //   props.history.push("/dashboard");
-    //   window.location.reload();
-    // } else if (values.email === "admin") {
-    //   localStorage.clear();
-    //   localStorage.setItem("type", "admin");
-    //   localStorage.setItem("loggedIn", true);
-    //   props.history.push("/dashboard");
-    //   window.location.reload();
-    // } else {
-    //   localStorage.clear();
-    //   localStorage.setItem("type", "Superadmin");
-    //   localStorage.setItem("loggedIn", true);
-    //   props.history.push("/dashboard");
-    //   window.location.reload();
-    // }
+    if (values.email.length === 0 || values.email === undefined) {
+      setNotification("Enter valid Email");
+      setOpen(true);
+    } else if (values.password.length === 0 || values.password === undefined) {
+      setNotification("Enter Password");
+      setOpen(true);
+    } else {
+      axios
+        .post(`https://supplychaininventory-api.herokuapp.com/api/auth`, {
+          email: values.email,
+          password: values.password
+        })
+        .then(res => {
+          if (res.data.success === true && res.data.type === undefined) {
+            localStorage.setItem("type", "Superadmin");
+            localStorage.setItem("loggedIn", true);
+            localStorage.setItem("token", res["data"]["data"].token);
+            props.history.push("/dashboard");
+            window.location.reload();
+          } else {
+            localStorage.setItem("type", "admin");
+            localStorage.setItem("loggedIn", true);
+            localStorage.setItem("token", res.data.token);
+            props.history.push("/dashboard");
+            window.location.reload();
+          }
+        })
+        .catch(error => {
+          setNotification("Error while logging in");
+          setOpen(true);
+        });
+      // if (values.email === "superadmin") {
+      //   localStorage.clear();
+      //   localStorage.setItem("type", "Superadmin");
+      //   localStorage.setItem("loggedIn", true);
+      //   props.history.push("/dashboard");
+      //   window.location.reload();
+      // } else if (values.email === "admin") {
+      //   localStorage.clear();
+      //   localStorage.setItem("type", "admin");
+      //   localStorage.setItem("loggedIn", true);
+      //   props.history.push("/dashboard");
+      //   window.location.reload();
+      // } else {
+      //   localStorage.clear();
+      //   localStorage.setItem("type", "Superadmin");
+      //   localStorage.setItem("loggedIn", true);
+      //   props.history.push("/dashboard");
+      //   window.location.reload();
+      // }
+    }
   }
 
   function signUpfunc() {
     console.log("Sign Up");
   }
+
+  // console.log(values.email === undefined || values.email.includes("@"));
 
   if (!loggedIn) {
     return (
@@ -146,12 +173,28 @@ export default function Login(props) {
                   className={classes.margin}
                   id="outlined-email-input"
                   label="Email"
-                  // type="email"
+                  type="email"
                   name="email"
                   autoComplete="email"
                   margin="normal"
                   variant="outlined"
+                  value={values.email || ""}
+                  error={
+                    values.email === undefined
+                      ? false
+                      : values.email.length === 0
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    values.email === undefined
+                      ? false
+                      : values.email.length === 0
+                      ? "This cannot be empty"
+                      : null
+                  }
                   onChange={handleChange("email")}
+                  required
                   fullWidth
                   InputProps={{
                     className: classes.input
@@ -173,7 +216,23 @@ export default function Login(props) {
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange("password")}
+                  required
                   fullWidth
+                  value={values.password || ""}
+                  error={
+                    values.password === undefined
+                      ? false
+                      : values.password.length === 0
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    values.password === undefined
+                      ? false
+                      : values.password.length === 0
+                      ? "This cannot be empty"
+                      : false
+                  }
                   InputProps={{
                     className: classes.input
                   }}
@@ -210,6 +269,11 @@ export default function Login(props) {
             </Fade>
           </Grid>
         </Grid>
+        <Notification
+          open={open}
+          handleClose={handleClose}
+          notification={notification}
+        />
       </form>
     );
   } else {
