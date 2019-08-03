@@ -173,7 +173,7 @@ export default function Login(props) {
                   className={classes.margin}
                   id="outlined-email-input"
                   label="Email"
-                  type="email"
+                  // type="email"
                   name="email"
                   autoComplete="email"
                   margin="normal"

@@ -12,6 +12,8 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 
+import Notification from "../../../components/Notification/Notification.jsx";
+
 import { BASE_URL } from "../../../baseurl.js"; //baseurl
 
 const useStyles = makeStyles(theme => ({
@@ -37,10 +39,14 @@ export default function Requests(props) {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState({});
   const [errorText, setErrorText] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/superadmin/profile/filter/false`)
+      .get(`${BASE_URL}/superadmin/profile/filter/false`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
       .then(res => {
         setData(res.data["data"]["profiles"]);
         setLoading(false);
@@ -52,11 +58,64 @@ export default function Requests(props) {
       });
   }, [props.token]);
 
-  function approve(type) {
-    console.log(type._id);
+  function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   }
-  function disapprove(type) {
-    console.log(type._id);
+
+  function update() {
+    axios
+      .get(`${BASE_URL}/superadmin/profile/filter/false`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        setData(res.data["data"]["profiles"]);
+        setLoading(false);
+        setErrorText("");
+      })
+      .catch(error => {
+        setErrorText(error.response["data"]["Error"]["message"]);
+        setLoading(false);
+      });
+  }
+
+  function approve(type) {
+    axios
+      .patch(`${BASE_URL}/superadmin/profile/approve/${type._id}`)
+      .then(res => {
+        console.log(res);
+        update();
+        setNotification(
+          "Profile Approved Successfully! View it in the Profiles Section"
+        );
+        setOpen(true);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setErrorText(error.response["data"]["Error"]["message"]);
+        setLoading(false);
+        setNotification("An Error Occured while approving Profile");
+        setOpen(true);
+      });
+  }
+  function reject(type) {
+    axios
+      .patch(`${BASE_URL}/superadmin/profile/reject/${type._id}`)
+      .then(res => {
+        console.log(res);
+        update();
+        setNotification("Profile Rejected Successfully!");
+        setOpen(true);
+      })
+      .catch(errorA => {
+        console.log(errorA.response);
+        // alert(error.data.Error.message);
+        setNotification("An Error occured while rejecting profile");
+        setOpen(true);
+      });
   }
 
   if (data.length > 0) {
@@ -113,9 +172,9 @@ export default function Requests(props) {
                         color="secondary"
                         size="small"
                         style={{ marginTop: "5px" }}
-                        onClick={() => disapprove(type)}
+                        onClick={() => reject(type)}
                       >
-                        Disapprove
+                        Reject
                       </Button>
                     </div>
                   </ListItem>
@@ -124,6 +183,11 @@ export default function Requests(props) {
             );
           })}
         </Grid>
+        <Notification
+          open={open}
+          handleClose={handleClose}
+          notification={notification}
+        />
       </List>
     );
   } else if (loading) {

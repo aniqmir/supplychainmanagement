@@ -43,7 +43,9 @@ export default function Profiles(props) {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/superadmin/profile/filter/true`)
+      .get(`${BASE_URL}/superadmin/profile/filter/true`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
       .then(res => {
         setData(res.data["data"]["profiles"]);
         setLoading(false);
