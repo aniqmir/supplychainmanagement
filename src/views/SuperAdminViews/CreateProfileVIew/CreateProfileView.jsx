@@ -314,6 +314,7 @@ export default function CreateProfile(props) {
               variant="contained"
               component="label"
               style={{ width: "100%" }}
+              disabled={true}
             >
               Upload Picture
               <input type="file" style={{ display: "none" }} />

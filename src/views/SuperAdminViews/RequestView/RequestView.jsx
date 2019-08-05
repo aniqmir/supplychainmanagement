@@ -101,9 +101,9 @@ export default function Requests(props) {
         setOpen(true);
       });
   }
-  function reject(type) {
+  function deleteprofile(type) {
     axios
-      .patch(`${BASE_URL}/superadmin/profile/reject/${type._id}`)
+      .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
       .then(res => {
         console.log(res);
         update();
@@ -124,7 +124,7 @@ export default function Requests(props) {
         <Grid container spacing={1}>
           {data.map((type, key) => {
             return (
-              <Grow in={true} key={key} timeout={1000 * (key + 1)}>
+              <Grow in={true} key={key} timeout={750 * (key + 1)}>
                 <Grid item xs={12}>
                   <ListItem
                     className={classes.listItem}
@@ -134,7 +134,12 @@ export default function Requests(props) {
                     //   onClick={() => console.log(type)}
                   >
                     <ListItemAvatar>
-                      <Avatar alt="Remy Sharp" src={type.displaypicture} />
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={
+                          "https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png"
+                        }
+                      />
                     </ListItemAvatar>
                     <ListItemText
                       primary={type.surname}
@@ -172,9 +177,9 @@ export default function Requests(props) {
                         color="secondary"
                         size="small"
                         style={{ marginTop: "5px" }}
-                        onClick={() => reject(type)}
+                        onClick={() => deleteprofile(type)}
                       >
-                        Reject
+                        Delete
                       </Button>
                     </div>
                   </ListItem>

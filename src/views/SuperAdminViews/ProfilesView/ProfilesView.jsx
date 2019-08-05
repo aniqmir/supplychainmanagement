@@ -9,9 +9,12 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Grow from "@material-ui/core/Grow";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Button from "@material-ui/core/Button";
+
 import axios from "axios";
 
 import IndividualProfile from "./IndividualProfile/IndividualProfile.jsx";
+import Notification from "../../../components/Notification/Notification.jsx";
 
 import { BASE_URL } from "../../../baseurl.js"; //baseurl
 
@@ -36,6 +39,8 @@ const useStyles = makeStyles(theme => ({
 export default function Profiles(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openNot, setOpenNot] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
   const [errorText, setErrorText] = React.useState("");
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState({});
@@ -57,6 +62,23 @@ export default function Profiles(props) {
       });
   }, [props.token]);
 
+  function update() {
+    console.log("update");
+    axios
+      .get(`${BASE_URL}/superadmin/profile/filter/true`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        setData(res.data["data"]["profiles"]);
+        setLoading(false);
+        setErrorText("");
+      })
+      .catch(error => {
+        setErrorText(error.response["data"]["Error"]["message"]);
+        setLoading(false);
+      });
+  }
+
   function handleClickOpen(temp) {
     setIData(temp);
     setOpen(true);
@@ -66,24 +88,52 @@ export default function Profiles(props) {
     setOpen(false);
   }
 
+  function handleCloseNot() {
+    setOpenNot(false);
+  }
+
+  function deleteprofile(type) {
+    axios
+      .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
+      .then(res => {
+        console.log(res);
+        update();
+        setOpen(true);
+        setNotification("Profile Rejected Successfully!");
+        setOpenNot(true);
+      })
+      .catch(errorA => {
+        console.log(errorA.response);
+        // alert(error.data.Error.message);
+        setNotification("An Error occured while rejecting profile");
+        setOpen(true);
+        setOpenNot(true);
+      });
+  }
+
   if (data.length > 0) {
     return (
       <List className={classes.root}>
         <Grid container spacing={1}>
           {data.map((type, key) => {
             return (
-              <Grow in={true} key={key} timeout={1000 * (key + 1)}>
+              <Grow in={true} key={key} timeout={750 * (key + 1)}>
                 <Grid item xs={12}>
                   {/* <Button onClick={() => console.log(type)}>Click</Button> */}
                   <ListItem
                     className={classes.listItem}
                     alignItems="flex-start"
                     key={key}
-                    button
-                    onClick={() => handleClickOpen(type)}
+                    // button
+                    // onClick={() => handleClickOpen(type)}
                   >
                     <ListItemAvatar>
-                      <Avatar alt="Remy Sharp" src={type.image} />
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={
+                          "https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png"
+                        }
+                      />
                     </ListItemAvatar>
                     <ListItemText
                       primary={type.surname}
@@ -106,7 +156,32 @@ export default function Profiles(props) {
                         </React.Fragment>
                       }
                     />
+                    <div style={{ paddingTop: "0.5%" }}>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        style={{ marginRight: "10px", marginTop: "5px" }}
+                        onClick={() => handleClickOpen(type)}
+                      >
+                        View
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        style={{ marginTop: "5px" }}
+                        onClick={() => deleteprofile(type)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </ListItem>
+                  <Notification
+                    open={openNot}
+                    handleClose={handleCloseNot}
+                    notification={notification}
+                  />
                 </Grid>
               </Grow>
             );
@@ -117,6 +192,7 @@ export default function Profiles(props) {
             data={iData}
             open={open}
             handleClose={handleClose}
+            token={props.token}
           />
         ) : null}
       </List>

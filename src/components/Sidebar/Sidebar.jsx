@@ -17,6 +17,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+// import Badge from "@material-ui/core/Badge";
 
 const drawerWidth = 240;
 
@@ -141,6 +142,7 @@ export default function MiniDrawer(props) {
     localStorage.clear();
     window.location.reload();
   }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -203,29 +205,66 @@ export default function MiniDrawer(props) {
         </div>
         <Divider />
         <List>
-          {props.listitemnames.map((text, index) => (
-            <ListItem
-              alignItems="center"
-              button
-              key={text}
-              selected={selectedIndex === index}
-              onClick={event => handleListItemClick(event, index, text)}
-              classes={{
-                selected: classes.selected
-              }}
-            >
-              <ListItemIcon
-                classes={{
-                  root: classes.listitemicon
-                }}
-              >
-                {props.icon[index]}
-              </ListItemIcon>
-              <ListItemText
-                primary={text.charAt(0).toUpperCase() + text.slice(1)}
-              />
-            </ListItem>
-          ))}
+          {props.listitemnames.map(
+            (text, index) => {
+              // if (text === "request" && props.pending > 0) {
+              //   return (
+              //     <ListItem
+              //       alignItems="center"
+              //       button
+              //       key={text}
+              //       selected={selectedIndex === index}
+              //       onClick={event => handleListItemClick(event, index, text)}
+              //       classes={{
+              //         selected: classes.selected
+              //       }}
+              //     >
+              //       <ListItemIcon
+              //         classes={{
+              //           root: classes.listitemicon
+              //         }}
+              //       >
+              //         {props.icon[index]}
+              //       </ListItemIcon>
+              //       <ListItemText
+              //         primary={text.charAt(0).toUpperCase() + text.slice(1)}
+              //       />
+              //       <Badge
+              //         color="secondary"
+              //         variant="dot"
+              //         style={{ width: "100%" }}
+              //       >
+              //         <div />
+              //       </Badge>
+              //     </ListItem>
+              //   );
+              // } else {
+              return (
+                <ListItem
+                  alignItems="center"
+                  button
+                  key={text}
+                  selected={selectedIndex === index}
+                  onClick={event => handleListItemClick(event, index, text)}
+                  classes={{
+                    selected: classes.selected
+                  }}
+                >
+                  <ListItemIcon
+                    classes={{
+                      root: classes.listitemicon
+                    }}
+                  >
+                    {props.icon[index]}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={text.charAt(0).toUpperCase() + text.slice(1)}
+                  />
+                </ListItem>
+              );
+            }
+            // }
+          )}
         </List>
       </Drawer>
       <main className={classes.content}>

@@ -38,6 +38,8 @@ export default function Dashboard(props) {
   const pathname = props.location.pathname.split("/");
   const viewname = pathname[1];
 
+  const [pending, setPending] = React.useState(0);
+
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = `bearer ${token}`;
@@ -45,7 +47,7 @@ export default function Dashboard(props) {
   });
 
   const view = {
-    dashboard: <DashboardView token={token} />,
+    dashboard: <DashboardView token={token} setPending={setPending} />,
     profiles: <ProfilesView token={token} />,
     request: <RequestView token={token} />,
     salestax: <SalestaxView token={token} />,
@@ -63,6 +65,7 @@ export default function Dashboard(props) {
         path={pathname[1]}
         view={view[viewname]}
         heading={"Super Admin"}
+        pending={pending}
       />
     );
   }
