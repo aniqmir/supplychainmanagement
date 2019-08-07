@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 
 import axios from "axios";
 
-import IndividualProfile from "./IndividualProfile/IndividualProfile.jsx";
+import IndividualProfile from "./IndividualOrganization/IndividualOrganization.jsx";
 import Notification from "../../../components/Notification/Notification.jsx";
 
 import { BASE_URL } from "../../../baseurl.js"; //baseurl

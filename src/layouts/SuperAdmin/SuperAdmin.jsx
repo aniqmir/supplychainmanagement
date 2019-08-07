@@ -2,26 +2,32 @@ import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import DashboardView from "../../views/SuperAdminViews/DashboardView/DashboardView.jsx";
-import ProfilesView from "../../views/SuperAdminViews/ProfilesView/ProfilesView.jsx";
+import OrganizationsView from "../../views/SuperAdminViews/OrganizationsView/OrganizationsView.jsx";
 import RequestView from "../../views/SuperAdminViews/RequestView/RequestView.jsx";
 import SalestaxView from "../../views/SuperAdminViews/SalestaxView/SalestaxView.jsx";
-import CreateProfileView from "../../views/SuperAdminViews/CreateProfileVIew/CreateProfileView.jsx";
+import CreateCityView from "../../views/SuperAdminViews/CreateCityView/CreateCityView.jsx";
+import CreateOrganizationView from "../../views/SuperAdminViews/CreateOrganizationView/CreateOrganizationView.jsx";
+import CreateCategoryView from "../../views/SuperAdminViews/CreateCategoryView/CreateCategoryView.jsx";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import Request from "@material-ui/icons/RecordVoiceOver";
 import Salestax from "@material-ui/icons/LibraryBooks";
-import CreateProfile from "@material-ui/icons/Create";
+import CreateOrganization from "@material-ui/icons/Create";
+import CreateCity from "@material-ui/icons/LocationCity";
+import CreateCategory from "@material-ui/icons/Category";
 
 import axios from "axios";
 
 export default function Dashboard(props) {
   const listitemnames = [
     "dashboard",
-    "profiles",
+    "organizations",
     "request",
     "salestax",
-    "createprofile"
+    "createorganization",
+    "createcity",
+    "createcategory"
   ];
 
   const icons = [
@@ -29,7 +35,9 @@ export default function Dashboard(props) {
     <PeopleIcon />,
     <Request />,
     <Salestax />,
-    <CreateProfile />
+    <CreateOrganization />,
+    <CreateCity />,
+    <CreateCategory />
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
@@ -48,10 +56,12 @@ export default function Dashboard(props) {
 
   const view = {
     dashboard: <DashboardView token={token} setPending={setPending} />,
-    profiles: <ProfilesView token={token} />,
+    organizations: <OrganizationsView token={token} />,
     request: <RequestView token={token} />,
     salestax: <SalestaxView token={token} />,
-    createprofile: <CreateProfileView token={token} />
+    createorganization: <CreateOrganizationView token={token} />,
+    createcity: <CreateCityView token={token} />,
+    createcategory: <CreateCategoryView token={token} />
   };
 
   if (!loggedIn || token.length === 0) {

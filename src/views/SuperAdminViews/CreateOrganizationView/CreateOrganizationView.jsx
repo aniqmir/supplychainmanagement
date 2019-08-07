@@ -18,12 +18,8 @@ import { BASE_URL } from "../../../baseurl.js"; //baseurl
 
 const types = [
   {
-    value: "manager",
-    label: "Manager"
-  },
-  {
-    value: "employee",
-    label: "Employee"
+    value: "admin",
+    label: "Admin"
   }
 ];
 
