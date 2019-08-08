@@ -53,10 +53,10 @@ export default function Dashboard(props) {
   const data = [
     {
       name: "Organizations",
-      uv: 590,
-      pv: 800,
-      amt: 1400,
-      cnt: 490
+      uv: 10,
+      pv: 10,
+      amt: 1000,
+      cnt: 100
     }
     // {
     //   name: "Page B",

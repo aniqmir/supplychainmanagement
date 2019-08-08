@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   withStyles,
   Grid,
@@ -50,7 +50,7 @@ export default function CreateProfile(props) {
     name: undefined,
     username: undefined,
     email: undefined,
-    city: undefined,
+    city: "",
     phone: undefined,
     picture: undefined,
     salestax: undefined
@@ -63,9 +63,25 @@ export default function CreateProfile(props) {
     surname: undefined,
     phone: undefined,
     designation: undefined,
-    type: ""
+    type: "admin"
   });
 
+  const [cities, setCities] = React.useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/superadmin/city`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          setCities(res.data.data.cities);
+        }
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  }, [props.token]);
   const [open, setOpen] = React.useState(false);
   const [notification, setNotification] = React.useState("");
 
@@ -118,7 +134,7 @@ export default function CreateProfile(props) {
       name: undefined,
       username: undefined,
       email: undefined,
-      city: undefined,
+      city: "",
       phone: undefined,
       picture: undefined,
       salestax: undefined
@@ -130,7 +146,7 @@ export default function CreateProfile(props) {
       surname: undefined,
       phone: undefined,
       designation: undefined,
-      type: ""
+      type: "admin"
     });
   }
 
@@ -147,7 +163,7 @@ export default function CreateProfile(props) {
       <Fade in={true} timeout={1400}>
         <Grid item xs={12} container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h5">Profile Details</Typography>
+            <Typography variant="h5">Organization Details</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
@@ -231,7 +247,7 @@ export default function CreateProfile(props) {
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <CssTextField
+            {/* <CssTextField
               id="outlined-city"
               label="City"
               value={profilevalues.city || ""}
@@ -253,7 +269,34 @@ export default function CreateProfile(props) {
                   ? "This cannot be empty"
                   : false
               }
-            />
+            /> */}
+            <CssTextField
+              id="outlined-select-city"
+              select
+              label="City"
+              value={profilevalues.city || ""}
+              onChange={handleProfileChange("city")}
+              SelectProps={{
+                MenuProps: {
+                  // className: classes.menu
+                }
+              }}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              // helperText={
+              //   adminvalues.type === "" ? "Please select your type" : null
+              // }
+            >
+              {/* {cities.length > 0 */}
+              {/* ?  */}
+              {cities.map(option => (
+                <MenuItem key={option.name} value={option.name}>
+                  {option.name}
+                </MenuItem>
+              ))}
+              {/* : null} */}
+            </CssTextField>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <CssTextField
@@ -326,9 +369,9 @@ export default function CreateProfile(props) {
       <Fade in={true} timeout={2500}>
         <Grid item xs={12} container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h5">Profile Admin Details</Typography>
+            <Typography variant="h5">Admin Details</Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <CssTextField
               id="outlined-name"
               label="Name"
@@ -352,8 +395,8 @@ export default function CreateProfile(props) {
                   : false
               }
             />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          </Grid> */}
+          {/* <Grid item xs={12} sm={6} md={3}>
             <CssTextField
               id="outlined-surname"
               label="Surname"
@@ -377,7 +420,7 @@ export default function CreateProfile(props) {
                   : false
               }
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6} md={3}>
             <CssTextField
               id="outlined-email"
@@ -432,7 +475,7 @@ export default function CreateProfile(props) {
               }
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <CssTextField
               id="outlined-phone"
               label="Phone"
@@ -456,8 +499,8 @@ export default function CreateProfile(props) {
                   : false
               }
             />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          </Grid> */}
+          {/* <Grid item xs={12} sm={6} md={3}>
             <CssTextField
               id="outlined-designation"
               label="Designation"
@@ -481,7 +524,7 @@ export default function CreateProfile(props) {
                   : false
               }
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6} md={3}>
             <CssTextField
               id="outlined-select-type"
@@ -497,9 +540,9 @@ export default function CreateProfile(props) {
               margin="normal"
               variant="outlined"
               fullWidth
-              helperText={
-                adminvalues.type === "" ? "Please select your type" : null
-              }
+              // helperText={
+              //   adminvalues.type === "" ? "Please select your type" : null
+              // }
             >
               {types.map(option => (
                 <MenuItem key={option.value} value={option.value}>

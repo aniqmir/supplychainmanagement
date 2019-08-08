@@ -5,17 +5,17 @@ import DashboardView from "../../views/SuperAdminViews/DashboardView/DashboardVi
 import OrganizationsView from "../../views/SuperAdminViews/OrganizationsView/OrganizationsView.jsx";
 import RequestView from "../../views/SuperAdminViews/RequestView/RequestView.jsx";
 import SalestaxView from "../../views/SuperAdminViews/SalestaxView/SalestaxView.jsx";
-import CreateCityView from "../../views/SuperAdminViews/CreateCityView/CreateCityView.jsx";
+import LocationView from "../../views/SuperAdminViews/LocationView/LocationView.jsx";
 import CreateOrganizationView from "../../views/SuperAdminViews/CreateOrganizationView/CreateOrganizationView.jsx";
-import CreateCategoryView from "../../views/SuperAdminViews/CreateCategoryView/CreateCategoryView.jsx";
+import CategoryView from "../../views/SuperAdminViews/CategoryView/CategoryView.jsx";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import Request from "@material-ui/icons/RecordVoiceOver";
 import Salestax from "@material-ui/icons/LibraryBooks";
 import CreateOrganization from "@material-ui/icons/Create";
-import CreateCity from "@material-ui/icons/LocationCity";
-import CreateCategory from "@material-ui/icons/Category";
+import Location from "@material-ui/icons/LocationCity";
+import Category from "@material-ui/icons/Category";
 
 import axios from "axios";
 
@@ -26,8 +26,8 @@ export default function Dashboard(props) {
     "request",
     "salestax",
     "createorganization",
-    "createcity",
-    "createcategory"
+    "locations",
+    "categories"
   ];
 
   const icons = [
@@ -36,8 +36,8 @@ export default function Dashboard(props) {
     <Request />,
     <Salestax />,
     <CreateOrganization />,
-    <CreateCity />,
-    <CreateCategory />
+    <Location />,
+    <Category />
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
@@ -60,8 +60,8 @@ export default function Dashboard(props) {
     request: <RequestView token={token} />,
     salestax: <SalestaxView token={token} />,
     createorganization: <CreateOrganizationView token={token} />,
-    createcity: <CreateCityView token={token} />,
-    createcategory: <CreateCategoryView token={token} />
+    locations: <LocationView token={token} />,
+    categories: <CategoryView token={token} />
   };
 
   if (!loggedIn || token.length === 0) {
