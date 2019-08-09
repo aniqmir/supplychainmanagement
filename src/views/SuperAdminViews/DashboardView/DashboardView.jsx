@@ -11,16 +11,13 @@ import Clock from "react-live-clock";
 import { Typography } from "@material-ui/core";
 
 import {
-  ComposedChart,
+  LineChart,
   Line,
-  Area,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend
-  // Scatter
 } from "recharts";
 
 // const data1 = [
@@ -50,51 +47,6 @@ export default function Dashboard(props) {
   const [pending, setpending] = React.useState("");
   const [loading, setLoading] = React.useState(true);
 
-  const data = [
-    {
-      name: "Organizations",
-      uv: 10,
-      pv: 10,
-      amt: 1000,
-      cnt: 100
-    }
-    // {
-    //   name: "Page B",
-    //   uv: 868,
-    //   pv: 967,
-    //   amt: 1506,
-    //   cnt: 590
-    // },
-    // {
-    //   name: "Page C",
-    //   uv: 1397,
-    //   pv: 1098,
-    //   amt: 989,
-    //   cnt: 350
-    // },
-    // {
-    //   name: "Page D",
-    //   uv: 1480,
-    //   pv: 1200,
-    //   amt: 1228,
-    //   cnt: 480
-    // },
-    // {
-    //   name: "Page E",
-    //   uv: 1520,
-    //   pv: 1108,
-    //   amt: 1100,
-    //   cnt: 460
-    // },
-    // {
-    //   name: "Page F",
-    //   uv: 1400,
-    //   pv: 680,
-    //   amt: 1700,
-    //   cnt: 380
-    // }
-  ];
-
   // const [errorText, setErrorText] = React.useState([]);
   useEffect(() => {
     axios
@@ -102,7 +54,6 @@ export default function Dashboard(props) {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
-        console.log(res.data.data.ProfilesCount);
         settotal(res.data.data.ProfilesCount.total);
         setpending(res.data.data.ProfilesCount.pending);
         setaccepted(res.data.data.ProfilesCount.accepted);
@@ -115,6 +66,27 @@ export default function Dashboard(props) {
         setLoading(false);
       });
   }, [props]);
+
+  const data = [
+    {
+      name: "Total",
+      total: total,
+      organizations: total,
+      amt: 1000
+    },
+    {
+      name: "Accepeted",
+      total: total,
+      organizations: accepted,
+      amt: 1000
+    },
+    {
+      name: "Pending",
+      total: total,
+      organizations: pending,
+      amt: 1000
+    }
+  ];
 
   if (loading) {
     return (
@@ -148,32 +120,30 @@ export default function Dashboard(props) {
           </Grid>
         </Grow>
         <Grid item xs={12}>
-          <ComposedChart
+          <LineChart
             width={500}
-            height={400}
+            height={300}
             data={data}
             margin={{
-              top: 20,
-              right: 20,
-              bottom: 20,
-              left: 20
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5
             }}
           >
-            <CartesianGrid stroke="#f5f5f5" />
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Area
+            <Line
               type="monotone"
-              dataKey="amt"
-              fill="#8884d8"
+              dataKey="organizations"
               stroke="#8884d8"
+              activeDot={{ r: 8 }}
             />
-            <Bar dataKey="pv" barSize={20} fill="#413ea0" />
-            <Line type="monotone" dataKey="uv" stroke="#ff7300" />
-            {/* <Scatter dataKey="cnt" fill="red" /> */}
-          </ComposedChart>
+            <Line type="monotone" dataKey="total" stroke="#82ca9d" />
+          </LineChart>
         </Grid>
         {/* {data1.map((type, key) => {
           return (
