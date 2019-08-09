@@ -3,6 +3,12 @@ import { Grid } from "@material-ui/core";
 
 import MaterialTable from "material-table";
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+
 import axios from "axios";
 
 import { BASE_URL } from "../../../baseurl.js"; //baseurl
@@ -110,6 +116,8 @@ export default function CreateCategory(props) {
       });
   }
 
+  console.log(categories);
+
   return (
     <Grid container spacing={0}>
       <Grid item xs={12}>
@@ -152,10 +160,8 @@ export default function CreateCategory(props) {
               new Promise(resolve => {
                 setTimeout(() => {
                   resolve();
-
-                  if (newData.name !== oldData.name) {
-                    editCategory(newData._id, newData.name);
-                  } else if (
+                  editCategory(newData._id, newData.name);
+                  if (
                     newData.subCategories.length !==
                     oldData.subCategories.length
                   ) {
@@ -170,6 +176,26 @@ export default function CreateCategory(props) {
                   deleteCategory(oldData._id);
                 }, 600);
               })
+          }}
+          detailPanel={rowData => {
+            return (
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Subcategories</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rowData.subCategories.map(row => (
+                    <TableRow key={row}>
+                      <TableCell component="th" scope="row">
+                        {row}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            );
           }}
         />
       </Grid>
