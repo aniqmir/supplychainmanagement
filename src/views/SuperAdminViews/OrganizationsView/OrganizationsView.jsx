@@ -16,6 +16,8 @@ import axios from "axios";
 import IndividualProfile from "./IndividualOrganization/IndividualOrganization.jsx";
 import Notification from "../../../components/Notification/Notification.jsx";
 
+// import MaterialTable from "material-table";
+
 import { BASE_URL } from "../../../baseurl.js"; //baseurl
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +47,19 @@ export default function Profiles(props) {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState({});
   const [iData, setIData] = React.useState("");
+  // const [
+  //   state
+  //   // setState
+  // ] = React.useState({
+  //   columns: [
+  //     { title: "Name", field: "name" },
+  //     { title: "Username", field: "username" },
+  //     { title: "City", field: "city" },
+  //     { title: "Email", field: "email", type: "string" },
+  //     { title: "Phone", field: "phone", type: "string" },
+  //     { title: "Salestax", field: "salestax", type: "numeric" }
+  //   ]
+  // });
 
   useEffect(() => {
     axios
@@ -111,6 +126,8 @@ export default function Profiles(props) {
       });
   }
 
+  console.log(data);
+
   if (data.length > 0) {
     return (
       <List className={classes.root}>
@@ -156,6 +173,9 @@ export default function Profiles(props) {
                         </React.Fragment>
                       }
                     />
+                    <div style={{ marginTop: "1%" }}>
+                      Created At: {type.createdAt.slice(0, 10)} &nbsp;
+                    </div>
                     <div style={{ paddingTop: "0.5%" }}>
                       <Button
                         variant="contained"
@@ -165,6 +185,15 @@ export default function Profiles(props) {
                         onClick={() => handleClickOpen(type)}
                       >
                         View
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        style={{ marginRight: "10px", marginTop: "5px" }}
+                        // onClick={() => deleteprofile(type)}
+                      >
+                        Suspend
                       </Button>
                       <Button
                         variant="contained"

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   withStyles,
   Grid,
@@ -13,6 +13,12 @@ import {
 import Notification from "../../../components/Notification/Notification.jsx";
 
 import axios from "axios";
+
+import {
+  CountryDropdown,
+  RegionDropdown
+  // CountryRegionData
+} from "react-country-region-selector";
 
 import { BASE_URL } from "../../../baseurl.js"; //baseurl
 
@@ -50,7 +56,8 @@ export default function CreateProfile(props) {
     name: undefined,
     username: undefined,
     email: undefined,
-    city: "",
+    country: "",
+    region: "",
     phone: undefined,
     picture: undefined,
     salestax: undefined
@@ -66,22 +73,25 @@ export default function CreateProfile(props) {
     type: "admin"
   });
 
-  const [cities, setCities] = React.useState([]);
+  // const [country, setCountry] = React.useState("");
+  // const [region, setRegion] = React.useState("");
 
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}/superadmin/city`, {
-        headers: { Authorization: `bearer ` + props.token }
-      })
-      .then(res => {
-        if (res.data.success === true) {
-          setCities(res.data.data.cities);
-        }
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
-  }, [props.token]);
+  // const [cities, setCities] = React.useState([]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${BASE_URL}/superadmin/city`, {
+  //       headers: { Authorization: `bearer ` + props.token }
+  //     })
+  //     .then(res => {
+  //       if (res.data.success === true) {
+  //         setCities(res.data.data.cities);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error.response);
+  //     });
+  // }, [props.token]);
   const [open, setOpen] = React.useState(false);
   const [notification, setNotification] = React.useState("");
 
@@ -134,7 +144,8 @@ export default function CreateProfile(props) {
       name: undefined,
       username: undefined,
       email: undefined,
-      city: "",
+      country: "",
+      region: "",
       phone: undefined,
       picture: undefined,
       salestax: undefined
@@ -270,6 +281,7 @@ export default function CreateProfile(props) {
                   : false
               }
             /> */}
+            {/* citytag
             <CssTextField
               id="outlined-select-city"
               select
@@ -288,15 +300,40 @@ export default function CreateProfile(props) {
               //   adminvalues.type === "" ? "Please select your type" : null
               // }
             >
-              {/* {cities.length > 0 */}
-              {/* ?  */}
+              cities.length > 0 
+              ? 
               {cities.map(option => (
                 <MenuItem key={option.name} value={option.name}>
                   {option.name}
                 </MenuItem>
               ))}
-              {/* : null} */}
-            </CssTextField>
+              : null}
+            </CssTextField> citytag */}
+            <CountryDropdown
+              value={profilevalues.country}
+              onChange={val =>
+                setprofileValues({
+                  ...profilevalues,
+                  country: val
+                })
+              }
+              classes={"form-control"}
+              style={{ marginTop: "4.68%", minHeight: "57px" }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <RegionDropdown
+              country={profilevalues.country}
+              value={profilevalues.region}
+              onChange={val =>
+                setprofileValues({
+                  ...profilevalues,
+                  region: val
+                })
+              }
+              classes={"form-control"}
+              style={{ marginTop: "4.68%", minHeight: "57px" }}
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <CssTextField
