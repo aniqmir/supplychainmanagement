@@ -82,8 +82,6 @@ export default function CreateCategory(props) {
       });
   }
 
-  console.log("hello");
-
   function createSubcategory(id, name) {
     axios
       .patch(`${BASE_URL}/superadmin/subcategory/${id}`, {
