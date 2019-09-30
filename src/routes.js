@@ -30,6 +30,9 @@ function CustomRoutes() {
           <Route exact path="/dashboard" component={ProfileAdmin} />
           <Route exact path="/usermanagement" component={ProfileAdmin} />
           <Route exact path="/marketplace" component={ProfileAdmin} />
+          <Route exact path="/inventory" component={ProfileAdmin} />
+          <Route exact path="/location" component={ProfileAdmin} />
+          <Route exact path="/category" component={ProfileAdmin} />
         </div>
       );
     } else {

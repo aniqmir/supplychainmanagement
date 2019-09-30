@@ -5,20 +5,36 @@ import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import DashboardView from "../../views/ProfileAdminViews/DashboardView/DashboardView.jsx";
 import UserManagementView from "../../views/ProfileAdminViews/UserManagementView/UserManagementView.jsx";
 import MarketPlaceView from "../../views/ProfileAdminViews/MarketplaceView/MarketplaceView.jsx";
+import InventoryView from "../../views/ProfileAdminViews/InventoryView/InventoryView.jsx";
+import LocationView from "../../views/ProfileAdminViews/LocationView/LocationView.jsx";
+import CategoryView from "../../views/ProfileAdminViews/CategoryView/CategoryView.jsx";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import UserManagementIcon from "@material-ui/icons/Dashboard";
 import MarketplaceIcon from "@material-ui/icons/Dashboard";
+import InventoryIcon from "@material-ui/icons/People";
+import LocationIcon from "@material-ui/icons/Dashboard";
+import CateogoryIcon from "@material-ui/icons/People";
 
 import axios from "axios";
 
 export default function Dashboard(props) {
-  const listitemnames = ["dashboard", "usermanagement", "marketplace"];
+  const listitemnames = [
+    "dashboard",
+    "usermanagement",
+    "marketplace",
+    "inventory",
+    "location",
+    "category"
+  ];
 
   const icons = [
     <DashboardIcon />,
     <UserManagementIcon />,
-    <MarketplaceIcon />
+    <MarketplaceIcon />,
+    <InventoryIcon />,
+    <LocationIcon />,
+    <CateogoryIcon />
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
@@ -39,10 +55,11 @@ export default function Dashboard(props) {
   const view = {
     dashboard: <DashboardView token={token} setPending={setPending} />,
     marketplace: <MarketPlaceView token={token} setPending={setPending} />,
+    inventory: <InventoryView token={token} setPending={setPending} />,
+    location: <LocationView token={token} setPending={setPending} />,
+    category: <CategoryView token={token} setPending={setPending} />,
     usermanagement: <UserManagementView token={token} setPending={setPending} />
   };
-
-  console.log(type);
 
   if (!loggedIn || token.length === 0) {
     return <Redirect to="/" />;
