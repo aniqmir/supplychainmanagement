@@ -13,6 +13,8 @@ import axios from "axios";
 
 import { BASE_URL } from "../../../baseurl.js"; //baseurl
 
+import Notification from "../../../components/Notification/Notification.jsx";
+
 export default function CreateCategory(props) {
   const [categories, setCategories] = React.useState([]);
   const [state] = React.useState({
@@ -21,6 +23,9 @@ export default function CreateCategory(props) {
       { title: "Subcategories", field: "subCategories" }
     ]
   });
+
+  const [open, setOpen] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
 
   useEffect(() => {
     axios
@@ -37,6 +42,14 @@ export default function CreateCategory(props) {
       });
   }, [props]);
 
+  function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  }
+
   function getCategory() {
     axios
       .get(`${BASE_URL}/superadmin/category`, {
@@ -44,6 +57,7 @@ export default function CreateCategory(props) {
       })
       .then(res => {
         if (res.data.success === true) {
+          console.log(res.data.data.categories);
           setCategories(res.data.data.categories);
         }
       })
@@ -61,9 +75,13 @@ export default function CreateCategory(props) {
         if (res.data.success === true) {
           // setCategory(undefined);
           getCategory();
+          setOpen(true);
+          setNotification("Category Added!");
         }
       })
       .catch(error => {
+        setOpen(true);
+        setNotification(error.response);
         console.log(error.response);
       });
   }
@@ -76,27 +94,58 @@ export default function CreateCategory(props) {
       .then(res => {
         getCategory();
         setCategories([]);
+        setOpen(true);
+        setNotification("Category Deleted!");
       })
       .catch(error => {
+        setOpen(true);
+        setNotification(error.response);
         console.log(error.response);
       });
   }
 
   function createSubcategory(id, name) {
-    axios
-      .patch(`${BASE_URL}/superadmin/subcategory/${id}`, {
-        subcategoryName: ` ${name}`
-      })
-      .then(res => {
-        if (res.data.success === true) {
-          getCategory();
-          // setCategories([]);
-          // setCategory(undefined);
-        }
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
+    if (name === "nill") {
+      axios
+        .patch(`${BASE_URL}/superadmin/subcategory/${id}`, {
+          subcategoryName: ""
+        })
+        .then(res => {
+          if (res.data.success === true) {
+            // console.log(res.data);
+            getCategory();
+            // setCategories([]);
+            // setCategory(undefined);
+            setOpen(true);
+            setNotification("Subcategory Added Succesfully!");
+          }
+        })
+        .catch(error => {
+          setOpen(true);
+          setNotification("Error Occured");
+          console.log(error.response);
+        });
+    } else {
+      axios
+        .patch(`${BASE_URL}/superadmin/subcategory/${id}`, {
+          subcategoryName: `${name}`
+        })
+        .then(res => {
+          if (res.data.success === true) {
+            // console.log(res.data);
+            getCategory();
+            // setCategories([]);
+            // setCategory(undefined);
+            setOpen(true);
+            setNotification("Subcategory Added Succesfully!");
+          }
+        })
+        .catch(error => {
+          setOpen(true);
+          setNotification(error.response);
+          console.log(error.response);
+        });
+    }
   }
 
   function editCategory(id, name) {
@@ -112,11 +161,13 @@ export default function CreateCategory(props) {
         }
       })
       .catch(error => {
+        setOpen(true);
+        setNotification(error.response);
         console.log(error.response);
       });
   }
 
-  console.log(categories);
+  // console.log(categories);
 
   return (
     <Grid container spacing={0}>
@@ -163,9 +214,17 @@ export default function CreateCategory(props) {
                   editCategory(newData._id, newData.name);
                   if (
                     newData.subCategories.length !==
-                    oldData.subCategories.length
+                      oldData.subCategories.length &&
+                    newData.subCategories.length > 0
                   ) {
-                    createSubcategory(newData._id, newData.subCategories);
+                    var array = newData.subCategories.split(" ");
+                    // console.log(array);
+                    console.log(newData.subCategories);
+                    console.log(array);
+                    // createSubcategory(newData._id, array[array.length - 1]);
+                  } else {
+                    console.log(newData._id);
+                    createSubcategory(newData._id, "nill");
                   }
                 }, 1000);
               }),
@@ -199,6 +258,15 @@ export default function CreateCategory(props) {
           }}
         />
       </Grid>
+      {open ? (
+        <Notification
+          open={open}
+          handleClose={handleClose}
+          notification={notification}
+        />
+      ) : (
+        <div />
+      )}
     </Grid>
   );
 }

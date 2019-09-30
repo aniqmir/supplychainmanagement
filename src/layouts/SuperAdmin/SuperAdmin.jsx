@@ -5,7 +5,7 @@ import DashboardView from "../../views/SuperAdminViews/DashboardView/DashboardVi
 import OrganizationsView from "../../views/SuperAdminViews/OrganizationsView/OrganizationsView.jsx";
 import RequestView from "../../views/SuperAdminViews/RequestView/RequestView.jsx";
 import SalestaxView from "../../views/SuperAdminViews/SalestaxView/SalestaxView.jsx";
-import LocationView from "../../views/SuperAdminViews/LocationView/LocationView.jsx";
+// import LocationView from "../../views/SuperAdminViews/LocationView/LocationView.jsx";
 import CreateOrganizationView from "../../views/SuperAdminViews/CreateOrganizationView/CreateOrganizationView.jsx";
 import CategoryView from "../../views/SuperAdminViews/CategoryView/CategoryView.jsx";
 
@@ -14,7 +14,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import Request from "@material-ui/icons/RecordVoiceOver";
 import Salestax from "@material-ui/icons/LibraryBooks";
 import CreateOrganization from "@material-ui/icons/Create";
-import Location from "@material-ui/icons/LocationCity";
+// import Location from "@material-ui/icons/LocationCity";
 import Category from "@material-ui/icons/Category";
 
 import axios from "axios";
@@ -26,7 +26,7 @@ export default function Dashboard(props) {
     "request",
     "salestax",
     "createorganization",
-    "locations",
+    // "locations",
     "categories"
   ];
 
@@ -36,12 +36,13 @@ export default function Dashboard(props) {
     <Request />,
     <Salestax />,
     <CreateOrganization />,
-    <Location />,
+    // <Location />,
     <Category />
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
   const token = localStorage.getItem("token");
+  const type = localStorage.getItem("type");
 
   const pathname = props.location.pathname.split("/");
   const viewname = pathname[1];
@@ -60,13 +61,15 @@ export default function Dashboard(props) {
     request: <RequestView token={token} />,
     salestax: <SalestaxView token={token} />,
     createorganization: <CreateOrganizationView token={token} />,
-    locations: <LocationView token={token} />,
+    // locations: <LocationView token={token} />,
     categories: <CategoryView token={token} />
   };
 
+  console.log(type);
+
   if (!loggedIn || token.length === 0) {
     return <Redirect to="/" />;
-  } else if (loggedIn && token.length !== 0) {
+  } else if (loggedIn && token.length !== 0 && type === "Superadmin") {
     return (
       <Sidebar
         history={props.history}

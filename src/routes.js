@@ -4,7 +4,7 @@ import createBrowserHistory from "history/createBrowserHistory";
 import Login from "./layouts/Login/Login.jsx";
 import SuperAdmin from "./layouts/SuperAdmin/SuperAdmin.jsx";
 
-import Admin from "./layouts/Admin/Admin.jsx";
+import ProfileAdmin from "./layouts/ProfileAdmin/ProfileAdmin.jsx";
 
 const customHistory = createBrowserHistory();
 
@@ -20,14 +20,14 @@ function CustomRoutes() {
           <Route exact path="/request" component={SuperAdmin} />
           <Route exact path="/salestax" component={SuperAdmin} />
           <Route exact path="/createorganization" component={SuperAdmin} />
-          <Route exact path="/locations" component={SuperAdmin} />
+          {/* <Route exact path="/locations" component={SuperAdmin} /> */}
           <Route exact path="/categories" component={SuperAdmin} />
         </div>
       );
-    } else if (type === "admin") {
+    } else if (type === "Profileadmin") {
       return (
         <div>
-          <Route exact path="/dashboard" component={Admin} />
+          <Route exact path="/dashboard" component={ProfileAdmin} />
         </div>
       );
     } else {

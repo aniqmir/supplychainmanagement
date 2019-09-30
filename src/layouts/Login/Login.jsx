@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { Button, TextField, Grid, Typography } from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+// import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
 
 import axios from "axios";
@@ -63,8 +64,26 @@ const useStyles = makeStyles(theme => ({
     color: "white",
     textTransform: "none",
     borderColor: "white"
+  },
+  menu: {
+    width: "100%"
   }
 }));
+
+// const types = [
+//   {
+//     value: "superadmin",
+//     label: "Super Admin"
+//   },
+//   {
+//     value: "profileadmin",
+//     label: "Profile Admin"
+//   },
+//   {
+//     value: "profileuser",
+//     label: "Profile User"
+//   }
+// ];
 
 export default function Login(props) {
   const classes = useStyles();
@@ -72,6 +91,7 @@ export default function Login(props) {
   const [values, setValues] = React.useState({
     email: undefined,
     password: undefined
+    // type: "superadmin"
   });
 
   const [open, setOpen] = React.useState(false);
@@ -106,16 +126,22 @@ export default function Login(props) {
           password: values.password
         })
         .then(res => {
-          if (res.data.success === true && res.data.type === undefined) {
+          if (
+            res.data.success === true &&
+            res.data["data"]["type"] === "SuperAdmin"
+          ) {
             localStorage.setItem("type", "Superadmin");
             localStorage.setItem("loggedIn", true);
             localStorage.setItem("token", res["data"]["data"].token);
             props.history.push("/dashboard");
             window.location.reload();
-          } else {
-            localStorage.setItem("type", "admin");
+          } else if (
+            res.data.success === true &&
+            res.data["data"]["type"] === "ProfileAdmin"
+          ) {
+            localStorage.setItem("type", "Profileadmin");
             localStorage.setItem("loggedIn", true);
-            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("token", res["data"]["data"].token);
             props.history.push("/dashboard");
             window.location.reload();
           }
@@ -242,6 +268,40 @@ export default function Login(props) {
                 />
               </Grid>
             </Fade>
+            {/* 
+            <Fade in={true} timeout={3500}>
+              <Grid item xs={12}>
+                <CssTextField
+                  id="outlined-select-type"
+                  select
+                  label="Type"
+                  className={classes.margin}
+                  value={values.type}
+                  onChange={handleChange("type")}
+                  SelectProps={{
+                    MenuProps: {
+                      className: classes.menu
+                    }
+                  }}
+                  helperText="Please select your type"
+                  margin="normal"
+                  variant="outlined"
+                  InputProps={{
+                    className: classes.input
+                  }}
+                  InputLabelProps={{
+                    className: classes.input
+                  }}
+                >
+                  {types.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </CssTextField>
+              </Grid>
+            </Fade> */}
+
             <Fade in={true} timeout={4000}>
               <Grid item xs={6}>
                 <Button

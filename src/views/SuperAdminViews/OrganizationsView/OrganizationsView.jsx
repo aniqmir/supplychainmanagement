@@ -126,7 +126,24 @@ export default function Profiles(props) {
       });
   }
 
-  console.log(data);
+  // function suspendprofile(type){
+  //   axios
+  //   .suspend(`${BASE_URL}/superadmin/profile/${type._id}`)
+  //   .then(res => {
+  //     console.log(res);
+  //     update();
+  //     setOpen(true);
+  //     setNotification("Profile Suspended Successfully!");
+  //     setOpenNot(true);
+  //   })
+  //   .catch(errorA => {
+  //     console.log(errorA.response);
+  //     // alert(error.data.Error.message);
+  //     setNotification("An Error occured while rejecting profile");
+  //     setOpen(true);
+  //     setOpenNot(true);
+  //   });
+  // }
 
   if (data.length > 0) {
     return (
