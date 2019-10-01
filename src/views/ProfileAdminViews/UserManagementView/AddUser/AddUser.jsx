@@ -118,7 +118,7 @@ export default function AddUser(props) {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0} style={{ height: "73vh" }}>
       <Fade in={true} timeout={1400}>
         <Grid item xs={12} container spacing={2}>
           <Grid item xs={12}>
