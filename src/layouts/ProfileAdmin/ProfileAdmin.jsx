@@ -10,11 +10,11 @@ import LocationView from "../../views/ProfileAdminViews/LocationView/LocationVie
 import CategoryView from "../../views/ProfileAdminViews/CategoryView/CategoryView.jsx";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import UserManagementIcon from "@material-ui/icons/Dashboard";
-import MarketplaceIcon from "@material-ui/icons/Dashboard";
-import InventoryIcon from "@material-ui/icons/People";
-import LocationIcon from "@material-ui/icons/Dashboard";
-import CateogoryIcon from "@material-ui/icons/People";
+import UserManagementIcon from "@material-ui/icons/SupervisorAccount";
+import MarketplaceIcon from "@material-ui/icons/ShoppingCart";
+import InventoryIcon from "@material-ui/icons/AccountBalance";
+import LocationIcon from "@material-ui/icons/LocationCity";
+import CateogoryIcon from "@material-ui/icons/Category";
 
 import axios from "axios";
 
