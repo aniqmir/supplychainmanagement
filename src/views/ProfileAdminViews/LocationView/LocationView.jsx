@@ -7,7 +7,12 @@ import {
   Divider
 } from "@material-ui/core";
 
+import axios from "axios";
+import { BASE_URL } from "../../../baseurl.js";
+
 import Table from "./LocationsTable/LocationsTable.jsx";
+
+import Notification from "../../../components/Notification/Notification.jsx";
 
 const CssTextField = withStyles({
   root: {
@@ -31,23 +36,79 @@ const CssTextField = withStyles({
   }
 })(TextField);
 
-export default function Location() {
+export default function Location(props) {
   const [location, setLocation] = React.useState(undefined);
+  const [locations, setLocations] = React.useState([]);
+
+  const [open, setOpen] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
   const locationRef = React.useRef(null);
   const submitRef = React.useRef(null);
 
   useEffect(() => {
     locationRef.current.focus();
-  });
+    axios
+      .get(`${BASE_URL}/profileadmin/location/get`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          setLocations(res.data["data"]["locations"]);
+        }
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  }, [props.token]);
 
-  function handleUserChange(e) {
+  function handleLocationChange(e) {
     setLocation(e.target.value);
   }
 
-  function submit() {
-    console.log(location);
+  function getLocations() {
+    axios
+      .get(`${BASE_URL}/profileadmin/location/get`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          setLocations(res.data["data"]["locations"]);
+        }
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
   }
 
+  function submit() {
+    axios
+      .post(`${BASE_URL}/profileadmin/location/add`, {
+        headers: { Authorization: `bearer ` + props.token },
+        locationname: location
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          getLocations();
+          setLocation(undefined);
+          setOpen(true);
+          setNotification("Location Added Successfully");
+        }
+      })
+      .catch(error => {
+        console.log(error.response);
+        setLocation(undefined);
+        setOpen(true);
+        setNotification("Some Error Occured");
+      });
+  }
+
+  function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  }
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -61,7 +122,7 @@ export default function Location() {
           }}
           label="Location"
           value={location || ""}
-          onChange={e => handleUserChange(e)}
+          onChange={e => handleLocationChange(e)}
           // InputProps={{
           //   onChange: handleUserChange("name")
           // }}
@@ -100,8 +161,14 @@ export default function Location() {
       </Grid>
 
       <Grid item xs={6} sm={12}>
-        <Table />
+        <Table locations={locations} />
       </Grid>
+
+      <Notification
+        open={open}
+        notification={notification}
+        handleClose={handleClose}
+      />
     </Grid>
   );
 }

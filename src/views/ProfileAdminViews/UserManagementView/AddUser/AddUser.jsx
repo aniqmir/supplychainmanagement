@@ -38,6 +38,25 @@ const CssTextField = withStyles({
   }
 })(TextField);
 
+const userTypes = [
+  {
+    value: "ProcurementManager",
+    label: "Procurement Manager"
+  },
+  {
+    value: "InventoryManager",
+    label: "Inventory Manager"
+  },
+  {
+    value: "LocationUser",
+    label: "Location User"
+  },
+  {
+    value: "LocationManager",
+    label: "Location Manager"
+  }
+];
+
 export default function AddUser(props) {
   const [uservalues, setuserValues] = React.useState({
     firstname: undefined,
@@ -108,13 +127,6 @@ export default function AddUser(props) {
         setOpen(true);
         setNotification("Type Cannot be Empty");
         setuserValues({ ...uservalues, type: "" });
-      } else if (
-        uservalues.location === undefined ||
-        uservalues.location.length === 0
-      ) {
-        setOpen(true);
-        setNotification("Location Cannot be Empty");
-        setuserValues({ ...uservalues, location: "" });
       } else {
         axios
           .post(`${BASE_URL}/profileadmin/user`, {
@@ -328,43 +340,52 @@ export default function AddUser(props) {
               }
             />
           </Grid>
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <CssTextField
-              id="outlined-location"
-              inputRef={location}
-              label="Location"
-              onKeyDown={e => {
-                if (e.key === "Enter") {
-                  type.current.focus();
-                }
-              }}
-              value={uservalues.location || ""}
-              onChange={handleUserChange("location")}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              error={
-                uservalues.location === undefined
-                  ? false
-                  : uservalues.location.length === 0
-                  ? true
-                  : false
-              }
-              helperText={
-                uservalues.location === undefined
-                  ? false
-                  : uservalues.location.length === 0
-                  ? "This cannot be empty"
-                  : false
-              }
-            />
-          </Grid> */}
           <Grid item xs={12} sm={6} md={3}>
             <CssTextField
               id="outlined-select-type"
               select
+              inputRef={type}
+              label="Type"
+              onKeyDown={e => {
+                if (e.key === "Enter") {
+                  password.current.focus();
+                }
+              }}
+              value={uservalues.type || ""}
+              onChange={handleUserChange("type")}
+              SelectProps={{
+                MenuProps: {
+                  // className: classes.menu
+                }
+              }}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              // helperText={
+              //   adminvalues.type === "" ? "Please select your type" : null
+              // }
+            >
+              {userTypes.map(option => {
+                return (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                );
+              })}
+            </CssTextField>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <CssTextField
+              id="outlined-select-location"
+              select
               inputRef={location}
               label="Location"
+              disabled={
+                uservalues.type === "LocationManager" ||
+                uservalues.type === "LocationUser"
+                  ? false
+                  : true
+              }
               onKeyDown={e => {
                 if (e.key === "Enter") {
                   type.current.focus();
@@ -380,9 +401,6 @@ export default function AddUser(props) {
               margin="normal"
               variant="outlined"
               fullWidth
-              // helperText={
-              //   adminvalues.type === "" ? "Please select your type" : null
-              // }
             >
               {props.locations.length !== 0 ? (
                 props.locations.map(option => {
@@ -396,37 +414,6 @@ export default function AddUser(props) {
                 <div>Loading</div>
               )}
             </CssTextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <CssTextField
-              id="outlined-type"
-              inputRef={type}
-              label="Type"
-              onKeyDown={e => {
-                if (e.key === "Enter") {
-                  password.current.focus();
-                }
-              }}
-              value={uservalues.type || ""}
-              onChange={handleUserChange("type")}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              error={
-                uservalues.type === undefined
-                  ? false
-                  : uservalues.type.length === 0
-                  ? true
-                  : false
-              }
-              helperText={
-                uservalues.type === undefined
-                  ? false
-                  : uservalues.type.length === 0
-                  ? "This cannot be empty"
-                  : false
-              }
-            />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <CssTextField

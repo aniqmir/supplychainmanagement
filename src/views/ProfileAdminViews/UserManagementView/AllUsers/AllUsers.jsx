@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -45,6 +45,7 @@ const useStyles = makeStyles(theme => ({
 export default function CustomizedTables(props) {
   const classes = useStyles();
 
+  const [users, setUsers] = React.useState([]);
   // const [open, setOpen] = React.useState(false);
   // const [notification, setNotification] = React.useState("");
 
@@ -54,6 +55,36 @@ export default function CustomizedTables(props) {
   //   }
   //   setOpen(false);
   // }
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/profileadmin/user`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          setUsers(res.data["data"]["users"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [props.token]);
+
+  function getUsers() {
+    axios
+      .get(`${BASE_URL}/profileadmin/user`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          setUsers(res.data["data"]["users"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   function deleteUser(id) {
     console.log(id);
@@ -65,7 +96,7 @@ export default function CustomizedTables(props) {
         console.log(res);
         // setOpen(true);
         // setNotification("User Deleted SuccessFully!");
-        props.getUsers();
+        getUsers();
         alert("User Deleted");
       })
       .catch(error => {
@@ -75,7 +106,7 @@ export default function CustomizedTables(props) {
       });
   }
 
-  if (props.users.length === 0) {
+  if (users.length === 0) {
     return <div>Loading</div>;
   }
   return (
@@ -93,7 +124,7 @@ export default function CustomizedTables(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.users.map(row => (
+            {users.map(row => (
               <StyledTableRow key={row._id}>
                 <StyledTableCell component="th" scope="row">
                   {row.type}

@@ -59,7 +59,7 @@ export default function FullWidthTabs(props) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [locations, setLocations] = React.useState([]);
-  const [users, setUsers] = React.useState([]);
+  // const [users, setUsers] = React.useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -84,35 +84,35 @@ export default function FullWidthTabs(props) {
       });
   }, [props.token]);
 
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}/profileadmin/user`, {
-        headers: { Authorization: `bearer ` + props.token }
-      })
-      .then(res => {
-        if (res.data.success === true) {
-          setUsers(res.data["data"]["users"]);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [props.token]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`${BASE_URL}/profileadmin/user`, {
+  //       headers: { Authorization: `bearer ` + props.token }
+  //     })
+  //     .then(res => {
+  //       if (res.data.success === true) {
+  //         setUsers(res.data["data"]["users"]);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }, [props.token]);
 
-  function getUsers() {
-    axios
-      .get(`${BASE_URL}/profileadmin/user`, {
-        headers: { Authorization: `bearer ` + props.token }
-      })
-      .then(res => {
-        if (res.data.success === true) {
-          setUsers(res.data["data"]["users"]);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+  // function getUsers() {
+  //   axios
+  //     .get(`${BASE_URL}/profileadmin/user`, {
+  //       headers: { Authorization: `bearer ` + props.token }
+  //     })
+  //     .then(res => {
+  //       if (res.data.success === true) {
+  //         setUsers(res.data["data"]["users"]);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }
 
   return (
     <div className={classes.root}>
@@ -140,7 +140,7 @@ export default function FullWidthTabs(props) {
           <AddUser locations={locations} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <AllUsers users={users} getUsers={getUsers} />
+          <AllUsers token={props.token} />
         </TabPanel>
         {/* <TabPanel value={value} index={2} dir={theme.direction}>
           <DeleteUser />
