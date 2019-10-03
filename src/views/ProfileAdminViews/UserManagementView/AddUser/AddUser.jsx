@@ -6,6 +6,7 @@ import {
   Typography,
   TextField,
   Button,
+  MenuItem,
   Fade
 } from "@material-ui/core";
 
@@ -42,7 +43,7 @@ export default function AddUser(props) {
     firstname: undefined,
     lastname: undefined,
     email: undefined,
-    designation: undefined,
+    type: undefined,
     location: undefined,
     password: undefined,
     confirmpassword: undefined,
@@ -60,7 +61,7 @@ export default function AddUser(props) {
   const lastname = useRef(null);
   const email = useRef(null);
   const phone = useRef(null);
-  const designation = useRef(null);
+  const type = useRef(null);
   const location = useRef(null);
   const password = useRef(null);
   const confirmpassword = useRef(null);
@@ -71,28 +72,70 @@ export default function AddUser(props) {
   }, []);
 
   function create() {
-    if (
-      uservalues.firstname === undefined ||
-      uservalues.firstname.length === 0
-    ) {
-      setOpen(true);
-      setNotification("Profile First Name Cannot be Empty");
+    if (uservalues.password === uservalues.confirmpassword) {
+      if (
+        uservalues.firstname === undefined ||
+        uservalues.firstname.length === 0
+      ) {
+        setOpen(true);
+        setNotification("First Name Cannot be Empty");
+        setuserValues({ ...uservalues, firstname: "" });
+      } else if (
+        uservalues.lastname === undefined ||
+        uservalues.lastname.length === 0
+      ) {
+        setOpen(true);
+        setNotification("Last Name Cannot be Empty");
+        setuserValues({ ...uservalues, lastname: "" });
+      } else if (
+        uservalues.password === undefined ||
+        uservalues.password.length === 0
+      ) {
+        setOpen(true);
+        setNotification("Password Cannot be Empty");
+        setuserValues({ ...uservalues, password: "" });
+      } else if (
+        uservalues.email === undefined ||
+        uservalues.email.length === 0
+      ) {
+        setOpen(true);
+        setNotification("Email Cannot be Empty");
+        setuserValues({ ...uservalues, email: "" });
+      } else if (
+        uservalues.type === undefined ||
+        uservalues.type.length === 0
+      ) {
+        setOpen(true);
+        setNotification("Type Cannot be Empty");
+        setuserValues({ ...uservalues, type: "" });
+      } else if (
+        uservalues.location === undefined ||
+        uservalues.location.length === 0
+      ) {
+        setOpen(true);
+        setNotification("Location Cannot be Empty");
+        setuserValues({ ...uservalues, location: "" });
+      } else {
+        axios
+          .post(`${BASE_URL}/profileadmin/user`, {
+            user: uservalues
+          })
+          .then(res => {
+            console.log(res);
+            setOpen(true);
+            setNotification("Profile Created Successfully!");
+            clear();
+          })
+          .catch(error => {
+            console.log(error);
+            setOpen(true);
+            setNotification("Error Occured");
+          });
+      }
     } else {
-      axios
-        .post(`${BASE_URL}/superadmin/profile`, {
-          profile: uservalues
-        })
-        .then(res => {
-          console.log(res);
-          setOpen(true);
-          setNotification("Profile Created Successfully!");
-          clear();
-        })
-        .catch(error => {
-          alert(error.data.Error.message);
-          setOpen(true);
-          setNotification(error.data.Error.message);
-        });
+      setOpen(true);
+      setNotification("Passwords do not match");
+      setuserValues({ ...uservalues, confirmpassword: "" });
     }
   }
 
@@ -101,7 +144,7 @@ export default function AddUser(props) {
       firstname: undefined,
       lastname: undefined,
       email: undefined,
-      designation: undefined,
+      type: undefined,
       location: undefined,
       password: undefined,
       confirmpassword: undefined,
@@ -285,14 +328,14 @@ export default function AddUser(props) {
               }
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <CssTextField
               id="outlined-location"
               inputRef={location}
               label="Location"
               onKeyDown={e => {
                 if (e.key === "Enter") {
-                  designation.current.focus();
+                  type.current.focus();
                 }
               }}
               value={uservalues.location || ""}
@@ -315,33 +358,71 @@ export default function AddUser(props) {
                   : false
               }
             />
+          </Grid> */}
+          <Grid item xs={12} sm={6} md={3}>
+            <CssTextField
+              id="outlined-select-type"
+              select
+              inputRef={location}
+              label="Location"
+              onKeyDown={e => {
+                if (e.key === "Enter") {
+                  type.current.focus();
+                }
+              }}
+              value={uservalues.location || ""}
+              onChange={handleUserChange("location")}
+              SelectProps={{
+                MenuProps: {
+                  // className: classes.menu
+                }
+              }}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              // helperText={
+              //   adminvalues.type === "" ? "Please select your type" : null
+              // }
+            >
+              {props.locations.length !== 0 ? (
+                props.locations.map(option => {
+                  return (
+                    <MenuItem key={option._id} value={option.locationname}>
+                      {option.locationname}
+                    </MenuItem>
+                  );
+                })
+              ) : (
+                <div>Loading</div>
+              )}
+            </CssTextField>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <CssTextField
-              id="outlined-designation"
-              inputRef={designation}
-              label="Designation"
+              id="outlined-type"
+              inputRef={type}
+              label="Type"
               onKeyDown={e => {
                 if (e.key === "Enter") {
                   password.current.focus();
                 }
               }}
-              value={uservalues.designation || ""}
-              onChange={handleUserChange("designation")}
+              value={uservalues.type || ""}
+              onChange={handleUserChange("type")}
               margin="normal"
               variant="outlined"
               fullWidth
               error={
-                uservalues.designation === undefined
+                uservalues.type === undefined
                   ? false
-                  : uservalues.designation.length === 0
+                  : uservalues.type.length === 0
                   ? true
                   : false
               }
               helperText={
-                uservalues.designation === undefined
+                uservalues.type === undefined
                   ? false
-                  : uservalues.designation.length === 0
+                  : uservalues.type.length === 0
                   ? "This cannot be empty"
                   : false
               }

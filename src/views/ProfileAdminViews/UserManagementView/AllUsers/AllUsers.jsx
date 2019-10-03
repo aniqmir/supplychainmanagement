@@ -6,6 +6,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { IconButton } from "@material-ui/core";
+import Delete from "@material-ui/icons/Delete";
+import axios from "axios";
+import { BASE_URL } from "../../../../baseurl.js";
+
+// import Notification from "../../../../components/Notification/Notification.jsx";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -13,7 +19,7 @@ const StyledTableCell = withStyles(theme => ({
     color: theme.palette.common.white
   },
   body: {
-    fontSize: 14
+    fontSize: 12
   }
 }))(TableCell);
 
@@ -24,18 +30,6 @@ const StyledTableRow = withStyles(theme => ({
     }
   }
 }))(TableRow);
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9)
-];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,35 +42,85 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CustomizedTables() {
+export default function CustomizedTables(props) {
   const classes = useStyles();
 
+  // const [open, setOpen] = React.useState(false);
+  // const [notification, setNotification] = React.useState("");
+
+  // function handleClose(event, reason) {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setOpen(false);
+  // }
+
+  function deleteUser(id) {
+    console.log(id);
+    axios
+      .post(`${BASE_URL}/profileadmin/user/${id}`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        console.log(res);
+        // setOpen(true);
+        // setNotification("User Deleted SuccessFully!");
+        props.getUsers();
+        alert("User Deleted");
+      })
+      .catch(error => {
+        console.log(error);
+        // setOpen(true);
+        // setNotification("Error Occured While Deleting User");
+      });
+  }
+
+  if (props.users.length === 0) {
+    return <div>Loading</div>;
+  }
   return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
+    <div>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Type</StyledTableCell>
+              <StyledTableCell align="right">ID</StyledTableCell>
+              <StyledTableCell align="right">Email</StyledTableCell>
+
+              <StyledTableCell align="right">Profile</StyledTableCell>
+              <StyledTableCell align="right">Delete</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.users.map(row => (
+              <StyledTableRow key={row._id}>
+                <StyledTableCell component="th" scope="row">
+                  {row.type}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row._id}</StyledTableCell>
+                <StyledTableCell align="right">{row.email}</StyledTableCell>
+
+                <StyledTableCell align="right">{row.profile}</StyledTableCell>
+                <StyledTableCell align="right">
+                  <IconButton
+                    onClick={() => deleteUser(row._id)}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    <Delete />
+                  </IconButton>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
+      {/* <Notification
+        open={open}
+        handleClose={handleClose}
+        notification={notification}
+      /> */}
+    </div>
   );
 }

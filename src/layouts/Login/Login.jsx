@@ -126,27 +126,29 @@ export default function Login(props) {
           password: values.password
         })
         .then(res => {
+          // console.log(res.data.success);
           if (
             res.data.success === true &&
-            res.data["data"]["type"] === "SuperAdmin"
+            res.data["data"]["data"]["type"] === "SuperAdmin"
           ) {
             localStorage.setItem("type", "Superadmin");
             localStorage.setItem("loggedIn", true);
-            localStorage.setItem("token", res["data"]["data"].token);
+            localStorage.setItem("token", res.data["data"]["data"]["token"]);
             props.history.push("/dashboard");
             window.location.reload();
           } else if (
             res.data.success === true &&
-            res.data["data"]["type"] === "ProfileAdmin"
+            res.data["data"]["data"]["type"] === "ProfileAdmin"
           ) {
             localStorage.setItem("type", "Profileadmin");
             localStorage.setItem("loggedIn", true);
-            localStorage.setItem("token", res["data"]["data"].token);
+            localStorage.setItem("token", res.data["data"]["data"]["token"]);
             props.history.push("/dashboard");
             window.location.reload();
           }
         })
         .catch(error => {
+          console.log(error);
           setNotification("Error while logging in");
           setOpen(true);
         });
