@@ -32,6 +32,16 @@ function CustomRoutes() {
         <div>
           <Route exact path="/dashboard" component={ProfileAdmin} />
           <Route exact path="/usermanagement" component={ProfileAdmin} />
+          <Route
+            exact
+            path="/usermanagement/adduser"
+            component={ProfileAdmin}
+          />
+          <Route
+            exact
+            path="/usermanagement/allusers"
+            component={ProfileAdmin}
+          />
           <Route exact path="/marketplace" component={ProfileAdmin} />
           <Route exact path="/inventory" component={ProfileAdmin} />
           <Route exact path="/location" component={ProfileAdmin} />

@@ -185,7 +185,7 @@ export default function Login(props) {
           }
         })
         .catch(error => {
-          console.log(error);
+          console.log(error.createError);
           setNotification("Error while logging in");
           setOpen(true);
         });
