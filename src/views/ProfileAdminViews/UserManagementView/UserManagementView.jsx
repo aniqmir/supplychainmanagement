@@ -69,6 +69,7 @@ export default function FullWidthTabs(props) {
     setValue(index);
   };
 
+  console.log(props.history);
   useEffect(() => {
     axios
       .get(`${BASE_URL}/profileadmin/location/get`, {

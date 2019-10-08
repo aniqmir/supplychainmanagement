@@ -492,7 +492,7 @@ export default function AddUser(props) {
             ref={createuser}
             variant="contained"
             color="secondary"
-            size="large"
+            size="medium"
             style={{ textTransform: "none" }}
             onClick={() => create()}
           >
@@ -501,11 +501,11 @@ export default function AddUser(props) {
         </Grid>
       </Fade>
       <Fade in={true} timeout={3000}>
-        <Grid item xs={6} sm={3} md={1}>
+        <Grid item xs={6} sm={3} md={2}>
           <Button
             variant="contained"
             color="secondary"
-            size="large"
+            size="medium"
             style={{ textTransform: "none" }}
             onClick={() => clear()}
           >
