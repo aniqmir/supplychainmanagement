@@ -3,7 +3,10 @@ import { Router, Route, Redirect } from "react-router-dom";
 import createBrowserHistory from "history/createBrowserHistory";
 import Login from "./layouts/Login/Login.jsx";
 import SuperAdmin from "./layouts/SuperAdmin/SuperAdmin.jsx";
-
+import LocationUser from "./layouts/LocationUser/LocationUser.jsx";
+import LocationManager from "./layouts/LocationManager/LocationManager.jsx";
+import InventoryManager from "./layouts/InventoryManager/InventoryManager.jsx";
+import ProcurementManager from "./layouts/ProcurementManager/ProcurementManager.jsx";
 import ProfileAdmin from "./layouts/ProfileAdmin/ProfileAdmin.jsx";
 
 const customHistory = createBrowserHistory();
@@ -35,7 +38,52 @@ function CustomRoutes() {
           <Route exact path="/category" component={ProfileAdmin} />
         </div>
       );
-    } else {
+    }else if (type === "Locationuser") {
+      return (
+        <div>
+          <Route exact path="/dashboard" component={LocationUser} />
+          <Route exact path="/usermanagement" component={LocationUser} />
+          <Route exact path="/marketplace" component={LocationUser} />
+          <Route exact path="/inventory" component={LocationUser} />
+          <Route exact path="/location" component={LocationUser} />
+          <Route exact path="/category" component={LocationUser} />
+        </div>
+      );
+    }else if (type === "Locationmanager") {
+      return (
+        <div>
+          <Route exact path="/dashboard" component={LocationManager} />
+          <Route exact path="/usermanagement" component={LocationManager} />
+          <Route exact path="/marketplace" component={LocationManager} />
+          <Route exact path="/inventory" component={LocationManager} />
+          <Route exact path="/location" component={LocationManager} />
+          <Route exact path="/category" component={LocationManager} />
+        </div>
+      );
+    }else if (type === "Inventorymanager") {
+      return (
+        <div>
+          <Route exact path="/dashboard" component={InventoryManager} />
+          <Route exact path="/usermanagement" component={InventoryManager} />
+          <Route exact path="/marketplace" component={InventoryManager} />
+          <Route exact path="/inventory" component={InventoryManager} />
+          <Route exact path="/location" component={InventoryManager} />
+          <Route exact path="/category" component={InventoryManager} />
+        </div>
+      );
+    }else if (type === "Procurementmanager") {
+      return (
+        <div>
+          <Route exact path="/dashboard" component={ProcurementManager} />
+          <Route exact path="/usermanagement" component={ProcurementManager} />
+          <Route exact path="/marketplace" component={ProcurementManager} />
+          <Route exact path="/inventory" component={ProcurementManager} />
+          <Route exact path="/location" component={ProcurementManager} />
+          <Route exact path="/category" component={ProcurementManager} />
+        </div>
+      );
+    }
+     else {
       return <Redirect to="/" />;
     }
   }

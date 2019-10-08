@@ -138,6 +138,7 @@ export default function CustomizedTables(props) {
                   onClick={() => deleteUser(row._id)}
                   variant="contained"
                   color="secondary"
+                  disabled
                 >
                   <Delete />
                 </IconButton>

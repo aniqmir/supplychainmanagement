@@ -85,10 +85,10 @@ export default function FullWidthTabs() {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        <TabPanel value={value} index={0} dir={theme.direction}>
+         <TabPanel value={value} index={0} dir={theme.direction}>
           <AddProduct />
         </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
+       <TabPanel value={value} index={1} dir={theme.direction}>
           <AllProducts />
         </TabPanel>
         {/* <TabPanel value={value} index={2} dir={theme.direction}>
