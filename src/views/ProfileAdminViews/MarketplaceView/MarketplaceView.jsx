@@ -6,10 +6,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { IconButton } from "@material-ui/core";
+import { IconButton, CircularProgress } from "@material-ui/core";
 import Delete from "@material-ui/icons/Delete";
 import axios from "axios";
 import { BASE_URL } from "../../../baseurl.js";
+import Reload from "@material-ui/icons/Replay";
 
 // import Notification from "../../../../components/Notification/Notification.jsx";
 
@@ -46,6 +47,7 @@ export default function CustomizedTables(props) {
   const classes = useStyles();
 
   const [users, setUsers] = React.useState([]);
+  const [error, setError] = React.useState(false);
   // const [open, setOpen] = React.useState(false);
   // const [notification, setNotification] = React.useState("");
 
@@ -63,11 +65,12 @@ export default function CustomizedTables(props) {
       })
       .then(res => {
         if (res.data.success === true) {
-          setUsers(res.data['data']['Item']);
+          setUsers(res.data["data"]["Item"]);
         }
       })
       .catch(error => {
         console.log(error);
+        setError(true);
       });
   }, [props.token]);
 
@@ -78,7 +81,7 @@ export default function CustomizedTables(props) {
       })
       .then(res => {
         if (res.data.success === true) {
-          setUsers(res.data['data']['Item']);
+          setUsers(res.data["data"]["Item"]);
         }
       })
       .catch(error => {
@@ -101,13 +104,46 @@ export default function CustomizedTables(props) {
       })
       .catch(error => {
         console.log(error);
+
         // setOpen(true);
         // setNotification("Error Occured While Deleting User");
       });
   }
 
-  if (users.length === 0) {
-    return <div>Loading</div>;
+  console.log(error);
+
+  if (users.length === 0 && error === false) {
+    return (
+      <div
+        style={{
+          textAlign: "center"
+        }}
+      >
+        <h5>Loading...</h5>
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  } else if (users.length === 0 && error === true) {
+    return (
+      <div
+        style={{
+          textAlign: "center"
+        }}
+      >
+        <h2>
+          Network Error Occured!{" "}
+          <IconButton
+            size="medium"
+            color="secondary"
+            style={{ color: "red" }}
+            onClick={() => window.location.reload()}
+          >
+            <Reload />
+          </IconButton>
+        </h2>
+        <CircularProgress color="secondary" />
+      </div>
+    );
   }
   return (
     <div>
@@ -130,20 +166,22 @@ export default function CustomizedTables(props) {
                   {row.name}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.profileId.name}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.profileId.name}
+                </StyledTableCell>
 
                 {/* <StyledTableCell align="right">{row.profile}</StyledTableCell> */}
                 <StyledTableCell align="right">
-                <IconButton
-                  onClick={() => deleteUser(row._id)}
-                  variant="contained"
-                  color="secondary"
-                >
-                  <Delete />
-                </IconButton>
+                  <IconButton
+                    onClick={() => deleteUser(row._id)}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    <Delete />
+                  </IconButton>
                 </StyledTableCell>
               </StyledTableRow>
-          ))}
+            ))}
           </TableBody>
         </Table>
       </Paper>
