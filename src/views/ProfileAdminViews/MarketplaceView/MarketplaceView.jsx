@@ -74,6 +74,9 @@ export default function CustomizedTables(props) {
       });
   }, [props.token]);
 
+  function bedefef() {
+    console.log("abc");
+  }
   function getUsers() {
     axios
       .get(`${BASE_URL}/profileadmin/marketplace/get/items`, {
