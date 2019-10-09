@@ -6,6 +6,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { IconButton } from "@material-ui/core";
+import Delete from "@material-ui/icons/Delete";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -54,6 +56,15 @@ export default function CustomizedTables(props) {
                 {row.locationname}
               </StyledTableCell>
               <StyledTableCell align="right">{row._id}</StyledTableCell>
+              <StyledTableCell align="right">
+                <IconButton
+                  onClick={() => props.onDelete(row._id)}
+                  variant="contained"
+                  color="secondary"
+                >
+                  <Delete />
+                </IconButton>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -145,6 +145,43 @@ export default function Login(props) {
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
             props.history.push("/dashboard");
             window.location.reload();
+          } 
+          else if (
+            res.data.success === true &&
+            res.data["data"]["data"]["type"] === "ProcurementManager"
+          ) {
+            localStorage.setItem("type", "Procurementmanager");
+            localStorage.setItem("loggedIn", true);
+            localStorage.setItem("token", res.data["data"]["data"]["token"]);
+            props.history.push("/dashboard");
+            window.location.reload();
+          } else if (
+            res.data.success === true &&
+            res.data["data"]["data"]["type"] === "InventoryManager"
+          ) {
+            localStorage.setItem("type", "Inventorymanager");
+            localStorage.setItem("loggedIn", true);
+            localStorage.setItem("token", res.data["data"]["data"]["token"]);
+            props.history.push("/dashboard");
+            window.location.reload();
+          } else if (
+            res.data.success === true &&
+            res.data["data"]["data"]["type"] === "LocationUser"
+          ) {
+            localStorage.setItem("type", "Locationuser");
+            localStorage.setItem("loggedIn", true);
+            localStorage.setItem("token", res.data["data"]["data"]["token"]);
+            props.history.push("/dashboard");
+            window.location.reload();
+          } else if (
+            res.data.success === true &&
+            res.data["data"]["data"]["type"] === "LocationManager"
+          ) {
+            localStorage.setItem("type", "Locationmanager");
+            localStorage.setItem("loggedIn", true);
+            localStorage.setItem("token", res.data["data"]["data"]["token"]);
+            props.history.push("/dashboard");
+            window.location.reload();
           }
         })
         .catch(error => {
@@ -174,9 +211,9 @@ export default function Login(props) {
     }
   }
 
-  function signUpfunc() {
-    console.log("Sign Up");
-  }
+  // function signUpfunc() {
+  //   console.log("Sign Up");
+  // }
 
   // console.log(values.email === undefined || values.email.includes("@"));
 
@@ -317,7 +354,7 @@ export default function Login(props) {
                 </Button>
               </Grid>
             </Fade>
-            <Fade in={true} timeout={5000}>
+            {/* <Fade in={true} timeout={5000}>
               <Grid item xs={6}>
                 <Button
                   className={classes.button}
@@ -328,7 +365,7 @@ export default function Login(props) {
                   Sign Up
                 </Button>
               </Grid>
-            </Fade>
+            </Fade> */}
           </Grid>
         </Grid>
         <Notification

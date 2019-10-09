@@ -175,13 +175,14 @@ export default function CustomizedTables(props) {
 
                 {/* <StyledTableCell align="right">{row.profile}</StyledTableCell> */}
                 <StyledTableCell align="right">
-                  <IconButton
-                    onClick={() => deleteUser(row._id)}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    <Delete />
-                  </IconButton>
+                <IconButton
+                  onClick={() => deleteUser(row._id)}
+                  variant="contained"
+                  color="secondary"
+                  disabled
+                >
+                  <Delete />
+                </IconButton>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

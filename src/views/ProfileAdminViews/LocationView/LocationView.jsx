@@ -80,6 +80,43 @@ export default function Location(props) {
       });
   }
 
+  function updateLocations() {
+    axios
+        .get(`${BASE_URL}/profileadmin/location/get`, {
+            headers: { Authorization: `bearer ` + props.token }
+        })
+        .then(res => {
+            if (res.data.success === true) {
+                setLocations(res.data["data"]["locations"]);
+            }
+        })
+        .catch(error => {
+            console.log(error.response);
+        });
+}
+
+function deleteLocation(id) {
+    console.log(id);
+    axios
+        .get(`${BASE_URL}/profileadmin/location/remove/${id}`, {
+            headers: { Authorization: `bearer ` + props.token }
+        })
+        .then(res => {
+            console.log("response");
+            console.log(res);
+            // setOpen(true);
+            // setNotification("User Deleted SuccessFully!");
+            updateLocations();
+            alert("Location Deleted");
+        })
+        .catch(error => {
+            console.log(error);
+            // setOpen(true);
+            // setNotification("Error Occured While Deleting User");
+        });
+}
+
+
   function submit() {
     axios
       .post(`${BASE_URL}/profileadmin/location/add`, {
@@ -161,7 +198,10 @@ export default function Location(props) {
       </Grid>
 
       <Grid item xs={6} sm={12}>
-        <Table locations={locations} />
+        <Table 
+        locations={locations} 
+        
+        onDelete={deleteLocation}/>
       </Grid>
 
       <Notification

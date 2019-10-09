@@ -8,14 +8,14 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-import AddUser from "./AddUser/AddUser.jsx";
-import AllUsers from "./AllUsers/AllUsers.jsx";
+import AddUser from "./AddUser/AddUser";
+import AllUsers from "./AllUsers/AllUsers";
 
 // import DeleteUser from "./DeleteUser/DeleteUser.jsx";
 // import UpdateUser from "./UpdateUser/UpdateUser.jsx";
 import axios from "axios";
 
-import { BASE_URL } from "../../../baseurl.js";
+import { BASE_URL } from "../../../baseurl";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
