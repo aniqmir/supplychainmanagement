@@ -8,7 +8,7 @@ import SalestaxView from "../../views/SuperAdminViews/SalestaxView/SalestaxView.
 // import LocationView from "../../views/SuperAdminViews/LocationView/LocationView.jsx";
 import CreateOrganizationView from "../../views/SuperAdminViews/CreateOrganizationView/CreateOrganizationView.jsx";
 import CategoryView from "../../views/SuperAdminViews/CategoryView/CategoryView.jsx";
-
+import SuspendedView from "../../views/SuperAdminViews/SuspendedView/SuspendedView.jsx";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import Request from "@material-ui/icons/RecordVoiceOver";
@@ -27,7 +27,8 @@ export default function Dashboard(props) {
     "salestax",
     "createorganization",
     // "locations",
-    "categories"
+    "categories",
+    "suspended"
   ];
 
   const icons = [
@@ -62,7 +63,8 @@ export default function Dashboard(props) {
     salestax: <SalestaxView token={token} />,
     createorganization: <CreateOrganizationView token={token} />,
     // locations: <LocationView token={token} />,
-    categories: <CategoryView token={token} />
+    categories: <CategoryView token={token} />,
+    suspended: <SuspendedView token={token} />
   };
 
   console.log(type);

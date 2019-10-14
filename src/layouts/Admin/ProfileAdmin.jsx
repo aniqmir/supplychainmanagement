@@ -12,11 +12,16 @@ export default function Admin(props) {
     window.location.reload();
   }
 
+  function openProfile() {
+    console.log('profile opened');
+  }
+
   if (!loggedIn && token.length === 0) {
     return <Redirect to="/" />;
   } else if (loggedIn && token.length !== 0 && type === "Profileadmin") {
     return (
       <div>
+        <Button onClick={() => openProfile()}>Profile</Button>
         <Button onClick={() => logout()}>Logout</Button>
       </div>
     );

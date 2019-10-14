@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 export default function CustomizedTables(props) {
   const classes = useStyles();
 
-  const [users, setUsers] = React.useState([]);
+  const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
   // const [open, setOpen] = React.useState(false);
   // const [notification, setNotification] = React.useState("");
@@ -65,7 +65,8 @@ export default function CustomizedTables(props) {
       })
       .then(res => {
         if (res.data.success === true) {
-          setUsers(res.data["data"]["Item"]);
+          console.log(res.data.data.Item);
+          setItems(res.data["data"]["Item"]);
         }
       })
       .catch(error => {
@@ -74,14 +75,14 @@ export default function CustomizedTables(props) {
       });
   }, [props.token]);
 
-  function getUsers() {
+  function getItems() {
     axios
       .get(`${BASE_URL}/profileadmin/marketplace/get/items`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
         if (res.data.success === true) {
-          setUsers(res.data["data"]["Item"]);
+          setItems(res.data["data"]["Item"]);
         }
       })
       .catch(error => {
@@ -89,7 +90,7 @@ export default function CustomizedTables(props) {
       });
   }
 
-  function deleteUser(id) {
+  function deleteItem(id) {
     console.log(id);
     axios
       .post(`${BASE_URL}/profileadmin/user/${id}`, {
@@ -99,8 +100,8 @@ export default function CustomizedTables(props) {
         console.log(res);
         // setOpen(true);
         // setNotification("User Deleted SuccessFully!");
-        getUsers();
-        alert("User Deleted");
+        getItems();
+        alert("Item Deleted");
       })
       .catch(error => {
         console.log(error);
@@ -111,8 +112,7 @@ export default function CustomizedTables(props) {
   }
 
   console.log(error);
-
-  if (users.length === 0 && error === false) {
+  if (items.length === 0 && error === false) {
     return (
       <div
         style={{
@@ -123,7 +123,7 @@ export default function CustomizedTables(props) {
         <CircularProgress color="secondary" />
       </div>
     );
-  } else if (users.length === 0 && error === true) {
+  } else if (items.length === 0 && error === true) {
     return (
       <div
         style={{
@@ -160,20 +160,20 @@ export default function CustomizedTables(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map(row => (
+            {items.map(row => (
               <StyledTableRow key={row._id}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">
-                  {row.profileId.name}
+                  {row.profileId !== null ? row.profileId.name : "Nill"}
                 </StyledTableCell>
 
                 {/* <StyledTableCell align="right">{row.profile}</StyledTableCell> */}
                 <StyledTableCell align="right">
                 <IconButton
-                  onClick={() => deleteUser(row._id)}
+                  onClick={() => deleteItem(row._id)}
                   variant="contained"
                   color="secondary"
                   disabled

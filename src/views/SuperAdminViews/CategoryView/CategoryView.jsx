@@ -67,23 +67,26 @@ export default function CreateCategory(props) {
   }
 
   function createCategory(name) {
-    axios
-      .post(`${BASE_URL}/superadmin/category`, {
-        categoryName: name
-      })
-      .then(res => {
-        if (res.data.success === true) {
-          // setCategory(undefined);
-          getCategory();
+    if (name) {
+      axios
+        .post(`${BASE_URL}/superadmin/category`, {
+          categoryName: name
+        })
+        .then(res => {
+          if (res.data.success === true) {
+            // setCategory(undefined);
+            getCategory();
+            setOpen(true);
+            setNotification("Category Added!");
+          }
+        })
+        .catch(error => {
           setOpen(true);
-          setNotification("Category Added!");
-        }
-      })
-      .catch(error => {
-        setOpen(true);
-        setNotification(error.response);
-        console.log(error.response);
-      });
+          setNotification(error.response);
+          console.log(error.response);
+        });
+    }
+
   }
 
   function deleteCategory(id) {
@@ -105,30 +108,10 @@ export default function CreateCategory(props) {
   }
 
   function createSubcategory(id, name) {
-    if (name === "nill") {
+    if (name !== "nill") {
       axios
         .patch(`${BASE_URL}/superadmin/subcategory/${id}`, {
-          subcategoryName: ""
-        })
-        .then(res => {
-          if (res.data.success === true) {
-            // console.log(res.data);
-            getCategory();
-            // setCategories([]);
-            // setCategory(undefined);
-            setOpen(true);
-            setNotification("Subcategory Added Succesfully!");
-          }
-        })
-        .catch(error => {
-          setOpen(true);
-          setNotification("Error Occured");
-          console.log(error.response);
-        });
-    } else {
-      axios
-        .patch(`${BASE_URL}/superadmin/subcategory/${id}`, {
-          subcategoryName: `${name}`
+          subcategoryName: name
         })
         .then(res => {
           if (res.data.success === true) {
@@ -212,19 +195,12 @@ export default function CreateCategory(props) {
                 setTimeout(() => {
                   resolve();
                   editCategory(newData._id, newData.name);
-                  if (
-                    newData.subCategories.length !==
-                      oldData.subCategories.length &&
-                    newData.subCategories.length > 0
-                  ) {
-                    var array = newData.subCategories.split(" ");
-                    // console.log(array);
-                    console.log(newData.subCategories);
-                    console.log(array);
-                    // createSubcategory(newData._id, array[array.length - 1]);
-                  } else {
-                    console.log(newData._id);
-                    createSubcategory(newData._id, "nill");
+                  if ((typeof newData.subCategories) === "string") {
+                    var array = newData.subCategories.split(",");
+                    if (JSON.stringify(array) !== JSON.stringify(oldData.subCategories)) {
+                      console.log("not equal");
+                      createSubcategory(newData._id, array);
+                    }
                   }
                 }, 1000);
               }),
@@ -265,8 +241,8 @@ export default function CreateCategory(props) {
           notification={notification}
         />
       ) : (
-        <div />
-      )}
+          <div />
+        )}
     </Grid>
   );
 }

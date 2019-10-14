@@ -17,6 +17,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import ProfileDialog from "../ProfileDialogs/ProfileInfo/ProfileInfo"; 
 // import Badge from "@material-ui/core/Badge";
 
 const drawerWidth = 240;
@@ -139,9 +140,11 @@ export default function MiniDrawer(props) {
   }
 
   function logout() {
+    console.log(localStorage.type);
     localStorage.clear();
     window.location.reload();
   }
+
 
   return (
     <div className={classes.root}>
@@ -170,6 +173,7 @@ export default function MiniDrawer(props) {
             {props.path.charAt(0).toUpperCase() + props.path.slice(1)}
           </Typography>
           <div className={classes.logout} />
+          {localStorage.type === "Profileadmin" ? <ProfileDialog tokn={props.token}/>: (null)}
           <Button onClick={() => logout()}>Logout</Button>
         </Toolbar>
       </AppBar>

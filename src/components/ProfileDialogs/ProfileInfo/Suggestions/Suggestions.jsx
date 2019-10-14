@@ -13,12 +13,12 @@ import Button from "@material-ui/core/Button";
 
 import axios from "axios";
 
-import IndividualProfile from "./IndividualOrganization/IndividualOrganization.jsx";
-import Notification from "../../../components/Notification/Notification.jsx";
+import IndividualUser from "./IndividualUser/IndividualUser.jsx";
+import Notification from "../../../../components/Notification/Notification.jsx";
 
 // import MaterialTable from "material-table";
 
-import { BASE_URL } from "../../../baseurl.js"; //baseurl
+import { BASE_URL } from "../../../../baseurl.js"; //baseurl
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,23 +47,13 @@ export default function Profiles(props) {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState({});
   const [iData, setIData] = React.useState("");
-  // const [
-  //   state
-  //   // setState
-  // ] = React.useState({
-  //   columns: [
-  //     { title: "Name", field: "name" },
-  //     { title: "Username", field: "username" },
-  //     { title: "City", field: "city" },
-  //     { title: "Email", field: "email", type: "string" },
-  //     { title: "Phone", field: "phone", type: "string" },
-  //     { title: "Salestax", field: "salestax", type: "numeric" }
-  //   ]
-  // });
+
+
+
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/superadmin/profile`, {
+      .get(`${BASE_URL}/profileadmin/profiles/unsubscribed`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
@@ -77,22 +67,22 @@ export default function Profiles(props) {
       });
   }, [props.token]);
 
-  function update() {
-    console.log("update");
-    axios
-      .get(`${BASE_URL}/superadmin/profile`, {
-        headers: { Authorization: `bearer ` + props.token }
-      })
-      .then(res => {
-        setData(res.data["data"]["profiles"]);
-        setLoading(false);
-        setErrorText("");
-      })
-      .catch(error => {
-        setErrorText(error.response["data"]["Error"]["message"]);
-        setLoading(false);
-      });
-  }
+  // function update() {
+  //   console.log("update");
+  //   axios
+  //     .get(`${BASE_URL}/superadmin/profile/filter/true`, {
+  //       headers: { Authorization: `bearer ` + props.token }
+  //     })
+  //     .then(res => {
+  //       setData(res.data["data"]["profiles"]);
+  //       setLoading(false);
+  //       setErrorText("");
+  //     })
+  //     .catch(error => {
+  //       setErrorText(error.response["data"]["Error"]["message"]);
+  //       setLoading(false);
+  //     });
+  // }
 
   function handleClickOpen(temp) {
     setIData(temp);
@@ -107,45 +97,45 @@ export default function Profiles(props) {
     setOpenNot(false);
   }
 
-  function deleteprofile(type) {
-    axios
-      .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
-      .then(res => {
-        console.log(res);
-        update();
-        setOpen(true);
-        setNotification("Profile Rejected Successfully!");
-        setOpenNot(true);
-      })
-      .catch(errorA => {
-        console.log(errorA.response);
-        // alert(error.data.Error.message);
-        setNotification("An Error occured while rejecting profile");
-        setOpen(true);
-        setOpenNot(true);
-      });
-  }
+  // function deleteprofile(type) {
+  //   axios
+  //     .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
+  //     .then(res => {
+  //       console.log(res);
+  //       update();
+  //       setOpen(true);
+  //       setNotification("Profile Rejected Successfully!");
+  //       setOpenNot(true);
+  //     })
+  //     .catch(errorA => {
+  //       console.log(errorA.response);
+  //       // alert(error.data.Error.message);
+  //       setNotification("An Error occured while rejecting profile");
+  //       setOpen(true);
+  //       setOpenNot(true);
+  //     });
+  // }
 
-  function suspendprofile(type) {
-    axios
-      .patch(`${BASE_URL}/superadmin/profile/suspend/${type._id}`)
-      .then(res => {
-        console.log(res);
-        window.location.reload();
-        // setOpen(true);
-        setNotification("Profile Suspended Successfully!");
-        // setOpenNot(true);
-      })
-      .catch(errorA => {
-        console.log(errorA.response);
-        // alert(error.data.Error.message);
-        setNotification("An Error occured while rejecting profile");
-        setOpen(true);
-        setOpenNot(true);
-      });
-  }
+  // function subscribeprofile(type){
+  //   axios
+  //   .suspend(`${BASE_URL}/superadmin/profile/${type._id}`)
+  //   .then(res => {
+  //     console.log(res);
+  //     update();
+  //     setOpen(true);
+  //     setNotification("Profile Suspended Successfully!");
+  //     setOpenNot(true);
+  //   })
+  //   .catch(errorA => {
+  //     console.log(errorA.response);
+  //     // alert(error.data.Error.message);
+  //     setNotification("An Error occured while rejecting profile");
+  //     setOpen(true);
+  //     setOpenNot(true);
+  //   });
+  // }
 
-  if (data.length > 0) {
+if (data.length > 0) {
     return (
       <List className={classes.root}>
         <Grid container spacing={1}>
@@ -170,7 +160,7 @@ export default function Profiles(props) {
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={type.surname}
+                      primary={type.name}
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -199,7 +189,7 @@ export default function Profiles(props) {
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                        onClick={() => handleClickOpen(type)}
+                        // onClick={() => handleClickOpen(type)}
                       >
                         View
                       </Button>
@@ -208,18 +198,18 @@ export default function Profiles(props) {
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                        onClick={() => suspendprofile(type)}
+                      // onClick={() => deleteprofile(type)}
                       >
-                        Suspend
+                        Subscribe
                       </Button>
                       <Button
                         variant="contained"
                         color="secondary"
                         size="small"
                         style={{ marginTop: "5px" }}
-                        onClick={() => deleteprofile(type)}
+                      // onClick={() => deleteprofile(type)}
                       >
-                        Delete
+                        Remove
                       </Button>
                     </div>
                   </ListItem>
@@ -234,8 +224,8 @@ export default function Profiles(props) {
           })}
         </Grid>
         {open ? (
-          <IndividualProfile
-            data={iData}
+          <IndividualUser
+            data={data}
             open={open}
             handleClose={handleClose}
             token={props.token}

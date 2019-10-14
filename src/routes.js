@@ -2,6 +2,7 @@ import React from "react";
 import { Router, Route, Redirect } from "react-router-dom";
 import createBrowserHistory from "history/createBrowserHistory";
 import Login from "./layouts/Login/Login.jsx";
+import Signup from "./layouts/Signup/Signup.jsx";
 import SuperAdmin from "./layouts/SuperAdmin/SuperAdmin.jsx";
 import LocationUser from "./layouts/LocationUser/LocationUser.jsx";
 import LocationManager from "./layouts/LocationManager/LocationManager.jsx";
@@ -25,6 +26,7 @@ function CustomRoutes() {
           <Route exact path="/createorganization" component={SuperAdmin} />
           {/* <Route exact path="/locations" component={SuperAdmin} /> */}
           <Route exact path="/categories" component={SuperAdmin} />
+          <Route exact path="/suspended" component={SuperAdmin} />
         </div>
       );
     } else if (type === "Profileadmin") {
@@ -101,6 +103,7 @@ function CustomRoutes() {
   return (
     <Router history={customHistory}>
       <Route exact path="/" component={Login} />
+      <Route exact path="/signup" component={Signup} />
       {routestoRender()}
     </Router>
   );
