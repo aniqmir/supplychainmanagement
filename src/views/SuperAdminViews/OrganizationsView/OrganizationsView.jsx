@@ -67,6 +67,7 @@ export default function Profiles(props) {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
+        console.log(res.data.data.profiles);
         setData(res.data["data"]["profiles"]);
         setLoading(false);
         setErrorText("");
@@ -112,7 +113,7 @@ export default function Profiles(props) {
       .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
       .then(res => {
         console.log(res);
-        update();
+        window.location.reload();
         setOpen(true);
         setNotification("Profile Rejected Successfully!");
         setOpenNot(true);
@@ -132,9 +133,9 @@ export default function Profiles(props) {
       .then(res => {
         console.log(res);
         window.location.reload();
-        // setOpen(true);
+        setOpen(true);
         setNotification("Profile Suspended Successfully!");
-        // setOpenNot(true);
+        setOpenNot(true);
       })
       .catch(errorA => {
         console.log(errorA.response);
@@ -184,9 +185,11 @@ export default function Profiles(props) {
                           {" — " +
                             type.name +
                             " — " +
-                            type.city +
-                            " — " +
-                            type.phone}
+                            type.phone
+                            // (type.city === "undefined" ? "" : type.city)  +
+                            // " — " +
+                            // type.phone !== "undefined" ? type.phone : ""
+                            }
                         </React.Fragment>
                       }
                     />
@@ -199,7 +202,7 @@ export default function Profiles(props) {
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                        onClick={() => handleClickOpen(type)}
+                        // onClick={() => handleClickOpen(type)}
                       >
                         View
                       </Button>

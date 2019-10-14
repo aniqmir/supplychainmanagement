@@ -21,6 +21,7 @@ export default function MaterialTableDemo(props) {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
+        console.log(res.data.data.profiles);
         setData(res.data["data"]["profiles"]);
         setLoading(false);
         setErrorText("");

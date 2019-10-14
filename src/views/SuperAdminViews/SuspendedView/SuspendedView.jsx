@@ -199,7 +199,7 @@ export default function Profiles(props) {
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                        onClick={() => handleClickOpen(type)}
+                        // onClick={() => handleClickOpen(type)}
                       >
                         View
                       </Button>

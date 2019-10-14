@@ -107,7 +107,13 @@ export default function CreateProfile(props) {
     if (profilevalues.name === undefined || profilevalues.name.length === 0) {
       setOpen(true);
       setNotification("Profile Name Cannot be Empty");
-    } else if (
+    }else if(
+      profilevalues.salestax === undefined || 
+      profilevalues.salestax.length === 0
+    ) {
+      setOpen(true);
+      setNotification("Profile Sale Tax Cannot be Empty");
+    }else if (
       adminvalues.email === undefined ||
       adminvalues.email.length === 0
     ) {

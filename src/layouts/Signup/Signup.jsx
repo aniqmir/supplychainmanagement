@@ -23,28 +23,6 @@ import {
 
 import { BASE_URL } from "../../baseurl.js"; //baseurl
 
-const backgroundStyle = {
-  backgroundImage:
-    "url(https://i.pinimg.com/originals/e0/d6/6a/e0d66a03fdf7fecce02b8b76e141d325.jpg)",
-  width: "100%",
-  height: "100vh",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  backgroundColor: "rgba(0,0,0,0.8)",
-  backgroundBlendMode: "overlay"
-};
-
-const gridStyle = {
-  minWidth: 650,
-  textAlign: "center",
-  position: "absolute",
-  maxWidth: 700
-};
-
-const gridHeight = {
-  minHeight: 70,
-  maxHeight: 80
-}
 
 
 // const types = [
@@ -94,7 +72,51 @@ const useStyles = makeStyles(theme => ({
   },
   menu: {
     width: "100%"
+  },
+  gridStyle : {
+    minWidth: "50%",
+    textAlign: "center",
+    position: "absolute",
+    maxWidth: "55%",
+    [theme.breakpoints.down("md")]: {
+        minWidth: "65%",
+        maxWidth: "70%"
+    },    
+    [theme.breakpoints.down("sm")]: {
+            minWidth : "80%",
+            maxWidth : "80%"
+    }
+  }, 
+ gridHeight : {
+  minHeight: 60,
+  maxHeight: 70,
+  [theme.breakpoints.down("md")]: {
+      minHeight: 50,
+      maxHeight: 60,
+      marginTop: "10px"
+  },    
+  [theme.breakpoints.down("sm")]: {
+          minHeight : 50,
+          maxHeight : 60,
+          marginTop: "10px"
   }
+},
+backgroundStyle : {
+  backgroundImage:
+    "url(https://i.pinimg.com/originals/e0/d6/6a/e0d66a03fdf7fecce02b8b76e141d325.jpg)",
+  width: "100%",
+  height: "100vh",
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundColor: "rgba(0,0,0,0.8)",
+  backgroundBlendMode: "overlay",
+  [theme.breakpoints.down("md")]: {
+    height : "150vh"
+  },
+  [theme.breakpoints.down("sm")]: {
+    height : "170vh"
+  }
+}
 }));
 
 export default function CreateProfile(props) {
@@ -221,16 +243,16 @@ export default function CreateProfile(props) {
       container
       justify="center"
       alignItems="center"
-      style={backgroundStyle}
+      className={classes.backgroundStyle}
     >
 
       <Fade in={true} timeout={1400}>
-        <Grid item xs={12} container spacing={2} style={gridStyle}>
+        <Grid item xs={12} container spacing={2} className={classes.gridStyle}>
           <Grid item xs={12}>
             <Typography variant="h5">Organization Details</Typography>
           </Grid>
 
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-name"
               label="Name"
@@ -265,7 +287,7 @@ export default function CreateProfile(props) {
               }}
             />
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-username"
               label="UserName"
@@ -296,7 +318,7 @@ export default function CreateProfile(props) {
               }}
             />
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-email"
               label="Email"
@@ -328,7 +350,7 @@ export default function CreateProfile(props) {
               }}
             />
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CountryDropdown
               value={profilevalues.country}
               onChange={val =>
@@ -342,7 +364,7 @@ export default function CreateProfile(props) {
 
             />
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <RegionDropdown
               country={profilevalues.country}
               value={profilevalues.region}
@@ -356,7 +378,7 @@ export default function CreateProfile(props) {
               style={{ marginTop: "4.68%", minHeight: "57px", backgroundColor: "transparent" }}
             />
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-phone"
               label="Phone"
@@ -387,7 +409,7 @@ export default function CreateProfile(props) {
               }}
             />
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-salestax"
               label="Salestax"
@@ -418,11 +440,11 @@ export default function CreateProfile(props) {
               }}
             />
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <Button
-              variant="contained"
+              variant="outlined"
               component="label"
-              style={{ width: "100%" }}
+              style={{ width: "100%", marginTop: "20px", height: "50px"  }}
               disabled={true}
             >
               Upload Picture
@@ -432,7 +454,7 @@ export default function CreateProfile(props) {
           <Grid item xs={12} style={{ marginTop: "25px" }}>
             <Typography variant="h5">Admin Details</Typography>
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-email"
               label="Email"
@@ -465,7 +487,7 @@ export default function CreateProfile(props) {
               }}
             />
           </Grid>
-          <Grid item xs={12} md={6} style={gridHeight}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-password"
               label="Password"
@@ -498,7 +520,7 @@ export default function CreateProfile(props) {
               }}
             />
           </Grid>
-          <Grid item xs={12} style={gridHeight} >
+          <Grid item xs={12} className={classes.gridHeight} >
             <Button
               variant="outlined"
               size="large"
