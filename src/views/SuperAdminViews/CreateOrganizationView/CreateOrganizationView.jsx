@@ -57,7 +57,7 @@ export default function CreateProfile(props) {
     username: undefined,
     email: undefined,
     country: "",
-    region: "",
+    city: "",
     phone: undefined,
     picture: undefined,
     salestax: undefined
@@ -74,7 +74,7 @@ export default function CreateProfile(props) {
   });
 
   // const [country, setCountry] = React.useState("");
-  // const [region, setRegion] = React.useState("");
+  // const [city, setRegion] = React.useState("");
 
   // const [cities, setCities] = React.useState([]);
 
@@ -151,7 +151,7 @@ export default function CreateProfile(props) {
       username: undefined,
       email: undefined,
       country: "",
-      region: "",
+      city: "",
       phone: undefined,
       picture: undefined,
       salestax: undefined
@@ -330,11 +330,11 @@ export default function CreateProfile(props) {
           <Grid item xs={12} sm={6} md={3}>
             <RegionDropdown
               country={profilevalues.country}
-              value={profilevalues.region}
+              value={profilevalues.city}
               onChange={val =>
                 setprofileValues({
                   ...profilevalues,
-                  region: val
+                  city: val
                 })
               }
               classes={"form-control"}

@@ -9,7 +9,9 @@ import {
   MenuItem,
   Fade
 } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
 
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Notification from "../../components/Notification/Notification.jsx";
 
@@ -126,7 +128,7 @@ export default function CreateProfile(props) {
     username: undefined,
     email: undefined,
     country: "",
-    region: "",
+    city: "",
     phone: undefined,
     picture: undefined,
     salestax: undefined
@@ -143,7 +145,7 @@ export default function CreateProfile(props) {
   });
 
   // const [country, setCountry] = React.useState("");
-  // const [region, setRegion] = React.useState("");
+  // const [city, setRegion] = React.useState("");
 
   // const [cities, setCities] = React.useState([]);
 
@@ -176,6 +178,12 @@ export default function CreateProfile(props) {
     if (profilevalues.name === undefined || profilevalues.name.length === 0) {
       setOpen(true);
       setNotification("Profile Name Cannot be Empty");
+    }else if(
+      profilevalues.salestax === undefined || 
+      profilevalues.salestax.length === 0
+    ) {
+      setOpen(true);
+      setNotification("Profile Sale Tax Cannot be Empty");
     } else if (
       adminvalues.email === undefined ||
       adminvalues.email.length === 0
@@ -214,7 +222,7 @@ export default function CreateProfile(props) {
       username: undefined,
       email: undefined,
       country: "",
-      region: "",
+      city: "",
       phone: undefined,
       picture: undefined,
       salestax: undefined
@@ -229,6 +237,7 @@ export default function CreateProfile(props) {
       type: "admin"
     });
   }
+  const loggedIn = localStorage.getItem("loggedIn");
 
   function handleClose(event, reason) {
     if (reason === "clickaway") {
@@ -238,6 +247,7 @@ export default function CreateProfile(props) {
     setOpen(false);
   }
 
+  if (!loggedIn) {
   return (
     <Grid
       container
@@ -367,11 +377,11 @@ export default function CreateProfile(props) {
           <Grid item xs={12} md={6} className={classes.gridHeight}>
             <RegionDropdown
               country={profilevalues.country}
-              value={profilevalues.region}
+              value={profilevalues.city}
               onChange={val =>
                 setprofileValues({
                   ...profilevalues,
-                  region: val
+                  city: val
                 })
               }
               classes={"form-control"}
@@ -530,6 +540,14 @@ export default function CreateProfile(props) {
               Create Profile
           </Button>
           </Grid>
+          <Grid item xs={12} style={{ marginTop: "20px"}}>
+                Already Signed Up, then
+                <Link
+                  to="/"
+                >
+                  <span style={{ marginLeft: "5px",  color: "#ccc" }}>Log in</span>
+                </Link>
+          </Grid>
         </Grid>
       </Fade>
       <Notification
@@ -538,5 +556,8 @@ export default function CreateProfile(props) {
         notification={notification}
       />
     </Grid>
-  );
+   );
+  } else {
+  return <Redirect to="/dashboard" />;
+  }
 }
