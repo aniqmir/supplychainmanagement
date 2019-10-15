@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import ProfileTable from "./profileTable";
+import Notification from "../../../../components/Notification/Notification.jsx";
 import axios from "axios";
 import { BASE_URL } from "../../../../baseurl.js"; //baseurl
 
@@ -72,8 +73,9 @@ export default function ResponsiveDialog(props) {
     const classes = useStyles();
 
     const [errorText, setErrorText] = React.useState("");
-    const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState({});
+    const [open, setOpen] = React.useState(false);
+    const [notification, setNotification] = React.useState("");
 
 
 
@@ -85,16 +87,37 @@ export default function ResponsiveDialog(props) {
             .then(res => {
                 console.log(res.data.data.newUser);
                 setData(res.data["data"]["newUser"]);
-                setLoading(false);
                 setErrorText("");
             })
             .catch(error => {
                 setErrorText(error.response["data"]["Error"]["message"]);
-                setLoading(false);
             });
     }, [props.token]);
 
+    function becomeSupplier () {
+        axios
+            .get(`${BASE_URL}/profileadmin/profile/supplier`, {
+                headers: { Authorization: `bearer ` + props.token }
+            })
+            .then(res => {
+                console.log(res.data);
+                setOpen(true);
+                setNotification("You are now a supplier");
+            })
+            .catch(error => {
+                setErrorText(error.response["data"]["Error"]["message"]);
+                setOpen(true);
+                setNotification("Can't be a supplier");
+            });
+    }
 
+    function handleClose(event, reason) {
+        if (reason === "clickaway") {
+          return;
+        }
+    
+        setOpen(false);
+      }
 
     return (
         <div>
@@ -127,12 +150,16 @@ export default function ResponsiveDialog(props) {
                     xs={12}
                     className={classes.location}
                 >
-                    <p style={{ fontSize: "18px" }}>
-                        London, UK
-                   </p>
+                <Button style={{marginBottom: "20px", marginLeft: "-20px"}} onClick={() => becomeSupplier()}><b>Become A Supplier</b></Button>
                 </Grid>
                 <ProfileTable data={data} />
+                
             </Grid>
+            <Notification
+                    open={open}
+                    handleClose={handleClose}
+                    notification={notification}
+                />
         </div>
-    );
+     );
 }

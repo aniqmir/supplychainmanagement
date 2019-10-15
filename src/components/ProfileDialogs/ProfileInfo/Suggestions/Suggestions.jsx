@@ -137,7 +137,7 @@ export default function Profiles(props) {
 
 if (data.length > 0) {
     return (
-      <List className={classes.root}>
+      <List className={classes.root} style={{marginTop: "30px"}}>
         <Grid container spacing={1}>
           {data.map((type, key) => {
             return (
