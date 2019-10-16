@@ -74,9 +74,6 @@ export default function CustomizedTables(props) {
       });
   }, [props.token]);
 
-  function bedefef() {
-    console.log("abc");
-  }
   function getUsers() {
     axios
       .get(`${BASE_URL}/profileadmin/marketplace/get/items`, {
@@ -175,14 +172,14 @@ export default function CustomizedTables(props) {
 
                 {/* <StyledTableCell align="right">{row.profile}</StyledTableCell> */}
                 <StyledTableCell align="right">
-                <IconButton
-                  onClick={() => deleteUser(row._id)}
-                  variant="contained"
-                  color="secondary"
-                  disabled
-                >
-                  <Delete />
-                </IconButton>
+                  <IconButton
+                    onClick={() => deleteUser(row._id)}
+                    variant="contained"
+                    color="secondary"
+                    disabled
+                  >
+                    <Delete />
+                  </IconButton>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
