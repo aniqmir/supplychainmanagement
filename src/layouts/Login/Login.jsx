@@ -4,7 +4,7 @@ import { Button, TextField, Grid, Typography } from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 // import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import Notification from "../../components/Notification/Notification.jsx";
@@ -145,7 +145,7 @@ export default function Login(props) {
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
             props.history.push("/dashboard");
             window.location.reload();
-          } 
+          }
           else if (
             res.data.success === true &&
             res.data["data"]["data"]["type"] === "ProcurementManager"
@@ -211,9 +211,9 @@ export default function Login(props) {
     }
   }
 
-  // function signUpfunc() {
-  //   console.log("Sign Up");
-  // }
+  function signUpfunc() {
+    console.log("Sign Up");
+  }
 
   // console.log(values.email === undefined || values.email.includes("@"));
 
@@ -248,15 +248,15 @@ export default function Login(props) {
                     values.email === undefined
                       ? false
                       : values.email.length === 0
-                      ? true
-                      : false
+                        ? true
+                        : false
                   }
                   helperText={
                     values.email === undefined
                       ? false
                       : values.email.length === 0
-                      ? "This cannot be empty"
-                      : null
+                        ? "This cannot be empty"
+                        : null
                   }
                   onChange={handleChange("email")}
                   required
@@ -288,15 +288,15 @@ export default function Login(props) {
                     values.password === undefined
                       ? false
                       : values.password.length === 0
-                      ? true
-                      : false
+                        ? true
+                        : false
                   }
                   helperText={
                     values.password === undefined
                       ? false
                       : values.password.length === 0
-                      ? "This cannot be empty"
-                      : false
+                        ? "This cannot be empty"
+                        : false
                   }
                   InputProps={{
                     className: classes.input
@@ -342,30 +342,28 @@ export default function Login(props) {
             </Fade> */}
 
             <Fade in={true} timeout={4000}>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Button
                   className={classes.button}
                   variant="outlined"
                   size="large"
                   type="submit"
-                  // onClick={() => loggedInfunc()}
+                // onClick={() => loggedInfunc()}
                 >
                   Login
                 </Button>
               </Grid>
             </Fade>
-            {/* <Fade in={true} timeout={5000}>
-              <Grid item xs={6}>
-                <Button
-                  className={classes.button}
-                  variant="outlined"
-                  size="large"
-                  onClick={() => signUpfunc()}
+            <Fade in={true} timeout={5000}>
+              <Grid item xs={12}>
+                Don't have any account, then
+                <Link
+                  to="/signup"
                 >
-                  Sign Up
-                </Button>
+                  <span style={{ marginLeft: "5px", color: "#ccc" }}>Sign Up</span>
+                </Link>
               </Grid>
-            </Fade> */}
+            </Fade>
           </Grid>
         </Grid>
         <Notification

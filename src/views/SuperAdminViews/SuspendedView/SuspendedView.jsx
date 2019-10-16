@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 
 import axios from "axios";
 
-import IndividualProfile from "./IndividualOrganization/IndividualOrganization.jsx";
+import IndividualProfile from "./IndividualUser/IndividualUser.jsx";
 import Notification from "../../../components/Notification/Notification.jsx";
 
 // import MaterialTable from "material-table";
@@ -63,11 +63,10 @@ export default function Profiles(props) {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/superadmin/profile`, {
+      .get(`${BASE_URL}/superadmin/profile/suspend/filter/true`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
-        console.log(res.data.data.profiles);
         setData(res.data["data"]["profiles"]);
         setLoading(false);
         setErrorText("");
@@ -81,7 +80,7 @@ export default function Profiles(props) {
   function update() {
     console.log("update");
     axios
-      .get(`${BASE_URL}/superadmin/profile`, {
+      .get(`${BASE_URL}/superadmin/profile/suspend/filter/true`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
@@ -108,43 +107,43 @@ export default function Profiles(props) {
     setOpenNot(false);
   }
 
-  function deleteprofile(type) {
-    axios
-      .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
-      .then(res => {
-        console.log(res);
-        window.location.reload();
-        setOpen(true);
-        setNotification("Profile Rejected Successfully!");
-        setOpenNot(true);
-      })
-      .catch(errorA => {
-        console.log(errorA.response);
-        // alert(error.data.Error.message);
-        setNotification("An Error occured while rejecting profile");
-        setOpen(true);
-        setOpenNot(true);
-      });
-  }
+  // function deleteprofile(type) {
+  //   axios
+  //     .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
+  //     .then(res => {
+  //       console.log(res);
+  //       update();
+  //       setOpen(true);
+  //       setNotification("Profile Rejected Successfully!");
+  //       setOpenNot(true);
+  //     })
+  //     .catch(errorA => {
+  //       console.log(errorA.response);
+  //       // alert(error.data.Error.message);
+  //       setNotification("An Error occured while rejecting profile");
+  //       setOpen(true);
+  //       setOpenNot(true);
+  //     });
+  // }
 
-  function suspendprofile(type) {
-    axios
-      .patch(`${BASE_URL}/superadmin/profile/suspend/${type._id}`)
-      .then(res => {
-        console.log(res);
-        window.location.reload();
-        setOpen(true);
-        setNotification("Profile Suspended Successfully!");
-        setOpenNot(true);
-      })
-      .catch(errorA => {
-        console.log(errorA.response);
-        // alert(error.data.Error.message);
-        setNotification("An Error occured while rejecting profile");
-        setOpen(true);
-        setOpenNot(true);
-      });
-  }
+  // function unsuspendprofile(type){
+  //   axios
+  //   .suspend(`${BASE_URL}/superadmin/profile/${type._id}`)
+  //   .then(res => {
+  //     console.log(res);
+  //     update();
+  //     setOpen(true);
+  //     setNotification("Profile Suspended Successfully!");
+  //     setOpenNot(true);
+  //   })
+  //   .catch(errorA => {
+  //     console.log(errorA.response);
+  //     // alert(error.data.Error.message);
+  //     setNotification("An Error occured while rejecting profile");
+  //     setOpen(true);
+  //     setOpenNot(true);
+  //   });
+  // }
 
   if (data.length > 0) {
     return (
@@ -185,11 +184,9 @@ export default function Profiles(props) {
                           {" — " +
                             type.name +
                             " — " +
-                            type.phone
-                            // (type.city === "undefined" ? "" : type.city)  +
-                            // " — " +
-                            // type.phone !== "undefined" ? type.phone : ""
-                            }
+                            type.city +
+                            " — " +
+                            type.phone}
                         </React.Fragment>
                       }
                     />
@@ -211,16 +208,16 @@ export default function Profiles(props) {
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                        onClick={() => suspendprofile(type)}
+                      // onClick={() => deleteprofile(type)}
                       >
-                        Suspend
+                        Unsuspend
                       </Button>
                       <Button
                         variant="contained"
                         color="secondary"
                         size="small"
                         style={{ marginTop: "5px" }}
-                        onClick={() => deleteprofile(type)}
+                      // onClick={() => deleteprofile(type)}
                       >
                         Delete
                       </Button>

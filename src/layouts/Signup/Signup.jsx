@@ -9,8 +9,11 @@ import {
   MenuItem,
   Fade
 } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
 
-import Notification from "../../../components/Notification/Notification.jsx";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Notification from "../../components/Notification/Notification.jsx";
 
 import axios from "axios";
 
@@ -20,19 +23,21 @@ import {
   // CountryRegionData
 } from "react-country-region-selector";
 
-import { BASE_URL } from "../../../baseurl.js"; //baseurl
+import { BASE_URL } from "../../baseurl.js"; //baseurl
 
-const types = [
-  {
-    value: "admin",
-    label: "Admin"
-  }
-];
+
+
+// const types = [
+//   {
+//     value: "admin",
+//     label: "Admin"
+//   }
+// ];
 
 const CssTextField = withStyles({
   root: {
     "& label.Mui-focused": {
-      color: "black"
+      color: "white"
     },
     "& .MuiInput-underline:after": {
       borderBottomColor: "black"
@@ -51,7 +56,73 @@ const CssTextField = withStyles({
   }
 })(TextField);
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  margin: {
+    margin: theme.spacing(1)
+  },
+  input: {
+    color: "white"
+  },
+  button: {
+    color: "white",
+    textTransform: "none",
+    borderColor: "white"
+  },
+  menu: {
+    width: "100%"
+  },
+  gridStyle : {
+    minWidth: "50%",
+    textAlign: "center",
+    position: "absolute",
+    maxWidth: "55%",
+    [theme.breakpoints.down("md")]: {
+        minWidth: "65%",
+        maxWidth: "70%"
+    },    
+    [theme.breakpoints.down("sm")]: {
+            minWidth : "80%",
+            maxWidth : "80%"
+    }
+  }, 
+ gridHeight : {
+  minHeight: 60,
+  maxHeight: 70,
+  [theme.breakpoints.down("md")]: {
+      minHeight: 50,
+      maxHeight: 60,
+      marginTop: "10px"
+  },    
+  [theme.breakpoints.down("sm")]: {
+          minHeight : 50,
+          maxHeight : 60,
+          marginTop: "10px"
+  }
+},
+backgroundStyle : {
+  backgroundImage:
+    "url(https://i.pinimg.com/originals/e0/d6/6a/e0d66a03fdf7fecce02b8b76e141d325.jpg)",
+  width: "100%",
+  height: "100vh",
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundColor: "rgba(0,0,0,0.8)",
+  backgroundBlendMode: "overlay",
+  [theme.breakpoints.down("md")]: {
+    height : "150vh"
+  },
+  [theme.breakpoints.down("sm")]: {
+    height : "170vh"
+  }
+}
+}));
+
 export default function CreateProfile(props) {
+  const classes = useStyles();
   const [profilevalues, setprofileValues] = React.useState({
     name: undefined,
     username: undefined,
@@ -107,8 +178,8 @@ export default function CreateProfile(props) {
     if (profilevalues.name === undefined || profilevalues.name.length === 0) {
       setOpen(true);
       setNotification("Profile Name Cannot be Empty");
-    } else if (
-      profilevalues.salestax === undefined ||
+    }else if(
+      profilevalues.salestax === undefined || 
       profilevalues.salestax.length === 0
     ) {
       setOpen(true);
@@ -127,7 +198,7 @@ export default function CreateProfile(props) {
       setNotification("Admin Profile Password Cannot be Empty");
     } else {
       axios
-        .post(`${BASE_URL}/superadmin/profile`, {
+        .post(`${BASE_URL}/profileadmin/profile`, {
           profile: profilevalues,
           profileAdmin: adminvalues
         })
@@ -138,9 +209,9 @@ export default function CreateProfile(props) {
           clear();
         })
         .catch(error => {
-          console.log(error.response.data["Error"]["message"]);
-          setNotification(error.response.data["Error"]["message"]);
+          alert(error.data.Error.message);
           setOpen(true);
+          setNotification(error.data.Error.message);
         });
     }
   }
@@ -166,6 +237,7 @@ export default function CreateProfile(props) {
       type: "admin"
     });
   }
+  const loggedIn = localStorage.getItem("loggedIn");
 
   function handleClose(event, reason) {
     if (reason === "clickaway") {
@@ -175,15 +247,22 @@ export default function CreateProfile(props) {
     setOpen(false);
   }
 
+  if (!loggedIn) {
   return (
-    <Grid container spacing={2}>
+    <Grid
+      container
+      justify="center"
+      alignItems="center"
+      className={classes.backgroundStyle}
+    >
+
       <Fade in={true} timeout={1400}>
-        <Grid item xs={12} container spacing={2}>
+        <Grid item xs={12} container spacing={2} className={classes.gridStyle}>
           <Grid item xs={12}>
             <Typography variant="h5">Organization Details</Typography>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-name"
               label="Name"
@@ -200,19 +279,25 @@ export default function CreateProfile(props) {
                 profilevalues.name === undefined
                   ? false
                   : profilevalues.name.length === 0
-                  ? true
-                  : false
+                    ? true
+                    : false
               }
               helperText={
                 profilevalues.name === undefined
                   ? false
                   : profilevalues.name.length === 0
-                  ? "This cannot be empty"
-                  : false
+                    ? "This cannot be empty"
+                    : false
               }
+              InputProps={{
+                className: classes.input
+              }}
+              InputLabelProps={{
+                className: classes.input
+              }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-username"
               label="UserName"
@@ -225,19 +310,25 @@ export default function CreateProfile(props) {
                 profilevalues.username === undefined
                   ? false
                   : profilevalues.username.length === 0
-                  ? true
-                  : false
+                    ? true
+                    : false
               }
               helperText={
                 profilevalues.username === undefined
                   ? false
                   : profilevalues.username.length === 0
-                  ? "This cannot be empty"
-                  : false
+                    ? "This cannot be empty"
+                    : false
               }
+              InputProps={{
+                className: classes.input
+              }}
+              InputLabelProps={{
+                className: classes.input
+              }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-email"
               label="Email"
@@ -251,70 +342,25 @@ export default function CreateProfile(props) {
                 profilevalues.email === undefined
                   ? false
                   : profilevalues.email.length === 0
-                  ? true
-                  : false
+                    ? true
+                    : false
               }
               helperText={
                 profilevalues.email === undefined
                   ? false
                   : profilevalues.email.length === 0
-                  ? "This cannot be empty"
-                  : false
+                    ? "This cannot be empty"
+                    : false
               }
+              InputProps={{
+                className: classes.input
+              }}
+              InputLabelProps={{
+                className: classes.input
+              }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            {/* <CssTextField
-              id="outlined-city"
-              label="City"
-              value={profilevalues.city || ""}
-              onChange={handleProfileChange("city")}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              error={
-                profilevalues.city === undefined
-                  ? false
-                  : profilevalues.city.length === 0
-                  ? true
-                  : false
-              }
-              helperText={
-                profilevalues.city === undefined
-                  ? false
-                  : profilevalues.city.length === 0
-                  ? "This cannot be empty"
-                  : false
-              }
-            /> */}
-            {/* citytag
-            <CssTextField
-              id="outlined-select-city"
-              select
-              label="City"
-              value={profilevalues.city || ""}
-              onChange={handleProfileChange("city")}
-              SelectProps={{
-                MenuProps: {
-                  // className: classes.menu
-                }
-              }}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              // helperText={
-              //   adminvalues.type === "" ? "Please select your type" : null
-              // }
-            >
-              cities.length > 0 
-              ? 
-              {cities.map(option => (
-                <MenuItem key={option.name} value={option.name}>
-                  {option.name}
-                </MenuItem>
-              ))}
-              : null}
-            </CssTextField> citytag */}
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CountryDropdown
               value={profilevalues.country}
               onChange={val =>
@@ -324,10 +370,11 @@ export default function CreateProfile(props) {
                 })
               }
               classes={"form-control"}
-              style={{ marginTop: "4.68%", minHeight: "57px" }}
+              style={{ backgroundColor: "transparent", marginTop: "4.68%", minHeight: "57px" }}
+
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <RegionDropdown
               country={profilevalues.country}
               value={profilevalues.city}
@@ -338,10 +385,10 @@ export default function CreateProfile(props) {
                 })
               }
               classes={"form-control"}
-              style={{ marginTop: "4.68%", minHeight: "57px" }}
+              style={{ marginTop: "4.68%", minHeight: "57px", backgroundColor: "transparent" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-phone"
               label="Phone"
@@ -354,19 +401,25 @@ export default function CreateProfile(props) {
                 profilevalues.phone === undefined
                   ? false
                   : profilevalues.phone.length === 0
-                  ? true
-                  : false
+                    ? true
+                    : false
               }
               helperText={
                 profilevalues.phone === undefined
                   ? false
                   : profilevalues.phone.length === 0
-                  ? "This cannot be empty"
-                  : false
+                    ? "This cannot be empty"
+                    : false
               }
+              InputProps={{
+                className: classes.input
+              }}
+              InputLabelProps={{
+                className: classes.input
+              }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-salestax"
               label="Salestax"
@@ -379,92 +432,39 @@ export default function CreateProfile(props) {
                 profilevalues.salestax === undefined
                   ? false
                   : profilevalues.salestax.length === 0
-                  ? true
-                  : false
+                    ? true
+                    : false
               }
               helperText={
                 profilevalues.salestax === undefined
                   ? false
                   : profilevalues.salestax.length === 0
-                  ? "This cannot be empty"
-                  : false
+                    ? "This cannot be empty"
+                    : false
               }
+              InputProps={{
+                className: classes.input
+              }}
+              InputLabelProps={{
+                className: classes.input
+              }}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={3} style={{ paddingTop: "2%" }}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <Button
-              variant="contained"
+              variant="outlined"
               component="label"
-              style={{ width: "100%" }}
+              style={{ width: "100%", marginTop: "20px", height: "50px"  }}
               disabled={true}
             >
               Upload Picture
               <input type="file" style={{ display: "none" }} />
             </Button>
           </Grid>
-        </Grid>
-      </Fade>
-      <Fade in={true} timeout={2000}>
-        <Grid item xs={12}>
-          <Divider />
-        </Grid>
-      </Fade>
-      <Fade in={true} timeout={2500}>
-        <Grid item xs={12} container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{ marginTop: "25px" }}>
             <Typography variant="h5">Admin Details</Typography>
           </Grid>
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <CssTextField
-              id="outlined-name"
-              label="Name"
-              value={adminvalues.name || ""}
-              onChange={handleAdminChange("name")}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              error={
-                adminvalues.name === undefined
-                  ? false
-                  : adminvalues.name.length === 0
-                  ? true
-                  : false
-              }
-              helperText={
-                adminvalues.name === undefined
-                  ? false
-                  : adminvalues.name.length === 0
-                  ? "This cannot be empty"
-                  : false
-              }
-            />
-          </Grid> */}
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <CssTextField
-              id="outlined-surname"
-              label="Surname"
-              value={adminvalues.surname || ""}
-              onChange={handleAdminChange("surname")}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              error={
-                adminvalues.surname === undefined
-                  ? false
-                  : adminvalues.surname.length === 0
-                  ? true
-                  : false
-              }
-              helperText={
-                adminvalues.surname === undefined
-                  ? false
-                  : adminvalues.surname.length === 0
-                  ? "This cannot be empty"
-                  : false
-              }
-            />
-          </Grid> */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-email"
               label="Email"
@@ -479,19 +479,25 @@ export default function CreateProfile(props) {
                 adminvalues.email === undefined
                   ? false
                   : adminvalues.email.length === 0
-                  ? true
-                  : false
+                    ? true
+                    : false
               }
               helperText={
                 adminvalues.email === undefined
                   ? false
                   : adminvalues.email.length === 0
-                  ? "This cannot be empty"
-                  : false
+                    ? "This cannot be empty"
+                    : false
               }
+              InputProps={{
+                className: classes.input
+              }}
+              InputLabelProps={{
+                className: classes.input
+              }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} md={6} className={classes.gridHeight}>
             <CssTextField
               id="outlined-password"
               label="Password"
@@ -506,120 +512,42 @@ export default function CreateProfile(props) {
                 adminvalues.password === undefined
                   ? false
                   : adminvalues.password.length === 0
-                  ? true
-                  : false
+                    ? true
+                    : false
               }
               helperText={
                 adminvalues.password === undefined
                   ? false
                   : adminvalues.password.length === 0
-                  ? "This cannot be empty"
-                  : false
+                    ? "This cannot be empty"
+                    : false
               }
-            />
-          </Grid>
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <CssTextField
-              id="outlined-phone"
-              label="Phone"
-              value={adminvalues.phone || ""}
-              onChange={handleAdminChange("phone")}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              error={
-                adminvalues.phone === undefined
-                  ? false
-                  : adminvalues.phone.length === 0
-                  ? true
-                  : false
-              }
-              helperText={
-                adminvalues.phone === undefined
-                  ? false
-                  : adminvalues.phone.length === 0
-                  ? "This cannot be empty"
-                  : false
-              }
-            />
-          </Grid> */}
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <CssTextField
-              id="outlined-designation"
-              label="Designation"
-              value={adminvalues.designation || ""}
-              onChange={handleAdminChange("designation")}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              error={
-                adminvalues.designation === undefined
-                  ? false
-                  : adminvalues.designation.length === 0
-                  ? true
-                  : false
-              }
-              helperText={
-                adminvalues.designation === undefined
-                  ? false
-                  : adminvalues.designation.length === 0
-                  ? "This cannot be empty"
-                  : false
-              }
-            />
-          </Grid> */}
-          <Grid item xs={12} sm={6} md={3}>
-            <CssTextField
-              id="outlined-select-type"
-              select
-              label="Type"
-              value={adminvalues.type || ""}
-              onChange={handleAdminChange("type")}
-              SelectProps={{
-                MenuProps: {
-                  // className: classes.menu
-                }
+              InputProps={{
+                className: classes.input
               }}
-              margin="normal"
-              variant="outlined"
-              fullWidth
-              // helperText={
-              //   adminvalues.type === "" ? "Please select your type" : null
-              // }
-            >
-              {types.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </CssTextField>
+              InputLabelProps={{
+                className: classes.input
+              }}
+            />
           </Grid>
-        </Grid>
-      </Fade>
-      <Fade in={true} timeout={3000}>
-        <Grid item xs={6} sm={3} md={1}>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            style={{ textTransform: "none" }}
-            onClick={() => create()}
-          >
-            Create
+          <Grid item xs={12} className={classes.gridHeight} >
+            <Button
+              variant="outlined"
+              size="large"
+              style={{ textTransform: "none", color: "white", borderColor: "white", marginTop: "20px", height: "50px" }}
+              onClick={() => create()}
+            >
+              Create Profile
           </Button>
-        </Grid>
-      </Fade>
-      <Fade in={true} timeout={3000}>
-        <Grid item xs={6} sm={3} md={1}>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            style={{ textTransform: "none" }}
-            onClick={() => clear()}
-          >
-            Clear
-          </Button>
+          </Grid>
+          <Grid item xs={12} style={{ marginTop: "20px"}}>
+                Already Signed Up, then
+                <Link
+                  to="/"
+                >
+                  <span style={{ marginLeft: "5px",  color: "#ccc" }}>Log in</span>
+                </Link>
+          </Grid>
         </Grid>
       </Fade>
       <Notification
@@ -628,5 +556,8 @@ export default function CreateProfile(props) {
         notification={notification}
       />
     </Grid>
-  );
+   );
+  } else {
+  return <Redirect to="/dashboard" />;
+  }
 }

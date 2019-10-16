@@ -40,7 +40,6 @@ export default function Dashboard(props) {
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
   const token = localStorage.getItem("token");
   const type = localStorage.getItem("type");
-
   const pathname = props.location.pathname.split("/");
   const viewname = pathname[1];
 
@@ -67,6 +66,7 @@ export default function Dashboard(props) {
     return (
       <Sidebar
         history={props.history}
+        token={token}
         listitemnames={listitemnames}
         icon={icons}
         path={pathname[1]}
