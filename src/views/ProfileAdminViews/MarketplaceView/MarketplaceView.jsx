@@ -112,7 +112,7 @@ export default function CustomizedTables(props) {
   }
 
   console.log(error);
-  if (items.length === 0 && error === false) {
+  if (items.length === 0) {
     return (
       <div
         style={{
@@ -123,7 +123,7 @@ export default function CustomizedTables(props) {
         <CircularProgress color="secondary" />
       </div>
     );
-  } else if (items.length === 0 && error === true) {
+  } else if (error === true) {
     return (
       <div
         style={{
