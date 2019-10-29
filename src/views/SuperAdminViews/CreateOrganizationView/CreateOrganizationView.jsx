@@ -107,13 +107,13 @@ export default function CreateProfile(props) {
     if (profilevalues.name === undefined || profilevalues.name.length === 0) {
       setOpen(true);
       setNotification("Profile Name Cannot be Empty");
-    }else if(
-      profilevalues.salestax === undefined || 
+    } else if (
+      profilevalues.salestax === undefined ||
       profilevalues.salestax.length === 0
     ) {
       setOpen(true);
       setNotification("Profile Sale Tax Cannot be Empty");
-    }else if (
+    } else if (
       adminvalues.email === undefined ||
       adminvalues.email.length === 0
     ) {
@@ -138,9 +138,9 @@ export default function CreateProfile(props) {
           clear();
         })
         .catch(error => {
-          alert(error.data.Error.message);
+          console.log(error.response.data["Error"]["message"]);
+          setNotification(error.response.data["Error"]["message"]);
           setOpen(true);
-          setNotification(error.data.Error.message);
         });
     }
   }

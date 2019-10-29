@@ -153,10 +153,10 @@ export default function CustomizedTables(props) {
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">ProfileName</StyledTableCell>
+              <StyledTableCell align="right">ProfileEmail</StyledTableCell>
 
               {/* <StyledTableCell align="right">ProfileName</StyledTableCell> */}
-              <StyledTableCell align="right">Delete</StyledTableCell>
+              <StyledTableCell align="right">profileName</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -167,20 +167,21 @@ export default function CustomizedTables(props) {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">
+                  {row.profileId !== null ? row.profileId.email : "Nill"}
+                  {/* <IconButton
+                    onClick={() => deleteItem(row._id)}
+                    variant="contained"
+                    color="secondary"
+                    disabled
+                  >
+                    <Delete />
+                  </IconButton> */}
+                </StyledTableCell>
+                <StyledTableCell align="right">
                   {row.profileId !== null ? row.profileId.name : "Nill"}
                 </StyledTableCell>
 
                 {/* <StyledTableCell align="right">{row.profile}</StyledTableCell> */}
-                <StyledTableCell align="right">
-                <IconButton
-                  onClick={() => deleteItem(row._id)}
-                  variant="contained"
-                  color="secondary"
-                  disabled
-                >
-                  <Delete />
-                </IconButton>
-                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

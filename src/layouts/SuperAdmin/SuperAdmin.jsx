@@ -67,21 +67,15 @@ export default function Dashboard(props) {
     suspended: <SuspendedView token={token} />
   };
 
-  console.log(type);
-
-  if (!loggedIn || token.length === 0) {
-    return <Redirect to="/" />;
-  } else if (loggedIn && token.length !== 0 && type === "Superadmin") {
-    return (
-      <Sidebar
-        history={props.history}
-        listitemnames={listitemnames}
-        icon={icons}
-        path={pathname[1]}
-        view={view[viewname]}
-        heading={"Super Admin"}
-        pending={pending}
-      />
-    );
-  }
+  return (
+    <Sidebar
+      history={props.history}
+      listitemnames={listitemnames}
+      icon={icons}
+      path={pathname[1]}
+      view={view[viewname]}
+      heading={"Super Admin"}
+      pending={pending}
+    />
+  );
 }
