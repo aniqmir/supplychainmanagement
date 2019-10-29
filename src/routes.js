@@ -54,44 +54,34 @@ function CustomRoutes() {
       return (
         <div>
           <Route exact path="/dashboard" component={LocationUser} />
-          <Route exact path="/usermanagement" component={LocationUser} />
-          <Route exact path="/marketplace" component={LocationUser} />
-          <Route exact path="/inventory" component={LocationUser} />
-          <Route exact path="/location" component={LocationUser} />
-          <Route exact path="/category" component={LocationUser} />
+          <Route exact path="/orders" component={LocationUser} />
+          <Route exact path="/profileinventory" component={LocationUser} />
+          <Route exact path="/locationinventory" component={LocationUser} />
         </div>
       );
     }else if (type === "Locationmanager") {
       return (
         <div>
           <Route exact path="/dashboard" component={LocationManager} />
-          <Route exact path="/usermanagement" component={LocationManager} />
-          <Route exact path="/marketplace" component={LocationManager} />
+          <Route exact path="/orders" component={LocationManager} />
           <Route exact path="/inventory" component={LocationManager} />
-          <Route exact path="/location" component={LocationManager} />
-          <Route exact path="/category" component={LocationManager} />
         </div>
       );
     }else if (type === "Inventorymanager") {
       return (
         <div>
           <Route exact path="/dashboard" component={InventoryManager} />
-          <Route exact path="/usermanagement" component={InventoryManager} />
-          <Route exact path="/marketplace" component={InventoryManager} />
+          <Route exact path="/orders" component={InventoryManager} />
           <Route exact path="/inventory" component={InventoryManager} />
-          <Route exact path="/location" component={InventoryManager} />
-          <Route exact path="/category" component={InventoryManager} />
+          <Route exact path="/approvedorders" component={InventoryManager} />
+          <Route exact path="/rejectedorders" component={InventoryManager} />
         </div>
       );
     }else if (type === "Procurementmanager") {
       return (
         <div>
           <Route exact path="/dashboard" component={ProcurementManager} />
-          <Route exact path="/usermanagement" component={ProcurementManager} />
-          <Route exact path="/marketplace" component={ProcurementManager} />
-          <Route exact path="/inventory" component={ProcurementManager} />
-          <Route exact path="/location" component={ProcurementManager} />
-          <Route exact path="/category" component={ProcurementManager} />
+          <Route exact path="/stock" component={ProcurementManager} />
         </div>
       );
     }

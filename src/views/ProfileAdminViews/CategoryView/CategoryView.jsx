@@ -22,6 +22,7 @@ export default function CreateCategory(props) {
     ]
   });
 
+  //useEffect
   useEffect(() => {
     axios
       .get(`${BASE_URL}/profileadmin/category`, {
@@ -29,18 +30,18 @@ export default function CreateCategory(props) {
       })
       .then(res => {
         if (res.data.success === true) {
-          console.log('inside success');
-          console.log(res.data.success);
           setCategories(res.data.data.categories);
         }
       })
       .catch(error => {
+        console.log("in catch of get categories");
         console.log(error.response);
       });
   }, [props]);
 
-
-  return (
+  
+  if (categories.length > 0) {
+    return ( 
     <Grid container spacing={0}>
       <Grid item xs={12}>
         <MaterialTable
@@ -94,4 +95,5 @@ export default function CreateCategory(props) {
       </Grid>
     </Grid>
   );
+ }
 }

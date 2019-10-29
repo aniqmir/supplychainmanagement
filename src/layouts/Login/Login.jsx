@@ -164,7 +164,8 @@ export default function Login(props) {
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
             props.history.push("/dashboard");
             window.location.reload();
-          } else if (
+          }
+           else if (
             res.data.success === true &&
             res.data["data"]["data"]["type"] === "LocationUser"
           ) {
@@ -173,7 +174,8 @@ export default function Login(props) {
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
             props.history.push("/dashboard");
             window.location.reload();
-          } else if (
+          } 
+          else if (
             res.data.success === true &&
             res.data["data"]["data"]["type"] === "LocationManager"
           ) {
