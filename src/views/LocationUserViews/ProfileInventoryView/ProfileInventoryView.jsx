@@ -38,44 +38,31 @@ const useStyles = makeStyles(theme => ({
 export default function Requests(props) {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
-  // const [data, setData] = React.useState({});
+  const [data, setData] = React.useState({});
   const [errorText, setErrorText] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [notification, setNotification] = React.useState("");
 
 
-  const data = [
-    {
-      name: "item123",
-      price: 12000,
-      ownerEmail: "manager1@gmail.com"
-    },
-    {
-      name: "item789",
-      price: 12000,
-      ownerEmail: "manager2@gmail.com"
-    },
-    {
-      name: "item456",
-      price: 12000,
-      ownerEmail: "manager3@gmail.com"
-    }
-  ]
-  // useEffect(() => {
-  //   axios
-  //     .get(`${BASE_URL}/superadmin/profile/filter/false`, {
-  //       headers: { Authorization: `bearer ` + props.token }
-  //     })
-  //     .then(res => {
-  //       setData(res.data["data"]["profiles"]);
-  //       setLoading(false);
-  //       setErrorText("");
-  //     })
-  //     .catch(error => {
-  //       setErrorText(error.response["data"]["Error"]["message"]);
-  //       setLoading(false);
-  //     });
-  // }, [props.token]);
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/locationuser/items`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        console.log(res.data);
+        setData(res.data["data"]["newUser"]);
+        setLoading(false);
+        setErrorText("");
+      })
+      .catch(error => {
+        console.log("inside catch");
+        console.log(error.response.data.message);
+        setErrorText(error.response["data"]["message"]);
+        setLoading(false);
+      });
+  }, [props.token]);
+
 
   function handleClose(event, reason) {
     if (reason === "clickaway") {
@@ -84,63 +71,6 @@ export default function Requests(props) {
 
     setOpen(false);
   }
-
-  //   function update() {
-  //     axios
-  //     .get(`${BASE_URL}/superadmin/profile/filter/false`, {
-  //       headers: { Authorization: `bearer ` + props.token }
-  //     })
-  //     .then(res => {
-  //       setData(res.data["data"]["profiles"]);
-  //       setLoading(false);
-  //       setErrorText("");
-  //     })
-  //     .catch(error => {
-  //       console.log('catch');
-  //       console.log(error.response);
-  //       console.log(error.response.data.Error);
-  //       setErrorText(error.response["data"]["Error"]["message"]);
-  //       setLoading(false);
-  //     });
-  // }
-
-
-  // function approve(type) {
-  //   axios
-  //     .patch(`${BASE_URL}/superadmin/profile/approve/${type._id}`)
-  //     .then(res => {
-  //       console.log(res);
-  //       window.location.reload();
-  //       setNotification(
-  //         "Profile Approved Successfully! View it in the Profiles Section"
-  //       );
-  //       setOpen(true);
-  //     })
-  //     .catch(error => {
-  //       console.log(error.response);
-  //       setErrorText(error.response["data"]["Error"]["message"]);
-  //       setLoading(false);
-  //       setNotification("An Error Occured while approving Profile");
-  //       setOpen(true);
-  //     });
-  // }
-
-  // function deleteprofile(type) {
-  //   axios
-  //     .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
-  //     .then(res => {
-  //       console.log(res);
-  //       window.location.reload();
-  //       setNotification("Profile Rejected Successfully!");
-  //       setOpen(true);
-  //     })
-  //     .catch(errorA => {
-  //       console.log(errorA.response);
-  //       // alert(error.data.Error.message);
-  //       setNotification("An Error occured while rejecting profile");
-  //       setOpen(true);
-  //     });
-  // }
 
   if (data.length > 0) {
     return (
@@ -175,19 +105,30 @@ export default function Requests(props) {
                             className={classes.inline}
                             color="textPrimary"
                           >
-                            {type.ownerEmail}
+
+                            {/* {type.profileId} */}
                           </Typography>
-                           {" — $" +
-                            type.price} 
-                            {/* // " — " +
-                            // type.city +
-                            // " — " +
-                            // type.phone} */}
+                          {"Price  $" +
+                            type.price}
+                          {"---Quantity Available in Stock " +
+                            type.quantity}
                         </React.Fragment>
                       }
                     />
                     <div style={{ paddingTop: "1%" }}>
-                      <Order token={props.token} data={type}/>
+                      {type.quantity > 0 ? (
+                        <Order token={props.token} data={type} />
+                      ) : (
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            disabled
+                            style={{ marginRight: "10px", marginTop: "5px" }}
+                          >
+                            Order
+                        </Button>
+                        )}
                     </div>
                   </ListItem>
                 </Grid>

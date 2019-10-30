@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,10 +7,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { IconButton, CircularProgress } from "@material-ui/core";
-import Delete from "@material-ui/icons/Delete";
+import ClearIcon from '@material-ui/icons/Clear';
 import axios from "axios";
 import { BASE_URL } from "../../../baseurl.js";
 import Reload from "@material-ui/icons/Replay";
+
+import Modify from "./Modify";
+
+// import Notification from "../../../components/Notification/Notification";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -46,55 +50,36 @@ export default function CustomizedTables(props) {
 
   const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+  // const [open, setOpen] = React.useState(false);
+  // const [notification, setNotification] = React.useState("");
+
+  // function handleClose(event, reason) {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setOpen(false);
+  // }
 
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/locationuser/order`, {
+      .get(`${BASE_URL}/locationmanager/orders/requested`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
         if (res.data.success === true) {
-          console.log(res.data);
-          setItems(res.data["data"]["Item"]);
-          setLoading(false);
+          console.log(res.data.data.Orders);
+          setItems(res.data["data"]["Orders"]);
         }
       })
       .catch(error => {
         console.log(error);
         setError(true);
       });
-  }, [props.token]);
-  //  const items = [
-  //    {
-  //      item: "item1",
-  //      price: 12000,
-  //      supplier: "supplier1@gmail.com",
-  //      quantityOrdered: 4,
-  //      status: "Processing",
-  //      quantityConfirmed: 4  
-  //    },{
-  //     item: "item2",
-  //     price: 13000,
-  //     supplier: "supplier2@gmail.com",
-  //     quantityOrdered: 3,
-  //     status: "Processing",
-  //     quantityConfirmed: 2 
-  //   },
-  //   {
-  //     item: "item3",
-  //     price: 14000,
-  //     supplier: "supplier3@gmail.com",
-  //     quantityOrdered: 3,
-  //     status: "Processing",
-  //     quantityConfirmed: 3 
-  //   }
-  //  ]
-
+  }, [props.token, items]);
 
   console.log(error);
-  if (items.length === 0 && error === false) {
+  if (items.length === 0) {
     return (
       <div
         style={{
@@ -105,7 +90,7 @@ export default function CustomizedTables(props) {
         <CircularProgress color="secondary" />
       </div>
     );
-  } else if (items.length === 0 && error === true) {
+  } else if (error === true) {
     return (
       <div
         style={{
@@ -113,7 +98,7 @@ export default function CustomizedTables(props) {
         }}
       >
         <h2>
-          Network Error Occured!{" "}
+          Error Occured!{" "}
           <IconButton
             size="medium"
             color="secondary"
@@ -133,12 +118,12 @@ export default function CustomizedTables(props) {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell>Item</StyledTableCell>
               <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Status</StyledTableCell>
-              <StyledTableCell align="right">Quantity Changed</StyledTableCell>
+              <StyledTableCell align="right">Location</StyledTableCell>
+              <StyledTableCell align="right">Approve</StyledTableCell>
+              <StyledTableCell align="right">Reject</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -147,17 +132,30 @@ export default function CustomizedTables(props) {
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
+                <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.status}</StyledTableCell>
-                <StyledTableCell align="right">{row.quatityChanged}</StyledTableCell>
-              
+                <StyledTableCell align="right">{row.location}</StyledTableCell>
+                <StyledTableCell align="right">
+                  <Modify token={props.token} data={row} />
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  <IconButton
+                    variant="contained"
+                    color="secondary"
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </Paper>
+      {/* <Notification
+        open={open}
+        handleClose={handleClose}
+        notification={notification}
+      /> */}
     </div>
-  );    
- }
+  );
+}

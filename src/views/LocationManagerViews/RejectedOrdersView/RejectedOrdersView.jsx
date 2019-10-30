@@ -7,14 +7,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { IconButton, CircularProgress } from "@material-ui/core";
-import DoneIcon from '@material-ui/icons/Done';
-import ClearIcon from '@material-ui/icons/Clear';
-import Delete from "@material-ui/icons/Delete";
 import axios from "axios";
 import { BASE_URL } from "../../../baseurl.js";
 import Reload from "@material-ui/icons/Replay";
-
-import Modify from "./Modify";
 
 // import Notification from "../../../../components/Notification/Notification.jsx";
 
@@ -78,51 +73,30 @@ export default function CustomizedTables(props) {
   //       setError(true);
   //     });
   // }, [props.token]);
-  const items = [
+   const items = [
     {
-      item: "item1",
-      price: 12000,
-      username: "customer1@gmail.com",
-      location: "Coffee Location",
-      date: "10-29-2019",
-      quantityOrdered: 4
-    },{
-     item: "item2",
-      price: 13000,
-      username: "customer2@gmail.com",
-      location: "Coffee Location",
-      date: "10-29-2019",
-      quantityOrdered: 3
-    },{
-     item: "item3",
-      price: 14000,
-      username: "customer3@gmail.com",
-      location: "Coffee Location",
-      date: "10-29-2019",
-      quantityOrdered: 4
-    },{
-     item: "item4",
-      price: 15000,
-      username: "customer4@gmail.com",
-      location: "Coffee Location",
-      date: "10-29-2019",
-      quantityOrdered: 2
-    },{
-     item: "item5",
-      price: 16000,
-      username: "customer5@gmail.com",
-      location: "Coffee Location",
-      date: "10-29-2019",
-      quantityOrdered: 3
-    },{
-     item: "item6",
-      price: 17000,
-      username: "customer6@gmail.com",
-      location: "Coffee Location",
-      date: "10-29-2019",
-      quantityOrdered: 5
-    }
-  ]
+      item: "item4",
+       price: 15000,
+       username: "customer4@gmail.com",
+       location: "Coffee Location",
+       date: "10-29-2019",
+       quantityOrdered: 2
+     },{
+      item: "item5",
+       price: 16000,
+       username: "customer5@gmail.com",
+       location: "Coffee Location",
+       date: "10-29-2019",
+       quantityOrdered: 3
+     },{
+      item: "item6",
+       price: 17000,
+       username: "customer6@gmail.com",
+       location: "Coffee Location",
+       date: "10-29-2019",
+       quantityOrdered: 5
+     }
+   ]
 
 
   console.log(error);
@@ -171,39 +145,24 @@ export default function CustomizedTables(props) {
               <StyledTableCell align="right">Quantity</StyledTableCell>
               <StyledTableCell align="right">Location</StyledTableCell>
               <StyledTableCell align="right">Date</StyledTableCell>
-              <StyledTableCell align="right">Action</StyledTableCell>
-              <StyledTableCell align="right">Delete</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map(row => (
               <StyledTableRow key={row._id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.item}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
-                <StyledTableCell align="right">{row.username}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantityOrdered}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
-                <StyledTableCell align="right">{row.date}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <Modify token={props.token} data={row} />
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                <IconButton
-                  // onClick={() => deleteItem(row._id)}
-                  variant="contained"
-                  color="secondary"
-                  style={{marginRight: "-10px"}}
-                >
-                  <Delete />
-                </IconButton>
-                </StyledTableCell>
+              <StyledTableCell component="th" scope="row">
+                {row.item}
+              </StyledTableCell>
+              <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
+              <StyledTableCell align="right">{row.username}</StyledTableCell>
+              <StyledTableCell align="right">{row.quantityOrdered}</StyledTableCell>
+              <StyledTableCell align="right">{row.location}</StyledTableCell>
+              <StyledTableCell align="right">{row.date}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
-      </Paper> 
+      </Paper>
       {/* <Notification
         open={open}
         handleClose={handleClose}

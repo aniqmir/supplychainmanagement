@@ -63,8 +63,10 @@ function CustomRoutes() {
       return (
         <div>
           <Route exact path="/dashboard" component={LocationManager} />
-          <Route exact path="/orders" component={LocationManager} />
+          <Route exact path="/requests" component={LocationManager} />
           <Route exact path="/inventory" component={LocationManager} />
+          <Route exact path="/approvedorders" component={LocationManager} />
+          <Route exact path="/rejectedorders" component={LocationManager} />
         </div>
       );
     }else if (type === "Inventorymanager") {

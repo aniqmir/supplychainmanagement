@@ -39,10 +39,11 @@ const CssTextField = withStyles({
 
 export default function FormDialog(props) {
   const [order, setOrder] = React.useState({
+    _id: props.data._id,
     name: props.data.name,
-    price: props.data.price,
-    itemId: props.data._id,
-    quantity: undefined
+    itemId: props.data.itemId,
+    quantity: props.data.quantity,
+    quatityChanged: undefined
   });
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -55,37 +56,37 @@ export default function FormDialog(props) {
 
   function create() {
     console.log(order);
-    if (order.quantity === undefined || order.quantity.length === 0 || order.quantity < 1) {
+    if (order.quatityChanged === undefined || order.quatityChanged.length === 0 || order.quatityChanged < 1) {
       setOpen(true);
-      setNotification("You should request valid quantity");
-    } else if (order.quantity > props.data.quantity) {
+      setNotification("You should enter valid quantity");
+    } else if (order.quatityChanged > props.data.quantity) {
       setOpen(true);
-      setNotification(`Maximum quantity you can order right now is ${props.data.quantity}`);
+      setNotification(`Maximum quantity you can enter right now is ${props.data.quantity}`);
     }
     else {
       axios
-        .post(`${BASE_URL}/locationuser/order`, {
+        .post(`${BASE_URL}/locationmanager/order/accept`, {
           order: order,
           headers: { Authorization: `bearer ` + props.token }
         })
         .then(res => {
           console.log(res);
           setOpen(true);
-          setNotification("Ordered Successfully!");
+          setNotification("Order Approved Successfully!");
           clear();
-          handleDialogClose();
+          setDialogOpen(false);
         })
         .catch(error => {
           console.log(error.response);
-          setNotification(error.response.data["Error"]["message"]);
-          setOpen(true);
+          // setNotification(error.response.data["Error"]["message"]);
+          // setOpen(true);
         });
     }
   }
 
   function clear() {
     setOrder({
-      quantity: undefined
+      quatityChanged: undefined
     });
   }
   const handleClickOpen = () => {
@@ -111,12 +112,10 @@ export default function FormDialog(props) {
     <div>
       <Button
         onClick={handleDialogOpen}
-        variant="contained"
-        color="secondary"
+        color="primary"
         size="small"
-        style={{ marginRight: "10px", marginTop: "5px" }}
       >
-        Order
+        Approve
         </Button>
       <Dialog open={dialogOpen} onClose={handleDialogClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Order</DialogTitle>
@@ -126,9 +125,9 @@ export default function FormDialog(props) {
           </DialogContentText>
           <CssTextField
             id="outlined-quantity"
-            label="Quantity"
-            value={order.quantity || ""}
-            onChange={handleOrderChange("quantity")}
+            label="Quantity you wanna approve"
+            value={order.quatityChanged || ""}
+            onChange={handleOrderChange("quatityChanged")}
             // InputProps={{
             //   onChange: handleProfileChange("name")
             // }}
@@ -138,16 +137,16 @@ export default function FormDialog(props) {
             fullWidth
             required={true}
             error={
-              order.quantity === undefined
+              order.quatityChanged === undefined
                 ? false
-                : order.quantity.length === 0
+                : order.quatityChanged.length === 0
                   ? true
                   : false
             }
             helperText={
-              order.quantity === undefined
+              order.quatityChanged === undefined
                 ? false
-                : order.quantity.length === 0
+                : order.quatityChanged.length === 0
                   ? "This cannot be empty"
                   : false
             }
@@ -170,6 +169,15 @@ export default function FormDialog(props) {
             variant="outlined"
             fullWidth
           />
+          <TextField
+            disabled
+            id="outlined-disabled"
+            label="Quantity Ordered By User"
+            defaultValue={props.data.quantity}
+            margin="normal"
+            variant="outlined"
+            fullWidth
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose} color="primary">
@@ -178,7 +186,7 @@ export default function FormDialog(props) {
           <Button
             onClick={() => create()}
             color="primary">
-            Order
+            Approve
           </Button>
         </DialogActions>
       </Dialog>

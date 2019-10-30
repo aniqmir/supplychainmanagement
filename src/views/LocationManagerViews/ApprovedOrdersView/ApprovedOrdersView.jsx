@@ -7,10 +7,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { IconButton, CircularProgress } from "@material-ui/core";
-import Delete from "@material-ui/icons/Delete";
 import axios from "axios";
 import { BASE_URL } from "../../../baseurl.js";
 import Reload from "@material-ui/icons/Replay";
+
+// import Notification from "../../../../components/Notification/Notification.jsx";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -44,53 +45,58 @@ const useStyles = makeStyles(theme => ({
 export default function CustomizedTables(props) {
   const classes = useStyles();
 
-  const [items, setItems] = React.useState([]);
+  // const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+  // const [open, setOpen] = React.useState(false);
+  // const [notification, setNotification] = React.useState("");
 
-
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}/locationuser/order`, {
-        headers: { Authorization: `bearer ` + props.token }
-      })
-      .then(res => {
-        if (res.data.success === true) {
-          console.log(res.data);
-          setItems(res.data["data"]["Item"]);
-          setLoading(false);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        setError(true);
-      });
-  }, [props.token]);
-  //  const items = [
-  //    {
-  //      item: "item1",
-  //      price: 12000,
-  //      supplier: "supplier1@gmail.com",
-  //      quantityOrdered: 4,
-  //      status: "Processing",
-  //      quantityConfirmed: 4  
-  //    },{
-  //     item: "item2",
-  //     price: 13000,
-  //     supplier: "supplier2@gmail.com",
-  //     quantityOrdered: 3,
-  //     status: "Processing",
-  //     quantityConfirmed: 2 
-  //   },
-  //   {
-  //     item: "item3",
-  //     price: 14000,
-  //     supplier: "supplier3@gmail.com",
-  //     quantityOrdered: 3,
-  //     status: "Processing",
-  //     quantityConfirmed: 3 
+  // function handleClose(event, reason) {
+  //   if (reason === "clickaway") {
+  //     return;
   //   }
-  //  ]
+  //   setOpen(false);
+  // }
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${BASE_URL}/profileadmin/marketplace/get/items`, {
+  //       headers: { Authorization: `bearer ` + props.token }
+  //     })
+  //     .then(res => {
+  //       if (res.data.success === true) {
+  //         console.log(res.data.data.Item);
+  //         setItems(res.data["data"]["Item"]);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       setError(true);
+  //     });
+  // }, [props.token]);
+   const items = [
+    {
+      item: "item1",
+      price: 12000,
+      username: "customer1@gmail.com",
+      location: "Coffee Location",
+      date: "10-29-2019",
+      quantityOrdered: 4
+    },{
+     item: "item2",
+      price: 13000,
+      username: "customer2@gmail.com",
+      location: "Coffee Location",
+      date: "10-29-2019",
+      quantityOrdered: 3
+    },{
+     item: "item3",
+      price: 14000,
+      username: "customer3@gmail.com",
+      location: "Coffee Location",
+      date: "10-29-2019",
+      quantityOrdered: 4
+    }
+   ]
 
 
   console.log(error);
@@ -133,31 +139,35 @@ export default function CustomizedTables(props) {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell>Item</StyledTableCell>
               <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
+              <StyledTableCell align="right">Username</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Status</StyledTableCell>
-              <StyledTableCell align="right">Quantity Changed</StyledTableCell>
+              <StyledTableCell align="right">Location</StyledTableCell>
+              <StyledTableCell align="right">Date</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map(row => (
               <StyledTableRow key={row._id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.status}</StyledTableCell>
-                <StyledTableCell align="right">{row.quatityChanged}</StyledTableCell>
-              
+              <StyledTableCell component="th" scope="row">
+                {row.item}
+              </StyledTableCell>
+              <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
+              <StyledTableCell align="right">{row.username}</StyledTableCell>
+              <StyledTableCell align="right">{row.quantityOrdered}</StyledTableCell>
+              <StyledTableCell align="right">{row.location}</StyledTableCell>
+              <StyledTableCell align="right">{row.date}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </Paper>
+      {/* <Notification
+        open={open}
+        handleClose={handleClose}
+        notification={notification}
+      /> */}
     </div>
-  );    
- }
+  );
+}
