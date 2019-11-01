@@ -116,24 +116,23 @@ export default function Profiles(props) {
   //     });
   // }
 
-  // function subscribeprofile(type){
-  //   axios
-  //   .suspend(`${BASE_URL}/superadmin/profile/${type._id}`)
-  //   .then(res => {
-  //     console.log(res);
-  //     update();
-  //     setOpen(true);
-  //     setNotification("Profile Suspended Successfully!");
-  //     setOpenNot(true);
-  //   })
-  //   .catch(errorA => {
-  //     console.log(errorA.response);
-  //     // alert(error.data.Error.message);
-  //     setNotification("An Error occured while rejecting profile");
-  //     setOpen(true);
-  //     setOpenNot(true);
-  //   });
-  // }
+  function subscribeProfile(type){
+    axios
+    .suspend(`${BASE_URL}/profileadmin/profiles/subscribe/${type._id}`)
+    .then(res => {
+      console.log(res);
+      setOpen(true);
+      setNotification("Profile subscribed Successfully!");
+      setOpenNot(true);
+    })
+    .catch(errorA => {
+      console.log(errorA.response);
+      // alert(error.data.Error.message);
+      setNotification("An Error occured while subscribing profile");
+      setOpen(true);
+      setOpenNot(true);
+    });
+  }
 
 if (data.length > 0) {
     return (
@@ -198,7 +197,7 @@ if (data.length > 0) {
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                      // onClick={() => deleteprofile(type)}
+                      onClick={() => subscribeProfile(type)}
                       >
                         Subscribe
                       </Button>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,11 +7,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { IconButton, CircularProgress } from "@material-ui/core";
+import ClearIcon from '@material-ui/icons/Clear';
 import axios from "axios";
 import { BASE_URL } from "../../../baseurl.js";
 import Reload from "@material-ui/icons/Replay";
 
-// import Notification from "../../../../components/Notification/Notification.jsx";
+import Modify from "./Modify";
+
+import Notification from "../../../components/Notification/Notification";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -47,17 +50,26 @@ export default function CustomizedTables(props) {
 
   const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
+
+  function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  }
 
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/locationmanager/orders/accepted`, {
+      .get(`${BASE_URL}/inventorymanager/orders`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
         if (res.data.success === true) {
-          console.log(res.data);
-          setItems(res.data["data"]["Orders"]);
+          console.log(res.data.data.Item[0].orders);
+          setItems(res.data.data.Item[0].orders);
         }
       })
       .catch(error => {
@@ -66,10 +78,51 @@ export default function CustomizedTables(props) {
       });
   }, [props.token]);
 
-  
+
+  function acceptOrder(order) {
+    console.log(order);
+    axios
+      .post(`${BASE_URL}/inventorymanager/order/accept`, {
+        order: order,
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        console.log(res);
+        setOpen(true);
+        setNotification("Order Approved Successfully!");
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log(error.response);
+        setNotification(error.response.data["Error"]["message"]);
+        setOpen(true);
+      });
+  }
+
+
+  function rejectOrder(id) {
+    console.log(id);
+    axios
+      .get(`${BASE_URL}/inventorymanager/order/reject/${id}`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        console.log(res.data);
+        setOpen(true);
+        setNotification("Order Rejected Successfully!");
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log(error);
+        setOpen(true);
+        setNotification("Not Rejected due to some problem! try later");
+        setError(true);
+      });
+  }
+
 
   console.log(error);
-  if (items.length === 0 && error === false) {
+  if (items.length === 0) {
     return (
       <div
         style={{
@@ -80,7 +133,7 @@ export default function CustomizedTables(props) {
         <CircularProgress color="secondary" />
       </div>
     );
-  } else if (items.length === 0 && error === true) {
+  } else if (error === true) {
     return (
       <div
         style={{
@@ -88,7 +141,7 @@ export default function CustomizedTables(props) {
         }}
       >
         <h2>
-          Network Error Occured!{" "}
+          Error Occured!{" "}
           <IconButton
             size="medium"
             color="secondary"
@@ -111,7 +164,8 @@ export default function CustomizedTables(props) {
               <StyledTableCell>Item</StyledTableCell>
               <StyledTableCell align="right">Price</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
+              <StyledTableCell align="right">Approve</StyledTableCell>
+              <StyledTableCell align="right">Reject</StyledTableCell> 
             </TableRow>
           </TableHead>
           <TableBody>
@@ -122,17 +176,28 @@ export default function CustomizedTables(props) {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
+                <StyledTableCell align="right">
+                  <Modify token={props.token} data={row} accept={acceptOrder} />
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  <IconButton
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => rejectOrder(row._id)}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </StyledTableCell> 
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </Paper>
-      {/* <Notification
+      <Notification
         open={open}
         handleClose={handleClose}
         notification={notification}
-      /> */}
+      />
     </div>
   );
 }

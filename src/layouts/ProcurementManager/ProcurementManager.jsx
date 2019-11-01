@@ -3,23 +3,27 @@ import { Redirect } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 import DashboardView from "../../views/ProcurementManagerViews/DashboardView/DashboardView";
-import StockView from "../../views/ProcurementManagerViews/StockView/StockView";
+import MarketplaceView from "../../views/ProcurementManagerViews/MarketplaceView/MarketplaceView";
+import ProfileInventoryView from "../../views/ProcurementManagerViews/ProfileInventoryView/ProfileInventoryView";
 
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import MarketplaceIcon from "@material-ui/icons/ShoppingCart";
+import InventoryIcon from "@material-ui/icons/AccountBalance";
 
 import axios from "axios";
 
 export default function Dashboard(props) {
   const listitemnames = [
     "dashboard",
-    "stock"
+    "marketplace",
+    "profileinventory"
   ];
 
   const icons = [
     <DashboardIcon />,
-    <MarketplaceIcon />
+    <MarketplaceIcon />,
+    <InventoryIcon />
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
@@ -38,7 +42,8 @@ export default function Dashboard(props) {
 
   const view = {
     dashboard: <DashboardView token={token} setPending={setPending} />,
-    stock: <StockView token={token} setPending={setPending} />
+    profileinventory: <ProfileInventoryView token={token} setPending={setPending} />,
+    marketplace: <MarketplaceView token={token} setPending={setPending} />
   };
 
   if (!loggedIn || token.length === 0) {

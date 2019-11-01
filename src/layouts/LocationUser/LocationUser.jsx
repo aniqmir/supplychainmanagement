@@ -5,7 +5,7 @@ import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import DashboardView from "../../views/LocationUserViews/DashboardView/DashboardView.jsx";
 import OrdersView from "../../views/LocationUserViews/OrdersView/OrdersView.jsx";
 import ProfileInventoryView from "../../views/LocationUserViews/ProfileInventoryView/ProfileInventoryView.jsx";
-import LocationInventoryView from "../../views/LocationUserViews/LocationInventoryView/LocationInventoryView.jsx";
+// import LocationInventoryView from "../../views/LocationUserViews/LocationInventoryView/LocationInventoryView.jsx";
 
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -18,15 +18,15 @@ export default function Dashboard(props) {
   const listitemnames = [
     "dashboard",
     "orders",
-    "profileinventory",
-    "locationinventory"
+    "profileinventory"
+    // "locationinventory"
   ];
 
   const icons = [
     <DashboardIcon />,
     <MarketplaceIcon />,
-    <InventoryIcon />,
     <InventoryIcon />
+    // <InventoryIcon />
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
@@ -46,8 +46,8 @@ export default function Dashboard(props) {
   const view = {
     dashboard: <DashboardView token={token} setPending={setPending} />,
     orders: <OrdersView token={token} setPending={setPending} />,
-    profileinventory: <ProfileInventoryView token={token} setPending={setPending} />,
-    locationinventory: <LocationInventoryView token={token} setPending={setPending} />
+    profileinventory: <ProfileInventoryView token={token} setPending={setPending} />
+    // locationinventory: <LocationInventoryView token={token} setPending={setPending} />
   };
 
   if (!loggedIn || token.length === 0) {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -6,17 +6,15 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { IconButton, CircularProgress } from "@material-ui/core";
-import DoneIcon from '@material-ui/icons/Done';
+import { IconButton, Button, CircularProgress } from "@material-ui/core";
 import ClearIcon from '@material-ui/icons/Clear';
-import Delete from "@material-ui/icons/Delete";
 import axios from "axios";
 import { BASE_URL } from "../../../baseurl.js";
 import Reload from "@material-ui/icons/Replay";
 
 import Order from "./Order";
 
-// import Notification from "../../../../components/Notification/Notification.jsx";
+import Notification from "../../../components/Notification/Notification";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -50,53 +48,62 @@ const useStyles = makeStyles(theme => ({
 export default function CustomizedTables(props) {
   const classes = useStyles();
 
-  // const [items, setItems] = React.useState([]);
+  const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
-  // const [open, setOpen] = React.useState(false);
-  // const [notification, setNotification] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
 
-  // function handleClose(event, reason) {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // }
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`${BASE_URL}/profileadmin/marketplace/get/items`, {
-  //       headers: { Authorization: `bearer ` + props.token }
-  //     })
-  //     .then(res => {
-  //       if (res.data.success === true) {
-  //         console.log(res.data.data.Item);
-  //         setItems(res.data["data"]["Item"]);
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       setError(true);
-  //     });
-  // }, [props.token]);
-  const items = [
-    {
-      item: "item1",
-      price: 12000,
-      quantity: 5
-    },{
-     item: "item2",
-      price: 13000,
-      quantity: 3
-    },{
-     item: "item3",
-      price: 14000,
-      quantity: 4
+  function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
     }
-  ]
+    setOpen(false);
+  }
 
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/procurementmanager/marketplace`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          console.log(res.data.data.items);
+          setItems(res.data["data"]["items"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        setError(true);
+      });
+  }, [props.token]);
+
+
+  function getOrder(order) {
+    console.log(order);
+    axios
+      .post(`${BASE_URL}/procurementmanager/order`, {
+        order: order,
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        console.log(res);
+        setOpen(true);
+        setNotification("Ordered Successfully!");
+        window.location.reload();
+
+      })
+      .catch(error => {
+        console.log(error.response);
+        setNotification("Some Problem occured! Try again later");
+        setOpen(true);
+        window.location.reload();
+      });
+
+  }
 
   console.log(error);
-  if (items.length === 0 && error === false) {
+  if (items.length === 0) {
     return (
       <div
         style={{
@@ -107,7 +114,7 @@ export default function CustomizedTables(props) {
         <CircularProgress color="secondary" />
       </div>
     );
-  } else if (items.length === 0 && error === true) {
+  } else if (error === true) {
     return (
       <div
         style={{
@@ -115,7 +122,7 @@ export default function CustomizedTables(props) {
         }}
       >
         <h2>
-          Network Error Occured!{" "}
+          Error Occured!{" "}
           <IconButton
             size="medium"
             color="secondary"
@@ -138,30 +145,41 @@ export default function CustomizedTables(props) {
               <StyledTableCell>Item</StyledTableCell>
               <StyledTableCell align="right">Price</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Request Stock</StyledTableCell>
+              <StyledTableCell align="right">Order</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map(row => (
               <StyledTableRow key={row._id}>
                 <StyledTableCell component="th" scope="row">
-                  {row.item}
+                  {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
+                <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <Order token={props.token} data={row} />
+                  {row.quantity > 0 ? (
+                    <Order token={props.token} data={row} order={getOrder} />
+                  ) : (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        disabled
+                      >
+                        Order
+                        </Button>
+                    )}
                 </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
-      </Paper> 
-      {/* <Notification
+      </Paper>
+      <Notification
         open={open}
         handleClose={handleClose}
         notification={notification}
-      /> */}
+      />
     </div>
   );
 }

@@ -6,9 +6,9 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import ProfileTable from "./profileTable";
-import Notification from "../../../../components/Notification/Notification.jsx";
+import Notification from "../../../Notification/Notification";
 import axios from "axios";
-import { BASE_URL } from "../../../../baseurl.js"; //baseurl
+import { BASE_URL } from "../../../../baseurl"; //baseurl
 
 const useStyles = makeStyles(theme => ({
   name: {

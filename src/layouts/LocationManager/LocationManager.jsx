@@ -4,14 +4,14 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 
 import DashboardView from "../../views/LocationManagerViews/DashboardView/DashboardView";
 import RequestsView from "../../views/LocationManagerViews/RequestsView/RequestsView";
-import InventoryView from "../../views/LocationManagerViews/InventoryView/InventoryView";
+// import InventoryView from "../../views/LocationManagerViews/InventoryView/InventoryView";
 import ApprovedOrdersView from "../../views/LocationManagerViews/ApprovedOrdersView/ApprovedOrdersView";
 import RejectedOrdersView from "../../views/LocationManagerViews/RejectedOrdersView/RejectedOrdersView";
 
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import MarketplaceIcon from "@material-ui/icons/ShoppingCart";
-import InventoryIcon from "@material-ui/icons/AccountBalance";
+// import InventoryIcon from "@material-ui/icons/AccountBalance";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 
@@ -21,7 +21,7 @@ export default function Dashboard(props) {
   const listitemnames = [
     "dashboard",
     "requests",
-    "inventory",
+    // "inventory",
     "approvedorders",
     "rejectedorders"
   ];
@@ -29,7 +29,7 @@ export default function Dashboard(props) {
   const icons = [
     <DashboardIcon />,
     <MarketplaceIcon />,
-    <InventoryIcon />,
+    // <InventoryIcon />,
     <CheckCircleIcon />,
     <CancelIcon />
   ];
@@ -51,7 +51,7 @@ export default function Dashboard(props) {
   const view = {
     dashboard: <DashboardView token={token} setPending={setPending} />,
     requests: <RequestsView token={token} setPending={setPending} />,
-    inventory: <InventoryView token={token} setPending={setPending} />,
+    // inventory: <InventoryView token={token} setPending={setPending} />,
     approvedorders: <ApprovedOrdersView token={token} setPending={setPending} />,
     rejectedorders: <RejectedOrdersView token={token} setPending={setPending} />
   };

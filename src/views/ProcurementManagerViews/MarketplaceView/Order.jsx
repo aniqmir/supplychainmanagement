@@ -9,8 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from "@material-ui/core";
 
 import Notification from "../../../components/Notification/Notification.jsx";
-import axios from "axios";
-import { BASE_URL } from "../../../baseurl.js"; //baseurl
+
 
 const CssTextField = withStyles({
   root: {
@@ -40,7 +39,7 @@ const CssTextField = withStyles({
 export default function FormDialog(props) {
   const [order, setOrder] = React.useState({
     name: props.data.name,
-    price: props.data.price,
+    to : props.data.profileId._id,
     itemId: props.data._id,
     quantity: undefined
   });
@@ -100,7 +99,6 @@ export default function FormDialog(props) {
         variant="contained"
         color="secondary"
         size="small"
-        style={{ marginRight: "10px", marginTop: "5px" }}
       >
         Order
         </Button>

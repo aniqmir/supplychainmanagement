@@ -14,7 +14,7 @@ import Reload from "@material-ui/icons/Replay";
 
 import Modify from "./Modify";
 
-// import Notification from "../../../components/Notification/Notification";
+import Notification from "../../../components/Notification/Notification";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -50,15 +50,15 @@ export default function CustomizedTables(props) {
 
   const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
-  // const [open, setOpen] = React.useState(false);
-  // const [notification, setNotification] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
 
-  // function handleClose(event, reason) {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // }
+  function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  }
 
 
   useEffect(() => {
@@ -76,7 +76,69 @@ export default function CustomizedTables(props) {
         console.log(error);
         setError(true);
       });
-  }, [props.token, items]);
+  }, [props.token]);
+
+
+
+  function getItems() {
+    {
+      axios
+        .get(`${BASE_URL}/locationmanager/orders/requested`, {
+          headers: { Authorization: `bearer ` + props.token }
+        })
+        .then(res => {
+          if (res.data.success === true) {
+            console.log(res.data.data.Orders);
+            setItems(res.data["data"]["Orders"]);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          setError(true);
+        });
+    }
+  }
+
+  function acceptOrder(orderr) {
+    console.log(orderr);
+    axios
+      .post(`${BASE_URL}/locationmanager/order/accept`, {
+        order: orderr,
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        console.log(res);
+        setOpen(true);
+        setNotification("Order Approved Successfully!");
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log(error.response);
+        setNotification(error.response.data["Error"]["message"]);
+        setOpen(true);
+      });
+  }
+
+
+  function rejectOrder(id) {
+    console.log(id);
+    axios
+      .patch(`${BASE_URL}/locationmanager/order/reject/${id}`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        console.log(res.data);
+        setOpen(true);
+        setNotification("Order Rejected Successfully!");
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log(error);
+        setOpen(true);
+        setNotification("Not Rejected due to some problem! try later");
+        setError(true);
+      });
+  }
 
   console.log(error);
   if (items.length === 0) {
@@ -132,16 +194,17 @@ export default function CustomizedTables(props) {
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
+                <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
                 <StyledTableCell align="right">{row.location}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <Modify token={props.token} data={row} />
+                  <Modify token={props.token} data={row} accept={acceptOrder} />
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <IconButton
                     variant="contained"
                     color="secondary"
+                    onClick={() => rejectOrder(row._id)}
                   >
                     <ClearIcon />
                   </IconButton>
@@ -151,11 +214,11 @@ export default function CustomizedTables(props) {
           </TableBody>
         </Table>
       </Paper>
-      {/* <Notification
+      <Notification
         open={open}
         handleClose={handleClose}
         notification={notification}
-      /> */}
+      />
     </div>
   );
 }

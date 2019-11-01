@@ -62,26 +62,12 @@ export default function FormDialog(props) {
     } else if (order.quatityChanged > props.data.quantity) {
       setOpen(true);
       setNotification(`Maximum quantity you can enter right now is ${props.data.quantity}`);
+    } else {
+      props.accept(order);
+      clear();
+      handleDialogClose();
     }
-    else {
-      axios
-        .post(`${BASE_URL}/locationmanager/order/accept`, {
-          order: order,
-          headers: { Authorization: `bearer ` + props.token }
-        })
-        .then(res => {
-          console.log(res);
-          setOpen(true);
-          setNotification("Order Approved Successfully!");
-          clear();
-          setDialogOpen(false);
-        })
-        .catch(error => {
-          console.log(error.response);
-          // setNotification(error.response.data["Error"]["message"]);
-          // setOpen(true);
-        });
-    }
+
   }
 
   function clear() {
@@ -89,9 +75,9 @@ export default function FormDialog(props) {
       quatityChanged: undefined
     });
   }
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
   function handleClose(event, reason) {
     if (reason === "clickaway") {

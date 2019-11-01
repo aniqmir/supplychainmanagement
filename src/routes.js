@@ -64,7 +64,7 @@ function CustomRoutes() {
         <div>
           <Route exact path="/dashboard" component={LocationManager} />
           <Route exact path="/requests" component={LocationManager} />
-          <Route exact path="/inventory" component={LocationManager} />
+          {/* <Route exact path="/inventory" component={LocationManager} /> */}
           <Route exact path="/approvedorders" component={LocationManager} />
           <Route exact path="/rejectedorders" component={LocationManager} />
         </div>
@@ -73,8 +73,8 @@ function CustomRoutes() {
       return (
         <div>
           <Route exact path="/dashboard" component={InventoryManager} />
-          <Route exact path="/orders" component={InventoryManager} />
-          <Route exact path="/inventory" component={InventoryManager} />
+          <Route exact path="/requests" component={InventoryManager} />
+          {/* <Route exact path="/inventory" component={InventoryManager} /> */}
           <Route exact path="/approvedorders" component={InventoryManager} />
           <Route exact path="/rejectedorders" component={InventoryManager} />
         </div>
@@ -83,7 +83,8 @@ function CustomRoutes() {
       return (
         <div>
           <Route exact path="/dashboard" component={ProcurementManager} />
-          <Route exact path="/stock" component={ProcurementManager} />
+          <Route exact path="/marketplace" component={ProcurementManager} />
+          <Route exact path="/profileinventory" component={ProcurementManager} />
         </div>
       );
     }

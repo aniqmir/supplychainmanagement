@@ -3,34 +3,34 @@ import { Redirect } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 
 import DashboardView from "../../views/InventoryManagerViews/DashboardView/DashboardView.jsx";
-import OrdersView from "../../views/InventoryManagerViews/OrdersView/OrdersView.jsx";
-import InventoryView from "../../views/InventoryManagerViews/InventoryView/InventoryView.jsx";
-import ApprovedOrdersView from "../../views/InventoryManagerViews/ApprovedOrdersView/ApprovedOrdersView";
-import RejectedOrdersView from "../../views/InventoryManagerViews/RejectedOrdersView/RejectedOrdersView";
+import RequestsView from "../../views/InventoryManagerViews/RequestsView/RequestsView.jsx";
+// import InventoryView from "../../views/InventoryManagerViews/InventoryView/InventoryView.jsx";
+// import ApprovedOrdersView from "../../views/InventoryManagerViews/ApprovedOrdersView/ApprovedOrdersView";
+// import RejectedOrdersView from "../../views/InventoryManagerViews/RejectedOrdersView/RejectedOrdersView";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import MarketplaceIcon from "@material-ui/icons/ShoppingCart";
-import InventoryIcon from "@material-ui/icons/AccountBalance";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
+// import InventoryIcon from "@material-ui/icons/AccountBalance";
+// import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+// import CancelIcon from '@material-ui/icons/Cancel';
 
 import axios from "axios";
 
 export default function Dashboard(props) {
   const listitemnames = [
     "dashboard",
-    "orders",
-    "inventory",
-    "approvedorders",
-    "rejectedorders"
+    "requests",
+    // "inventory",
+    // "approvedorders",
+    // "rejectedorders"
   ];
 
   const icons = [
     <DashboardIcon />,
     <MarketplaceIcon />,
-    <InventoryIcon />,
-    <CheckCircleIcon />,
-    <CancelIcon />
+    // <InventoryIcon />,
+    // <CheckCircleIcon />,
+    // <CancelIcon />
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
@@ -49,10 +49,10 @@ export default function Dashboard(props) {
 
   const view = {
     dashboard: <DashboardView token={token} setPending={setPending} />,
-    orders: <OrdersView token={token} setPending={setPending} />,
-    inventory: <InventoryView token={token} setPending={setPending} />,
-    approvedorders: <ApprovedOrdersView token={token} setPending={setPending} />,
-    rejectedorders: <RejectedOrdersView token={token} setPending={setPending} />
+    requests: <RequestsView token={token} setPending={setPending} />,
+    // inventory: <InventoryView token={token} setPending={setPending} />,
+    // approvedorders: <ApprovedOrdersView token={token} setPending={setPending} />,
+    // rejectedorders: <RejectedOrdersView token={token} setPending={setPending} />
   };
 
   if (!loggedIn || token.length === 0) {

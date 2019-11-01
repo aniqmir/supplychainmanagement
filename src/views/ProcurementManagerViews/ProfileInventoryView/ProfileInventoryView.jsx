@@ -7,11 +7,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { IconButton, CircularProgress } from "@material-ui/core";
-import axios from "axios";
-import { BASE_URL } from "../../../baseurl.js";
 import Reload from "@material-ui/icons/Replay";
-
-// import Notification from "../../../../components/Notification/Notification.jsx";
+import axios from 'axios';
+import { BASE_URL } from "../../../baseurl"; //baseurl
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -49,15 +47,15 @@ export default function CustomizedTables(props) {
   const [error, setError] = React.useState(false);
 
 
+
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/locationmanager/orders/accepted`, {
+      .get(`${BASE_URL}/procurementmanager/items`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
         if (res.data.success === true) {
-          console.log(res.data);
-          setItems(res.data["data"]["Orders"]);
+          setItems(res.data["data"]["items"]);
         }
       })
       .catch(error => {
@@ -66,10 +64,9 @@ export default function CustomizedTables(props) {
       });
   }, [props.token]);
 
-  
 
   console.log(error);
-  if (items.length === 0 && error === false) {
+  if (items.length === 0) {
     return (
       <div
         style={{
@@ -80,7 +77,7 @@ export default function CustomizedTables(props) {
         <CircularProgress color="secondary" />
       </div>
     );
-  } else if (items.length === 0 && error === true) {
+  } else if (error === true) {
     return (
       <div
         style={{
@@ -108,23 +105,21 @@ export default function CustomizedTables(props) {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Item</StyledTableCell>
+              <StyledTableCell>ItemName</StyledTableCell>
               <StyledTableCell align="right">Price</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map(row => (
-              <StyledTableRow key={row._id}>
+            {items.map(row => 
+              (<StyledTableRow key={row._id}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
+                <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+              </StyledTableRow>) 
+            )}
           </TableBody>
         </Table>
       </Paper>

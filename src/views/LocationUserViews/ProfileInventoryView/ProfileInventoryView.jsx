@@ -62,7 +62,29 @@ export default function Requests(props) {
         setLoading(false);
       });
   }, [props.token]);
+   
 
+  function order(order){
+    console.log(order);
+    axios
+    .post(`${BASE_URL}/locationuser/order`, {
+      order: order,
+      headers: { Authorization: `bearer ` + props.token }
+    })
+    .then(res => {
+      console.log(res);
+      setOpen(true);
+      setNotification("Ordered Successfully!");
+      window.location.reload();
+     
+    })
+    .catch(error => {
+      console.log(error.response);
+      setNotification("Some Problem occured! Try again later");
+      setOpen(true);
+      window.location.reload();
+    });
+  }
 
   function handleClose(event, reason) {
     if (reason === "clickaway") {
@@ -108,8 +130,8 @@ export default function Requests(props) {
 
                             {/* {type.profileId} */}
                           </Typography>
-                          {"Price  $" +
-                            type.price}
+                          {"Price    " +
+                            type.price + "Rs"}
                           {"---Quantity Available in Stock " +
                             type.quantity}
                         </React.Fragment>
@@ -117,8 +139,8 @@ export default function Requests(props) {
                     />
                     <div style={{ paddingTop: "1%" }}>
                       {type.quantity > 0 ? (
-                        <Order token={props.token} data={type} />
-                      ) : (
+                        <Order token={props.token} data={type} order={order}/>
+                      ) : ( 
                           <Button
                             variant="contained"
                             color="secondary"

@@ -45,58 +45,26 @@ const useStyles = makeStyles(theme => ({
 export default function CustomizedTables(props) {
   const classes = useStyles();
 
-  // const [items, setItems] = React.useState([]);
+  const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
-  // const [open, setOpen] = React.useState(false);
-  // const [notification, setNotification] = React.useState("");
 
-  // function handleClose(event, reason) {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // }
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`${BASE_URL}/profileadmin/marketplace/get/items`, {
-  //       headers: { Authorization: `bearer ` + props.token }
-  //     })
-  //     .then(res => {
-  //       if (res.data.success === true) {
-  //         console.log(res.data.data.Item);
-  //         setItems(res.data["data"]["Item"]);
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       setError(true);
-  //     });
-  // }, [props.token]);
-   const items = [
-    {
-      item: "item4",
-       price: 15000,
-       username: "customer4@gmail.com",
-       location: "Coffee Location",
-       date: "10-29-2019",
-       quantityOrdered: 2
-     },{
-      item: "item5",
-       price: 16000,
-       username: "customer5@gmail.com",
-       location: "Coffee Location",
-       date: "10-29-2019",
-       quantityOrdered: 3
-     },{
-      item: "item6",
-       price: 17000,
-       username: "customer6@gmail.com",
-       location: "Coffee Location",
-       date: "10-29-2019",
-       quantityOrdered: 5
-     }
-   ]
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/inventorymanager/order/rejected`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          console.log(res.data);
+          // setItems(res.data["data"]["Orders"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        setError(true);
+      });
+  }, [props.token]);
 
 
   console.log(error);
@@ -141,23 +109,19 @@ export default function CustomizedTables(props) {
             <TableRow>
               <StyledTableCell>Item</StyledTableCell>
               <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Username</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
               <StyledTableCell align="right">Location</StyledTableCell>
-              <StyledTableCell align="right">Date</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map(row => (
               <StyledTableRow key={row._id}>
-              <StyledTableCell component="th" scope="row">
-                {row.item}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
-              <StyledTableCell align="right">{row.username}</StyledTableCell>
-              <StyledTableCell align="right">{row.quantityOrdered}</StyledTableCell>
-              <StyledTableCell align="right">{row.location}</StyledTableCell>
-              <StyledTableCell align="right">{row.date}</StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  {row.name}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.price}</StyledTableCell>
+                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+                <StyledTableCell align="right">{row.location}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
