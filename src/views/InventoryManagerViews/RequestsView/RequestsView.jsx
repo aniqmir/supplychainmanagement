@@ -68,8 +68,8 @@ export default function CustomizedTables(props) {
       })
       .then(res => {
         if (res.data.success === true) {
-          console.log(res.data.data.Item[0].orders);
-          setItems(res.data.data.Item[0].orders);
+          console.log(res.data.data.Item);
+          setItems(res.data.data.Item);
         }
       })
       .catch(error => {
@@ -165,7 +165,7 @@ export default function CustomizedTables(props) {
               <StyledTableCell align="right">Price</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
               <StyledTableCell align="right">Approve</StyledTableCell>
-              <StyledTableCell align="right">Reject</StyledTableCell> 
+              <StyledTableCell align="right">Reject</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -187,7 +187,7 @@ export default function CustomizedTables(props) {
                   >
                     <ClearIcon />
                   </IconButton>
-                </StyledTableCell> 
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

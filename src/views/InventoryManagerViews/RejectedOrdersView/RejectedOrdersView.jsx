@@ -51,13 +51,13 @@ export default function CustomizedTables(props) {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/inventorymanager/order/rejected`, {
+      .get(`${BASE_URL}/inventorymanager/orders/rejected`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
         if (res.data.success === true) {
           console.log(res.data);
-          // setItems(res.data["data"]["Orders"]);
+          setItems(res.data["data"]["Orders"]);
         }
       })
       .catch(error => {
@@ -108,9 +108,8 @@ export default function CustomizedTables(props) {
           <TableHead>
             <TableRow>
               <StyledTableCell>Item</StyledTableCell>
-              <StyledTableCell align="right">Price</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
+              <StyledTableCell align="right">Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -119,9 +118,8 @@ export default function CustomizedTables(props) {
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
+                <StyledTableCell align="right">{row.status}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

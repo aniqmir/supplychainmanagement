@@ -5,14 +5,14 @@ import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import DashboardView from "../../views/InventoryManagerViews/DashboardView/DashboardView.jsx";
 import RequestsView from "../../views/InventoryManagerViews/RequestsView/RequestsView.jsx";
 // import InventoryView from "../../views/InventoryManagerViews/InventoryView/InventoryView.jsx";
-// import ApprovedOrdersView from "../../views/InventoryManagerViews/ApprovedOrdersView/ApprovedOrdersView";
-// import RejectedOrdersView from "../../views/InventoryManagerViews/RejectedOrdersView/RejectedOrdersView";
+import ApprovedOrdersView from "../../views/InventoryManagerViews/ApprovedOrdersView/ApprovedOrdersView";
+import RejectedOrdersView from "../../views/InventoryManagerViews/RejectedOrdersView/RejectedOrdersView";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import MarketplaceIcon from "@material-ui/icons/ShoppingCart";
 // import InventoryIcon from "@material-ui/icons/AccountBalance";
-// import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-// import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 import axios from "axios";
 
@@ -21,16 +21,16 @@ export default function Dashboard(props) {
     "dashboard",
     "requests",
     // "inventory",
-    // "approvedorders",
-    // "rejectedorders"
+    "approvedorders",
+    "rejectedorders"
   ];
 
   const icons = [
     <DashboardIcon />,
     <MarketplaceIcon />,
     // <InventoryIcon />,
-    // <CheckCircleIcon />,
-    // <CancelIcon />
+    <CheckCircleIcon />,
+    <CancelIcon />
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux
@@ -51,8 +51,8 @@ export default function Dashboard(props) {
     dashboard: <DashboardView token={token} setPending={setPending} />,
     requests: <RequestsView token={token} setPending={setPending} />,
     // inventory: <InventoryView token={token} setPending={setPending} />,
-    // approvedorders: <ApprovedOrdersView token={token} setPending={setPending} />,
-    // rejectedorders: <RejectedOrdersView token={token} setPending={setPending} />
+    approvedorders: <ApprovedOrdersView token={token} setPending={setPending} />,
+    rejectedorders: <RejectedOrdersView token={token} setPending={setPending} />
   };
 
   if (!loggedIn || token.length === 0) {
