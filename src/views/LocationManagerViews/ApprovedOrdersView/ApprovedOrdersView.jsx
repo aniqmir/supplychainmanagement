@@ -111,6 +111,7 @@ export default function CustomizedTables(props) {
               <StyledTableCell>Item</StyledTableCell>
               <StyledTableCell align="right">Price</StyledTableCell>
               <StyledTableCell align="right">Quantity</StyledTableCell>
+              <StyledTableCell align="right">Quantity Changed</StyledTableCell>
               <StyledTableCell align="right">Location</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -122,6 +123,7 @@ export default function CustomizedTables(props) {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+                <StyledTableCell align="right">{row.quantityChanged}</StyledTableCell>
                 <StyledTableCell align="right">{row.location}</StyledTableCell>
               </StyledTableRow>
             ))}

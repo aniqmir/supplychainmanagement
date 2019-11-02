@@ -63,6 +63,7 @@ export default function CustomizedTables(props) {
       })
       .then(res => {
         if (res.data.success === true) {
+          console.log(res.data.data.users);
           setUsers(res.data["data"]["users"]);
         }
       })
@@ -78,6 +79,7 @@ export default function CustomizedTables(props) {
       })
       .then(res => {
         if (res.data.success === true) {
+          console.log(res.data.data.users);
           setUsers(res.data["data"]["users"]);
         }
       })
@@ -119,7 +121,7 @@ export default function CustomizedTables(props) {
               <StyledTableCell align="right">ID</StyledTableCell>
               <StyledTableCell align="right">Email</StyledTableCell>
 
-              <StyledTableCell align="right">Profile</StyledTableCell>
+              <StyledTableCell align="right">ProfileId</StyledTableCell>
               <StyledTableCell align="right">Delete</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -132,7 +134,7 @@ export default function CustomizedTables(props) {
                 <StyledTableCell align="right">{row._id}</StyledTableCell>
                 <StyledTableCell align="right">{row.email}</StyledTableCell>
 
-                <StyledTableCell align="right">{row.profile}</StyledTableCell>
+                <StyledTableCell align="right">{row.profileId}</StyledTableCell>
                 <StyledTableCell align="right">
                   <IconButton
                     onClick={() => deleteUser(row._id)}

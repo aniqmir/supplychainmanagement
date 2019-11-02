@@ -130,14 +130,16 @@ export default function ResponsiveDialog(props) {
           <b style={{ fontSize: "29px" }}>{data.name}</b>({data.username})
         </Grid>
         <Grid item xs={12} className={classes.location}>
-          <Button
+        <Button
             variant="contained"
             color="secondary"
             style={{ marginBottom: "20px", marginLeft: "-20px" }}
             onClick={() => becomeSupplier()}
+            disabled={data.isSupplier}
           >
             <b>Become A Supplier</b>
           </Button>
+
         </Grid>
         <ProfileTable data={data} />
       </Grid>

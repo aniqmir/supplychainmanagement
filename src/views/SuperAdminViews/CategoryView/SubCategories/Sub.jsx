@@ -73,6 +73,7 @@ const useStyles = makeStyles(theme => ({
         paddingTop: "5px",
         marginLeft: "5px",
         width: "auto",
+        height: "60px",
         [theme.breakpoints.down("sm")]: {
             width: "350px",
             height: "60px",
@@ -309,7 +310,7 @@ export default function ResponsiveDialog(props) {
                                                 <Delete />
                                             </Button>
                                             {/* //dialog */}
-                                            <Edit id={sub._id} token={props.token} update={handleOpen}/>
+                                            {/* <Edit id={sub._id} token={props.token} update={handleOpen}/> */}
                                             
                                         </span>
                                     </div>

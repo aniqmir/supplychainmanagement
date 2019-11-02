@@ -43,7 +43,7 @@ export default function FormDialog(props) {
     name: props.data.name,
     itemId: props.data.itemId,
     quantity: props.data.quantity,
-    quatityChanged: undefined
+    quantityChanged: undefined
   });
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -56,10 +56,10 @@ export default function FormDialog(props) {
 
   function create() {
     console.log(order);
-    if (order.quatityChanged === undefined || order.quatityChanged.length === 0 || order.quatityChanged < 1) {
+    if (order.quantityChanged === undefined || order.quantityChanged.length === 0 || order.quantityChanged < 1) {
       setOpen(true);
       setNotification("You should enter valid quantity");
-    } else if (order.quatityChanged > props.data.quantity) {
+    } else if (order.quantityChanged > props.data.quantity) {
       setOpen(true);
       setNotification(`Maximum quantity you can enter right now is ${props.data.quantity}`);
     } else {
@@ -72,7 +72,7 @@ export default function FormDialog(props) {
 
   function clear() {
     setOrder({
-      quatityChanged: undefined
+      quantityChanged: undefined
     });
   }
   // const handleClickOpen = () => {
@@ -112,8 +112,8 @@ export default function FormDialog(props) {
           <CssTextField
             id="outlined-quantity"
             label="Quantity you wanna approve"
-            value={order.quatityChanged || ""}
-            onChange={handleOrderChange("quatityChanged")}
+            value={order.quantityChanged || ""}
+            onChange={handleOrderChange("quantityChanged")}
             // InputProps={{
             //   onChange: handleProfileChange("name")
             // }}
@@ -123,16 +123,16 @@ export default function FormDialog(props) {
             fullWidth
             required={true}
             error={
-              order.quatityChanged === undefined
+              order.quantityChanged === undefined
                 ? false
-                : order.quatityChanged.length === 0
+                : order.quantityChanged.length === 0
                   ? true
                   : false
             }
             helperText={
-              order.quatityChanged === undefined
+              order.quantityChanged === undefined
                 ? false
-                : order.quatityChanged.length === 0
+                : order.quantityChanged.length === 0
                   ? "This cannot be empty"
                   : false
             }

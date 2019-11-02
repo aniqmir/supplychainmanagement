@@ -13,7 +13,6 @@ import Button from "@material-ui/core/Button";
 
 import axios from "axios";
 
-import IndividualUser from "./IndividualUser/IndividualUser.jsx";
 import Notification from "../../../../components/Notification/Notification.jsx";
 
 // import MaterialTable from "material-table";
@@ -40,7 +39,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Profiles(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const [openNot, setOpenNot] = React.useState(false);
   const [notification, setNotification] = React.useState("");
   const [errorText, setErrorText] = React.useState("");
@@ -67,76 +65,57 @@ export default function Profiles(props) {
       });
   }, [props.token]);
 
-  // function update() {
-  //   console.log("update");
-  //   axios
-  //     .get(`${BASE_URL}/superadmin/profile/filter/true`, {
-  //       headers: { Authorization: `bearer ` + props.token }
-  //     })
-  //     .then(res => {
-  //       setData(res.data["data"]["profiles"]);
-  //       setLoading(false);
-  //       setErrorText("");
-  //     })
-  //     .catch(error => {
-  //       setErrorText(error.response["data"]["Error"]["message"]);
-  //       setLoading(false);
-  //     });
-  // }
+
+
+  function getItems() {
+    {
+      axios
+        .get(`${BASE_URL}/profileadmin/profiles/unsubscribed`, {
+          headers: { Authorization: `bearer ` + props.token }
+        })
+        .then(res => {
+          setData(res.data["data"]["profiles"]);
+          setLoading(false);
+          setErrorText("");
+        })
+        .catch(error => {
+          setErrorText(error.response["data"]["Error"]["message"]);
+          setLoading(false);
+        });
+    }
+  }
+
 
   function handleClickOpen(temp) {
     setIData(temp);
-    setOpen(true);
   }
 
-  function handleClose() {
-    setOpen(false);
-  }
 
   function handleCloseNot() {
     setOpenNot(false);
   }
 
-  // function deleteprofile(type) {
-  //   axios
-  //     .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
-  //     .then(res => {
-  //       console.log(res);
-  //       update();
-  //       setOpen(true);
-  //       setNotification("Profile Rejected Successfully!");
-  //       setOpenNot(true);
-  //     })
-  //     .catch(errorA => {
-  //       console.log(errorA.response);
-  //       // alert(error.data.Error.message);
-  //       setNotification("An Error occured while rejecting profile");
-  //       setOpen(true);
-  //       setOpenNot(true);
-  //     });
-  // }
-
-  function subscribeProfile(type){
+  function subscribeProfile(type) {
+    console.log(type._id);
     axios
-    .suspend(`${BASE_URL}/profileadmin/profiles/subscribe/${type._id}`)
-    .then(res => {
-      console.log(res);
-      setOpen(true);
-      setNotification("Profile subscribed Successfully!");
-      setOpenNot(true);
-    })
-    .catch(errorA => {
-      console.log(errorA.response);
-      // alert(error.data.Error.message);
-      setNotification("An Error occured while subscribing profile");
-      setOpen(true);
-      setOpenNot(true);
-    });
+      .post(`${BASE_URL}/profileadmin/profile/subscribe/${type._id}`)
+      .then(res => {
+        console.log(res);
+        setNotification("Profile subscribed Successfully!");
+        setOpenNot(true);
+        getItems();
+      })
+      .catch(errorA => {
+        console.log(errorA.response);
+        // alert(error.data.Error.message);
+        setNotification("An Error occured while subscribing profile");
+        setOpenNot(true);
+      });
   }
 
-if (data.length > 0) {
+  if (data.length > 0) {
     return (
-      <List className={classes.root} style={{marginTop: "30px"}}>
+      <List className={classes.root} style={{ marginTop: "30px" }}>
         <Grid container spacing={1}>
           {data.map((type, key) => {
             return (
@@ -183,7 +162,7 @@ if (data.length > 0) {
                       Created At: {type.createdAt.slice(0, 10)} &nbsp;
                     </div>
                     <div style={{ paddingTop: "0.5%" }}>
-                      <Button
+                      {/* <Button
                         variant="contained"
                         color="secondary"
                         size="small"
@@ -191,17 +170,17 @@ if (data.length > 0) {
                         // onClick={() => handleClickOpen(type)}
                       >
                         View
-                      </Button>
+                      </Button> */}
                       <Button
                         variant="contained"
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                      onClick={() => subscribeProfile(type)}
+                        onClick={() => subscribeProfile(type)}
                       >
                         Subscribe
                       </Button>
-                      <Button
+                      {/* <Button
                         variant="contained"
                         color="secondary"
                         size="small"
@@ -209,7 +188,7 @@ if (data.length > 0) {
                       // onClick={() => deleteprofile(type)}
                       >
                         Remove
-                      </Button>
+                      </Button> */}
                     </div>
                   </ListItem>
                   <Notification
@@ -222,14 +201,6 @@ if (data.length > 0) {
             );
           })}
         </Grid>
-        {open ? (
-          <IndividualUser
-            data={data}
-            open={open}
-            handleClose={handleClose}
-            token={props.token}
-          />
-        ) : null}
       </List>
     );
   } else if (loading) {

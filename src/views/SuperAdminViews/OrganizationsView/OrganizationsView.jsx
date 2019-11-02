@@ -189,7 +189,7 @@ export default function Profiles(props) {
                             // (type.city === "undefined" ? "" : type.city)  +
                             // " — " +
                             // type.phone !== "undefined" ? type.phone : ""
-                            }
+                          }
                         </React.Fragment>
                       }
                     />
@@ -197,7 +197,7 @@ export default function Profiles(props) {
                       Created At: {type.createdAt.slice(0, 10)} &nbsp;
                     </div>
                     <div style={{ paddingTop: "0.5%" }}>
-                      <Button
+                      {/* <Button
                         variant="contained"
                         color="secondary"
                         size="small"
@@ -205,7 +205,7 @@ export default function Profiles(props) {
                         // onClick={() => handleClickOpen(type)}
                       >
                         View
-                      </Button>
+                      </Button> */}
                       <Button
                         variant="contained"
                         color="secondary"
