@@ -113,16 +113,13 @@ export default function Profiles(props) {
       .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
       .then(res => {
         console.log(res);
-        window.location.reload();
-        setOpen(true);
-        setNotification("Profile Rejected Successfully!");
+        update();
+        setNotification("Profile Deleted Successfully!");
         setOpenNot(true);
       })
       .catch(errorA => {
         console.log(errorA.response);
-        // alert(error.data.Error.message);
-        setNotification("An Error occured while rejecting profile");
-        setOpen(true);
+        setNotification("An Error occured while deleting profile");
         setOpenNot(true);
       });
   }
@@ -132,8 +129,7 @@ export default function Profiles(props) {
       .patch(`${BASE_URL}/superadmin/profile/suspend/${type._id}`)
       .then(res => {
         console.log(res);
-        window.location.reload();
-        setOpen(true);
+        update();
         setNotification("Profile Suspended Successfully!");
         setOpenNot(true);
       })
@@ -141,7 +137,6 @@ export default function Profiles(props) {
         console.log(errorA.response);
         // alert(error.data.Error.message);
         setNotification("An Error occured while rejecting profile");
-        setOpen(true);
         setOpenNot(true);
       });
   }
@@ -236,14 +231,6 @@ export default function Profiles(props) {
             );
           })}
         </Grid>
-        {open ? (
-          <IndividualProfile
-            data={iData}
-            open={open}
-            handleClose={handleClose}
-            token={props.token}
-          />
-        ) : null}
       </List>
     );
   } else if (loading) {

@@ -11,6 +11,7 @@ import CategoryView from "../../views/SuperAdminViews/CategoryView/CategoryView.
 import SuspendedView from "../../views/SuperAdminViews/SuspendedView/SuspendedView.jsx";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Request from "@material-ui/icons/RecordVoiceOver";
 import Salestax from "@material-ui/icons/LibraryBooks";
 import CreateOrganization from "@material-ui/icons/Create";
@@ -38,7 +39,8 @@ export default function Dashboard(props) {
     <Salestax />,
     <CreateOrganization />,
     // <Location />,
-    <Category />
+    <Category />,
+    <RemoveCircleIcon/>
   ];
 
   const loggedIn = localStorage.getItem("loggedIn"); //this state stays in Redux

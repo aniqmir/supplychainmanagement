@@ -13,7 +13,6 @@ import Button from "@material-ui/core/Button";
 
 import axios from "axios";
 
-import IndividualProfile from "./IndividualUser/IndividualUser.jsx";
 import Notification from "../../../components/Notification/Notification.jsx";
 
 // import MaterialTable from "material-table";
@@ -107,43 +106,39 @@ export default function Profiles(props) {
     setOpenNot(false);
   }
 
-  // function deleteprofile(type) {
-  //   axios
-  //     .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
-  //     .then(res => {
-  //       console.log(res);
-  //       update();
-  //       setOpen(true);
-  //       setNotification("Profile Rejected Successfully!");
-  //       setOpenNot(true);
-  //     })
-  //     .catch(errorA => {
-  //       console.log(errorA.response);
-  //       // alert(error.data.Error.message);
-  //       setNotification("An Error occured while rejecting profile");
-  //       setOpen(true);
-  //       setOpenNot(true);
-  //     });
-  // }
+  function deleteprofile(type) {
+    axios
+      .delete(`${BASE_URL}/superadmin/profile/${type._id}`)
+      .then(res => {
+        console.log(res);
+        update();
+        setNotification("Profile Deleted Successfully!");
+        setOpenNot(true);
+      })
+      .catch(errorA => {
+        console.log(errorA.response);
+        setNotification("An Error occured while Deleting profile");
+        setOpenNot(true);
+      });
+  }
 
-  // function unsuspendprofile(type){
-  //   axios
-  //   .suspend(`${BASE_URL}/superadmin/profile/${type._id}`)
-  //   .then(res => {
-  //     console.log(res);
-  //     update();
-  //     setOpen(true);
-  //     setNotification("Profile Suspended Successfully!");
-  //     setOpenNot(true);
-  //   })
-  //   .catch(errorA => {
-  //     console.log(errorA.response);
-  //     // alert(error.data.Error.message);
-  //     setNotification("An Error occured while rejecting profile");
-  //     setOpen(true);
-  //     setOpenNot(true);
-  //   });
-  // }
+
+  function unsuspendprofile(type) {
+    axios
+      .patch(`${BASE_URL}/superadmin/profile/unsuspend/${type._id}`)
+      .then(res => {
+        console.log(res);
+        update();
+        setOpenNot(true);
+        setNotification("Profile UnSuspended Successfully!");
+      })
+      .catch(errorA => {
+        console.log(errorA.response);
+        // alert(error.data.Error.message);
+        setOpenNot(true);
+        setNotification("An Error occured while rejecting profile");
+      });
+  }
 
   if (data.length > 0) {
     return (
@@ -194,21 +189,21 @@ export default function Profiles(props) {
                       Created At: {type.createdAt.slice(0, 10)} &nbsp;
                     </div>
                     <div style={{ paddingTop: "0.5%" }}>
-                      <Button
+                      {/* <Button
                         variant="contained"
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                        // onClick={() => handleClickOpen(type)}
+                      // onClick={() => handleClickOpen(type)}
                       >
                         View
-                      </Button>
+                      </Button> */}
                       <Button
                         variant="contained"
                         color="secondary"
                         size="small"
                         style={{ marginRight: "10px", marginTop: "5px" }}
-                      // onClick={() => deleteprofile(type)}
+                        onClick={() => unsuspendprofile(type)}
                       >
                         Unsuspend
                       </Button>
@@ -217,7 +212,7 @@ export default function Profiles(props) {
                         color="secondary"
                         size="small"
                         style={{ marginTop: "5px" }}
-                      // onClick={() => deleteprofile(type)}
+                        onClick={() => deleteprofile(type)}
                       >
                         Delete
                       </Button>
@@ -233,14 +228,6 @@ export default function Profiles(props) {
             );
           })}
         </Grid>
-        {open ? (
-          <IndividualProfile
-            data={iData}
-            open={open}
-            handleClose={handleClose}
-            token={props.token}
-          />
-        ) : null}
       </List>
     );
   } else if (loading) {
