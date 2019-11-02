@@ -40,8 +40,9 @@ const CssTextField = withStyles({
 
 export default function AddProduct(props) {
   const [productValues, setproductvalues] = React.useState({
-    itemname: undefined,
-    price: undefined
+    name: undefined,
+    price: undefined,
+    quantity: undefined
   });
 
   const [open, setOpen] = React.useState(false);
@@ -51,35 +52,62 @@ export default function AddProduct(props) {
     setproductvalues({ ...productValues, [name]: event.target.value });
   };
 
-  const itemname = useRef(null);
+  const name = useRef(null);
   const price = useRef(null);
+  const quantity = useRef(null);
   const createproduct = useRef(null);
 
   useEffect(() => {
-    itemname.current.focus();
+    name.current.focus();
   }, []);
 
   function create() {
     if (
-      productValues.itemname === undefined ||
-      productValues.itemname.length === 0
+      productValues.name === undefined ||
+      productValues.name.length === 0
     ) {
       setOpen(true);
       setNotification("Item Name Cannot be Empty");
-      setproductvalues({ ...productValues, itemname: "" });
+      setproductvalues({ ...productValues, name: "" });
     } else if (
       productValues.price === undefined ||
       productValues.price < 0 || productValues.price === 0) {
       setOpen(true);
       setNotification("Price Cannot be 0 or less");
       setproductvalues({ ...productValues, price: "" });
+    }else if (
+      productValues.quantity === undefined ||
+      productValues.quantity < 0 || productValues.quantity === 0) {
+      setOpen(true);
+      setNotification("Quantity Cannot be  zero or less");
+      setproductvalues({ ...productValues, quantity: "" });
+    }
+    else{
+      console.log(productValues);
+      axios
+        .post(`${BASE_URL}/profileadmin/item/add`, {
+          item : productValues,
+          headers: { Authorization: `bearer ` + props.token }
+        })
+        .then(res => {
+          console.log(res);
+          setOpen(true);
+          setNotification("Product Added SuccessFully!");
+          window.location.reload();
+        })
+        .catch(error => {
+          console.log(error.response);
+          setOpen(true);
+          setNotification("Error Occured While Adding Product");
+        });
     }
   }
 
   function clear() {
     setproductvalues({
-      itemname: undefined,
-      price: undefined
+      name: undefined,
+      price: undefined,
+      quantity: undefined
     });
   }
 
@@ -99,16 +127,16 @@ export default function AddProduct(props) {
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <CssTextField
-              inputRef={itemname}
-              id="itemname-name"
+              inputRef={name}
+              id="name-name"
               onKeyDown={e => {
                 if (e.key === "Enter") {
                   price.current.focus();
                 }
               }}
               label="Item Name"
-              value={productValues.itemname || ""}
-              onChange={handleUserChange("itemname")}
+              value={productValues.name || ""}
+              onChange={handleUserChange("name")}
               // InputProps={{
               //   onChange: handleUserChange("name")
               // }}
@@ -117,16 +145,16 @@ export default function AddProduct(props) {
               fullWidth
               required={true}
               error={
-                productValues.itemname === undefined
+                productValues.name === undefined
                   ? false
-                  : productValues.itemname.length === 0
+                  : productValues.name.length === 0
                     ? true
                     : false
               }
               helperText={
-                productValues.itemname === undefined
+                productValues.name === undefined
                   ? false
-                  : productValues.itemname.length === 0
+                  : productValues.name.length === 0
                     ? "This cannot be empty"
                     : false
               }
@@ -140,7 +168,7 @@ export default function AddProduct(props) {
               type="price"
               onKeyDown={e => {
                 if (e.key === "Enter") {
-                  createproduct.current.focus();
+                  quantity.current.focus();
                 }
               }}
               value={productValues.price || ""}
@@ -159,6 +187,34 @@ export default function AddProduct(props) {
                 productValues.price === undefined
                   ? false
                   : productValues.price < 0 || productValues.price === 0
+                    ? "This cannot be 0 or less"
+                    : false
+              }
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <CssTextField
+              id="quantity-quantity"
+              inputRef={quantity}
+              label="Quantity"
+              type="quantity"
+              
+              value={productValues.quantity || ""}
+              onChange={handleUserChange("quantity")}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              error={
+                productValues.quantity === undefined
+                  ? false
+                  : productValues.quantity.length === 0
+                    ? true
+                    : false
+              }
+              helperText={
+                productValues.quantity === undefined
+                  ? false
+                  : productValues.quantity < 0 || productValues.quantity === 0
                     ? "This cannot be 0 or less"
                     : false
               }

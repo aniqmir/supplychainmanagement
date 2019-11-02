@@ -10,8 +10,8 @@ import { IconButton } from "@material-ui/core";
 import Delete from "@material-ui/icons/Delete";
 import axios from "axios";
 import { BASE_URL } from "../../../../baseurl.js";
-
-// import Notification from "../../../../components/Notification/Notification.jsx";
+import Update from './Update';
+import Notification from "../../../../components/Notification/Notification.jsx";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -46,15 +46,15 @@ export default function CustomizedTables(props) {
   const classes = useStyles();
 
   const [products, setProducts] = React.useState([]);
-  // const [open, setOpen] = React.useState(false);
-  // const [notification, setNotification] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [notification, setNotification] = React.useState("");
 
-  // function handleClose(event, reason) {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // }
+  function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  }
 
   useEffect(() => {
     axios
@@ -88,24 +88,23 @@ export default function CustomizedTables(props) {
       });
   }
 
-  function deleteProduct(id) {
-    console.log(id);
+  function updateProducts(items, id) {
+    console.log(items);
     axios
-      .post(`${BASE_URL}/profileadmin/item/delete/${id}`, {
+      .post(`${BASE_URL}/profileadmin/item/update/${id}`, {
+        item : items,
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
         console.log(res);
-        // setOpen(true);
-        // setNotification("User Deleted SuccessFully!");
-        getProducts();
-        alert("Product Deleted");
+        setOpen(true);
+        setNotification("Product Updated SuccessFully!");
+        window.location.reload();
       })
       .catch(error => {
-        console.log(error);
-        alert("Can't delete right now due to some network problem");
-        // setOpen(true);
-        // setNotification("Error Occured While Deleting User");
+        console.log(error.response);
+        setOpen(true);
+        setNotification("Error Occured While Updating Product");
       });
   }
 
@@ -133,24 +132,18 @@ export default function CustomizedTables(props) {
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <IconButton
-                    onClick={() => deleteProduct(row._id)}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    <Delete />
-                  </IconButton>
+                  <Update id={row._id} data={row} update={updateProducts}/>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </Paper>
-      {/* <Notification
+      <Notification
         open={open}
         handleClose={handleClose}
         notification={notification}
-      /> */}
+      />
     </div>
   );
 }

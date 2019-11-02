@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 
 import AddProduct from "./AddProduct/AddProduct.jsx";
 import AllProducts from "./AllProducts/AllProducts.jsx";
+import UpdateProducts from "./UpdateProducts/UpdateProducts.jsx";
 // import DeleteUser from "./DeleteUser/DeleteUser.jsx";
 // import UpdateUser from "./UpdateUser/UpdateUser.jsx";
 
@@ -50,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function FullWidthTabs() {
+export default function FullWidthTabs(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -76,6 +77,7 @@ export default function FullWidthTabs() {
         >
           <Tab label="Add Product" {...a11yProps(0)} />
           <Tab label="All Products" {...a11yProps(1)} />
+          <Tab label="Update Products" {...a11yProps(1)} />
           {/* <Tab label="Delete User" {...a11yProps(2)} />
           <Tab label="Update User" {...a11yProps(3)} /> */}
         </Tabs>
@@ -86,10 +88,13 @@ export default function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       >
          <TabPanel value={value} index={0} dir={theme.direction}>
-          <AddProduct />
+          <AddProduct token={props.token}/>
         </TabPanel>
        <TabPanel value={value} index={1} dir={theme.direction}>
-          <AllProducts />
+          <AllProducts token={props.token}/>
+        </TabPanel>
+       <TabPanel value={value} index={2} dir={theme.direction}>
+          <UpdateProducts token={props.token}/>
         </TabPanel>
         {/* <TabPanel value={value} index={2} dir={theme.direction}>
           <DeleteUser />
