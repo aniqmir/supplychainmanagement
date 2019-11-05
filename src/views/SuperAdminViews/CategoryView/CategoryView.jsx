@@ -50,6 +50,8 @@ export default function CreateCategory(props) {
       })
       .then(res => {
         if (res.data.success === true) {
+          console.log(res.data.data.categories);
+          // setCategories([]);
           setCategories(res.data.data.categories);
           setLoading(false);
           setErrorText("");
@@ -59,6 +61,7 @@ export default function CreateCategory(props) {
         setLoading(false);
         console.log("in catch of get categories");
         console.log(error.response);
+        setErrorText("Error Occured, please try again later");
       });
   }, [props]);
 
@@ -154,9 +157,8 @@ export default function CreateCategory(props) {
       });
   }
 
-  //
-  //
-  if (categories.length > 0) {
+
+  if (categories.length > 0 || categories.length === 0) {
     return (
       <Grid container spacing={0}>
         <Grid item xs={12} justify="center">
@@ -166,7 +168,7 @@ export default function CreateCategory(props) {
           <MaterialTable
             title="Categories Table"
             columns={state.columns}
-            // data={state.data}
+            // data={state.data}  
             data={categories}
             style={{
               padding: "10px",
@@ -228,7 +230,7 @@ export default function CreateCategory(props) {
                           component="th"
                           scope="row"
                         >
-                          {row}
+                          {row.name}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -252,6 +254,7 @@ export default function CreateCategory(props) {
   } else if (loading) {
     return (
       <div className={classes.progress}>
+
         <CircularProgress color="secondary" />
       </div>
     );

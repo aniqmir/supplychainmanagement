@@ -45,6 +45,7 @@ export default function CustomizedTables(props) {
 
   const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
 
 
@@ -55,7 +56,9 @@ export default function CustomizedTables(props) {
       })
       .then(res => {
         if (res.data.success === true) {
+          console.log(res.data.data.items);
           setItems(res.data["data"]["items"]);
+          setLoading(false);
         }
       })
       .catch(error => {
@@ -66,15 +69,53 @@ export default function CustomizedTables(props) {
 
 
   console.log(error);
-  if (items.length === 0) {
+  if (items.length > 0) {
+    return (
+      <div>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>ItemName</StyledTableCell>
+                <StyledTableCell align="right">Price</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map(row =>
+                (<StyledTableRow key={row._id}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
+                  <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+                </StyledTableRow>)
+              )}
+            </TableBody>
+          </Table>
+        </Paper>
+        {/* <Notification
+          open={open}
+          handleClose={handleClose}
+          notification={notification}
+        /> */}
+      </div>
+    );
+  } else if (loading) {
+    return (
+      <div className={classes.progress}>
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  }
+  else if (items.length === 0) {
     return (
       <div
         style={{
           textAlign: "center"
         }}
       >
-        <h5>Loading...</h5>
-        <CircularProgress color="secondary" />
+        <h5>No Requests...</h5>
       </div>
     );
   } else if (error === true) {
@@ -85,7 +126,7 @@ export default function CustomizedTables(props) {
         }}
       >
         <h2>
-          Network Error Occured!{" "}
+          Error Occured!{" "}
           <IconButton
             size="medium"
             color="secondary"
@@ -99,35 +140,4 @@ export default function CustomizedTables(props) {
       </div>
     );
   }
-  return (
-    <div>
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>ItemName</StyledTableCell>
-              <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Quantity</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map(row => 
-              (<StyledTableRow key={row._id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.price + "$"}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-              </StyledTableRow>) 
-            )}
-          </TableBody>
-        </Table>
-      </Paper>
-      {/* <Notification
-        open={open}
-        handleClose={handleClose}
-        notification={notification}
-      /> */}
-    </div>
-  );
 }

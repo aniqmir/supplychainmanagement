@@ -22,6 +22,7 @@ export default function MaterialTableDemo(props) {
       })
       .then(res => {
         console.log(typeof res.data.data.profiles);
+        // setData([]);
         setData(res.data["data"]["profiles"]);
         setLoading(false);
         setErrorText("");
@@ -46,7 +47,7 @@ export default function MaterialTableDemo(props) {
   });
 
   console.log(data);
-  if (data.length > 0) {
+  if (data.length > 0 || data.length === 0) {
     return (
       <Grid container>
         <Fade in={true} timeout={1500}>
@@ -112,7 +113,7 @@ export default function MaterialTableDemo(props) {
         </Fade>
       </Grid>
     );
-  } else if (loading) {
+  }else if (loading) {
     return (
       <div style={{ paddingLeft: "50%", paddingTop: "25%" }}>
         <CircularProgress color="secondary" />

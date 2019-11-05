@@ -88,75 +88,7 @@ export default function CreateCategory(props) {
   }
 
 
-  // //create category
-  // function createCategory(name) {
-  //   if (name) {
-  //     axios
-  //       .post(`${BASE_URL}/superadmin/category`, {
-  //         categoryName: name
-  //       })
-  //       .then(res => {
-  //         if (res.data.success === true) {
-  //           // setCategory(undefined);
-  //           getCategory();
-  //           setOpen(true);
-  //           setNotification("Category Added!");
-  //         }
-  //       })
-  //       .catch(error => {
-  //         setOpen(true);
-  //         setNotification(error.response);
-  //         console.log(error.response);
-  //       });
-  //   }
-
-  // }
-
-
-  // //delete category
-  // function deleteCategory(id) {
-  //   axios
-  //     .delete(`${BASE_URL}/superadmin/category/${id}`, {
-  //       headers: { Authorization: `bearer ` + props.token }
-  //     })
-  //     .then(res => {
-  //       getCategory();
-  //       setCategories([]);
-  //       setOpen(true);
-  //       setNotification("Category Deleted!");
-  //     })
-  //     .catch(error => {
-  //       setOpen(true);
-  //       setNotification(error.response);
-  //       console.log(error.response);
-  //     });
-  // }
-
-
-
-  // //edit categoryyy
-  // function editCategory(id, name) {
-  //   axios
-  //     .patch(`${BASE_URL}/superadmin/category/${id}`, {
-  //       categoryName: name
-  //     })
-  //     .then(res => {
-  //       if (res.data.success === true) {
-  //         getCategory();
-  //         // setCategories([]);
-  //         // setCategory(undefined)
-  //       }
-  //     })
-  //     .catch(error => {
-  //       setOpen(true);
-  //       setNotification(error.response);
-  //       console.log(error.response);
-  //     });
-  // }
-
-  //
-  //
-  if (categories.length > 0) {
+  if (categories.length > 0 || categories.length === 0) {
     return (
       <Grid container spacing={0}>
         <Grid item xs={12}>

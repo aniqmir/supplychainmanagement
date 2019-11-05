@@ -42,6 +42,10 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 700
+  },
+  progress: {
+    paddingLeft: "48%",
+    paddingTop: "23%"
   }
 }));
 
@@ -52,6 +56,7 @@ export default function CustomizedTables(props) {
   const [error, setError] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [notification, setNotification] = React.useState("");
+  const [loading, setLoading] = React.useState(true);
 
   function handleClose(event, reason) {
     if (reason === "clickaway") {
@@ -70,6 +75,7 @@ export default function CustomizedTables(props) {
         if (res.data.success === true) {
           console.log(res.data.data.Orders);
           setItems(res.data["data"]["Orders"]);
+          setLoading(false);
         }
       })
       .catch(error => {
@@ -90,6 +96,7 @@ export default function CustomizedTables(props) {
           if (res.data.success === true) {
             console.log(res.data.data.Orders);
             setItems(res.data["data"]["Orders"]);
+            setLoading(false);
           }
         })
         .catch(error => {
@@ -141,15 +148,69 @@ export default function CustomizedTables(props) {
   }
 
   console.log(error);
-  if (items.length === 0) {
+  if (items.length > 0) {
+    return (
+      <div>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Item</StyledTableCell>
+                <StyledTableCell align="right">Price</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">Location</StyledTableCell>
+                <StyledTableCell align="right">Approve</StyledTableCell>
+                <StyledTableCell align="right">Reject</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map(row => (
+                <StyledTableRow key={row._id}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.price}</StyledTableCell>
+                  <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+                  <StyledTableCell align="right">{row.location}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    <Modify token={props.token} data={row} accept={acceptOrder} />
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <IconButton
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => rejectOrder(row._id)}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+        <Notification
+          open={open}
+          handleClose={handleClose}
+          notification={notification}
+        />
+      </div>
+    );
+  } else if (loading) {
+    return (
+      <div className={classes.progress}>
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  }
+  else if (items.length === 0) {
     return (
       <div
         style={{
           textAlign: "center"
         }}
       >
-        <h5>Loading...</h5>
-        <CircularProgress color="secondary" />
+        <h5>No Requests...</h5>
       </div>
     );
   } else if (error === true) {
@@ -174,51 +235,5 @@ export default function CustomizedTables(props) {
       </div>
     );
   }
-  return (
-    <div>
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Item</StyledTableCell>
-              <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
-              <StyledTableCell align="right">Approve</StyledTableCell>
-              <StyledTableCell align="right">Reject</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map(row => (
-              <StyledTableRow key={row._id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <Modify token={props.token} data={row} accept={acceptOrder} />
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <IconButton
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => rejectOrder(row._id)}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-      <Notification
-        open={open}
-        handleClose={handleClose}
-        notification={notification}
-      />
-    </div>
-  );
+
 }

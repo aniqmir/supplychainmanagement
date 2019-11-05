@@ -47,6 +47,7 @@ export default function CustomizedTables(props) {
           <TableRow>
             <StyledTableCell>Location Name</StyledTableCell>
             <StyledTableCell align="right">ID</StyledTableCell>
+            <StyledTableCell align="right">Delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

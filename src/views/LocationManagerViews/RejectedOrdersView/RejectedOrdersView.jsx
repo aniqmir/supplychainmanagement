@@ -39,6 +39,10 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 700
+  },
+  progress: {
+    paddingLeft: "48%",
+    paddingTop: "23%"
   }
 }));
 
@@ -47,6 +51,7 @@ export default function CustomizedTables(props) {
 
   const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
 
   useEffect(() => {
@@ -58,6 +63,7 @@ export default function CustomizedTables(props) {
         if (res.data.success === true) {
           console.log(res.data.data.Orders);
           setItems(res.data["data"]["Orders"]);
+          setLoading(false);
         }
       })
       .catch(error => {
@@ -68,18 +74,61 @@ export default function CustomizedTables(props) {
 
 
   console.log(error);
-  if (items.length === 0 && error === false) {
+
+
+  if (items.length > 0) {
+    return (
+      <div>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Item</StyledTableCell>
+                <StyledTableCell align="right">Price</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">Location</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map(row => (
+                <StyledTableRow key={row._id}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.price}</StyledTableCell>
+                  <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+                  <StyledTableCell align="right">{row.location}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+        {/* <Notification
+          open={open}
+          handleClose={handleClose}
+          notification={notification}
+        /> */}
+      </div>
+    );
+  }
+  else if (loading) {
+    return (
+      <div className={classes.progress}>
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  }
+  else if (items.length === 0) {
     return (
       <div
         style={{
           textAlign: "center"
         }}
       >
-        <h5>Loading...</h5>
-        <CircularProgress color="secondary" />
+        <h5>No Requests...</h5>
       </div>
     );
-  } else if (items.length === 0 && error === true) {
+  } else if (error === true) {
     return (
       <div
         style={{
@@ -101,37 +150,5 @@ export default function CustomizedTables(props) {
       </div>
     );
   }
-  return (
-    <div>
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Item</StyledTableCell>
-              <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map(row => (
-              <StyledTableRow key={row._id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-      {/* <Notification
-        open={open}
-        handleClose={handleClose}
-        notification={notification}
-      /> */}
-    </div>
-  );
+
 }

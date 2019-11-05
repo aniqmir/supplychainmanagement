@@ -67,13 +67,14 @@ export default function Profiles(props) {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
-        console.log(res.data.data.profiles);
+        // if(res.data.data.profiles.length > 0){}
         setData(res.data["data"]["profiles"]);
         setLoading(false);
         setErrorText("");
       })
       .catch(error => {
-        setErrorText(error.response["data"]["Error"]["message"]);
+        console.log(error.response);
+        setErrorText("Can't get the profiles right now due to some prblm! kindly refresh the page");
         setLoading(false);
       });
   }, [props.token]);
@@ -90,7 +91,7 @@ export default function Profiles(props) {
         setErrorText("");
       })
       .catch(error => {
-        setErrorText(error.response["data"]["Error"]["message"]);
+        setErrorText("Can't get the profiles right now due to some prblm! kindly refresh the page");
         setLoading(false);
       });
   }
@@ -232,6 +233,12 @@ export default function Profiles(props) {
           })}
         </Grid>
       </List>
+    );
+  } else if (data.length === 0) {
+    return (
+      <Grow in={true} timeout={500}>
+        <Typography variant="h5">"No Profiles"</Typography>
+      </Grow>
     );
   } else if (loading) {
     return (

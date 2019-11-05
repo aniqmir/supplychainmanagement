@@ -200,6 +200,12 @@ export default function Requests(props) {
         />
       </List>
     );
+  }else if (data.length === 0) {
+    return (
+      <Grow in={true} timeout={500}>
+        <Typography variant="h5">"No Profiles"</Typography>
+      </Grow>
+    );
   } else if (loading) {
     return (
       <div className={classes.progress}>

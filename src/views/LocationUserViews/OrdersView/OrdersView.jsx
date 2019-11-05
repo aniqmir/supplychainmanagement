@@ -38,6 +38,10 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 700
+  },
+  progress: {
+    paddingLeft: "48%",
+    paddingTop: "23%"
   }
 }));
 
@@ -57,6 +61,7 @@ export default function CustomizedTables(props) {
       .then(res => {
         if (res.data.success === true) {
           console.log(res.data);
+          // setItems([]);
           setItems(res.data["data"]["Item"]);
           setLoading(false);
         }
@@ -66,46 +71,61 @@ export default function CustomizedTables(props) {
         setError(true);
       });
   }, [props.token]);
-  //  const items = [
-  //    {
-  //      item: "item1",
-  //      price: 12000,
-  //      supplier: "supplier1@gmail.com",
-  //      quantityOrdered: 4,
-  //      status: "Processing",
-  //      quantityConfirmed: 4  
-  //    },{
-  //     item: "item2",
-  //     price: 13000,
-  //     supplier: "supplier2@gmail.com",
-  //     quantityOrdered: 3,
-  //     status: "Processing",
-  //     quantityConfirmed: 2 
-  //   },
-  //   {
-  //     item: "item3",
-  //     price: 14000,
-  //     supplier: "supplier3@gmail.com",
-  //     quantityOrdered: 3,
-  //     status: "Processing",
-  //     quantityConfirmed: 3 
-  //   }
-  //  ]
-
 
   console.log(error);
-  if (items.length === 0 && error === false) {
+  if (items.length > 0) {
+    return (
+      <div>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Name</StyledTableCell>
+                <StyledTableCell align="right">Price</StyledTableCell>
+                <StyledTableCell align="right">Location</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">Status</StyledTableCell>
+                <StyledTableCell align="right">Quantity Changed</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map(row => (
+                <StyledTableRow key={row._id}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.price}</StyledTableCell>
+                  <StyledTableCell align="right">{row.location}</StyledTableCell>
+                  <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+                  <StyledTableCell align="right">{row.status}</StyledTableCell>
+                  <StyledTableCell align="right">{row.quatityChanged}</StyledTableCell>
+
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </div>
+    );
+  }
+  else if (loading) {
+    return (
+      <div className={classes.progress}>
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  }
+  else if (items.length === 0) {
     return (
       <div
         style={{
           textAlign: "center"
         }}
       >
-        <h5>Loading...</h5>
-        <CircularProgress color="secondary" />
+        <h5>No Orders...</h5>
       </div>
     );
-  } else if (items.length === 0 && error === true) {
+  } else if (error === true) {
     return (
       <div
         style={{
@@ -127,37 +147,4 @@ export default function CustomizedTables(props) {
       </div>
     );
   }
-  return (
-    <div>
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Location</StyledTableCell>
-              <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Status</StyledTableCell>
-              <StyledTableCell align="right">Quantity Changed</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map(row => (
-              <StyledTableRow key={row._id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.location}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.status}</StyledTableCell>
-                <StyledTableCell align="right">{row.quatityChanged}</StyledTableCell>
-              
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    </div>
-  );    
- }
+}

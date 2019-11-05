@@ -109,9 +109,9 @@ export default function CustomizedTables(props) {
       });
   }
 
-  if (products.length === 0) {
-    return <div>Loading</div>;
-  }
+  // if (products.length === 0) {
+  //   return <div>Loading...</div>;
+  // }
   return (
     <div>
       <Paper className={classes.root}>

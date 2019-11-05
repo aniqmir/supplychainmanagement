@@ -119,7 +119,7 @@ export default function CustomizedTables(props) {
           textAlign: "center"
         }}
       >
-        <h5>Loading...</h5>
+        <h5>No Items or its taking too long to load...</h5>
         <CircularProgress color="secondary" />
       </div>
     );

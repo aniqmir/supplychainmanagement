@@ -30,8 +30,8 @@ const useStyles = makeStyles(theme => ({
     boxShadow: "0 .5rem 1rem rgba(0,0,0,0.15)"
   },
   progress: {
-    paddingLeft: "50%",
-    paddingTop: "25%"
+    paddingLeft: "48%",
+    paddingTop: "23%"
   }
 }));
 
@@ -169,6 +169,16 @@ export default function Requests(props) {
     return (
       <div className={classes.progress}>
         <CircularProgress color="secondary" />
+      </div>
+    );
+  }else if (data.length === 0) {
+    return (
+      <div
+        style={{
+          textAlign: "center"
+        }}
+      >
+        <h5>No Items Available...</h5>
       </div>
     );
   } else {
