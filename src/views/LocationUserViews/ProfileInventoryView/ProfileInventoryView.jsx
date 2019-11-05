@@ -171,7 +171,7 @@ export default function Requests(props) {
         <CircularProgress color="secondary" />
       </div>
     );
-  }else if (data.length === 0) {
+  }else if (data.length === 0 ) {
     return (
       <div
         style={{

@@ -81,6 +81,7 @@ export default function CustomizedTables(props) {
       .catch(error => {
         console.log(error);
         setError(true);
+        setLoading(false);
       });
   }, [props.token]);
 
@@ -102,6 +103,7 @@ export default function CustomizedTables(props) {
         .catch(error => {
           console.log(error);
           setError(true);
+          setLoading(false);
         });
     }
   }
@@ -203,7 +205,7 @@ export default function CustomizedTables(props) {
       </div>
     );
   }
-  else if (items.length === 0) {
+  else if (items.length === 0 && error === false) {
     return (
       <div
         style={{

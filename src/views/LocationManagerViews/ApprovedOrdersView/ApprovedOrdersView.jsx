@@ -63,15 +63,17 @@ export default function CustomizedTables(props) {
         if (res.data.success === true) {
           console.log(res.data);
           setItems(res.data["data"]["Orders"]);
+          setLoading(false);
         }
       })
       .catch(error => {
         console.log(error);
         setError(true);
+        setLoading(false);
       });
   }, [props.token]);
 
-  
+
 
   if (items.length > 0) {
     return (
@@ -117,14 +119,14 @@ export default function CustomizedTables(props) {
       </div>
     );
   }
-  else if (items.length === 0) {
+  else if (items.length === 0 && error === false) {
     return (
       <div
         style={{
           textAlign: "center"
         }}
       >
-        <h5>No Requests...</h5>
+        <h5>No Approved orders...</h5>
       </div>
     );
   } else if (error === true) {

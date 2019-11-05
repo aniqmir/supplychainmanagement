@@ -40,6 +40,10 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 700
+  },
+  progress: {
+    paddingLeft: "48%",
+    paddingTop: "23%"
   }
 }));
 
@@ -48,6 +52,7 @@ export default function CustomizedTables(props) {
 
   const [items, setItems] = React.useState([]);
   const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   // const [open, setOpen] = React.useState(false);
   // const [notification, setNotification] = React.useState("");
 
@@ -67,11 +72,13 @@ export default function CustomizedTables(props) {
         if (res.data.success === true) {
           console.log(res.data.data.Item);
           setItems(res.data["data"]["Item"]);
+          setLoading(false);
         }
       })
       .catch(error => {
         console.log(error);
         setError(true);
+        setLoading(false);
       });
   }, [props.token]);
 
@@ -83,10 +90,13 @@ export default function CustomizedTables(props) {
       .then(res => {
         if (res.data.success === true) {
           setItems(res.data["data"]["Item"]);
+          setLoading(false);
         }
       })
       .catch(error => {
         console.log(error);
+        setError(true);
+        setLoading(false);
       });
   }
 
@@ -112,15 +122,71 @@ export default function CustomizedTables(props) {
   }
 
   console.log(error);
-  if (items.length === 0) {
+  if (items.length > 0) {
+    return (
+      <div>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Name</StyledTableCell>
+                <StyledTableCell align="right">Price</StyledTableCell>
+                <StyledTableCell align="right">ProfileEmail</StyledTableCell>
+
+                {/* <StyledTableCell align="right">ProfileName</StyledTableCell> */}
+                <StyledTableCell align="right">profileName</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map(row => (
+                <StyledTableRow key={row._id}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.price}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.profileId !== null ? row.profileId.email : "Nill"}
+                    {/* <IconButton
+                      onClick={() => deleteItem(row._id)}
+                      variant="contained"
+                      color="secondary"
+                      disabled
+                    >
+                      <Delete />
+                    </IconButton> */}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.profileId !== null ? row.profileId.name : "Nill"}
+                  </StyledTableCell>
+
+                  {/* <StyledTableCell align="right">{row.profile}</StyledTableCell> */}
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+        {/* <Notification
+          open={open}
+          handleClose={handleClose}
+          notification={notification}
+        /> */}
+      </div>
+    );
+  } else if (loading) {
+    return (
+      <div className={classes.progress}>
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  }
+  else if (items.length === 0 && error === false) {
     return (
       <div
         style={{
           textAlign: "center"
         }}
       >
-        <h5>No Items or its taking too long to load...</h5>
-        <CircularProgress color="secondary" />
+        <h5>No Items...</h5>
       </div>
     );
   } else if (error === true) {
@@ -131,7 +197,7 @@ export default function CustomizedTables(props) {
         }}
       >
         <h2>
-          Network Error Occured!{" "}
+          Error Occured!{" "}
           <IconButton
             size="medium"
             color="secondary"
@@ -145,53 +211,4 @@ export default function CustomizedTables(props) {
       </div>
     );
   }
-  return (
-    <div>
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">ProfileEmail</StyledTableCell>
-
-              {/* <StyledTableCell align="right">ProfileName</StyledTableCell> */}
-              <StyledTableCell align="right">profileName</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map(row => (
-              <StyledTableRow key={row._id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.profileId !== null ? row.profileId.email : "Nill"}
-                  {/* <IconButton
-                    onClick={() => deleteItem(row._id)}
-                    variant="contained"
-                    color="secondary"
-                    disabled
-                  >
-                    <Delete />
-                  </IconButton> */}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.profileId !== null ? row.profileId.name : "Nill"}
-                </StyledTableCell>
-
-                {/* <StyledTableCell align="right">{row.profile}</StyledTableCell> */}
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-      {/* <Notification
-        open={open}
-        handleClose={handleClose}
-        notification={notification}
-      /> */}
-    </div>
-  );
 }
