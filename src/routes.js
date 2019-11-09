@@ -24,7 +24,7 @@ function CustomRoutes() {
           <Route exact path="/request" component={SuperAdmin} />
           <Route exact path="/salestax" component={SuperAdmin} />
           <Route exact path="/createorganization" component={SuperAdmin} />
-          {/* <Route exact path="/locations" component={SuperAdmin} /> */}
+          <Route exact path="/locations" component={SuperAdmin} />
           <Route exact path="/categories" component={SuperAdmin} />
           <Route exact path="/suspended" component={SuperAdmin} />
         </div>

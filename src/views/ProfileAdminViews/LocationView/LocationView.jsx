@@ -48,7 +48,7 @@ export default function Location(props) {
   useEffect(() => {
     locationRef.current.focus();
     axios
-      .get(`${BASE_URL}/profileadmin/location/get`, {
+      .get(`${BASE_URL}/profileadmin/location/profile/get`, {
         headers: { Authorization: `bearer ` + props.token }
       })
       .then(res => {
@@ -82,39 +82,39 @@ export default function Location(props) {
 
   function updateLocations() {
     axios
-        .get(`${BASE_URL}/profileadmin/location/get`, {
-            headers: { Authorization: `bearer ` + props.token }
-        })
-        .then(res => {
-            if (res.data.success === true) {
-                setLocations(res.data["data"]["locations"]);
-            }
-        })
-        .catch(error => {
-            console.log(error.response);
-        });
-}
+      .get(`${BASE_URL}/profileadmin/location/get`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          setLocations(res.data["data"]["locations"]);
+        }
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  }
 
-function deleteLocation(id) {
+  function deleteLocation(id) {
     console.log(id);
     axios
-        .get(`${BASE_URL}/profileadmin/location/remove/${id}`, {
-            headers: { Authorization: `bearer ` + props.token }
-        })
-        .then(res => {
-            console.log("response");
-            console.log(res);
-            // setOpen(true);
-            // setNotification("User Deleted SuccessFully!");
-            updateLocations();
-            alert("Location Deleted");
-        })
-        .catch(error => {
-            console.log(error);
-            // setOpen(true);
-            // setNotification("Error Occured While Deleting User");
-        });
-}
+      .get(`${BASE_URL}/profileadmin/location/remove/${id}`, {
+        headers: { Authorization: `bearer ` + props.token }
+      })
+      .then(res => {
+        console.log("response");
+        console.log(res);
+        // setOpen(true);
+        // setNotification("User Deleted SuccessFully!");
+        updateLocations();
+        alert("Location Deleted");
+      })
+      .catch(error => {
+        console.log(error);
+        // setOpen(true);
+        // setNotification("Error Occured While Deleting User");
+      });
+  }
 
 
   function submit() {
@@ -171,15 +171,15 @@ function deleteLocation(id) {
             location === undefined
               ? false
               : location.length === 0
-              ? true
-              : false
+                ? true
+                : false
           }
           helperText={
             location === undefined
               ? false
               : location.length === 0
-              ? "This cannot be empty"
-              : false
+                ? "This cannot be empty"
+                : false
           }
         />
       </Grid>
@@ -198,10 +198,10 @@ function deleteLocation(id) {
       </Grid>
 
       <Grid item xs={6} sm={12}>
-        <Table 
-        locations={locations} 
-        
-        onDelete={deleteLocation}/>
+        <Table
+          locations={locations}
+
+          onDelete={deleteLocation} />
       </Grid>
 
       <Notification

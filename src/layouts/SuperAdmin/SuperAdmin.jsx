@@ -5,7 +5,7 @@ import DashboardView from "../../views/SuperAdminViews/DashboardView/DashboardVi
 import OrganizationsView from "../../views/SuperAdminViews/OrganizationsView/OrganizationsView.jsx";
 import RequestView from "../../views/SuperAdminViews/RequestView/RequestView.jsx";
 import SalestaxView from "../../views/SuperAdminViews/SalestaxView/SalestaxView.jsx";
-// import LocationView from "../../views/SuperAdminViews/LocationView/LocationView.jsx";
+import LocationView from "../../views/SuperAdminViews/LocationView/LocationView.jsx";
 import CreateOrganizationView from "../../views/SuperAdminViews/CreateOrganizationView/CreateOrganizationView.jsx";
 import CategoryView from "../../views/SuperAdminViews/CategoryView/CategoryView.jsx";
 import SuspendedView from "../../views/SuperAdminViews/SuspendedView/SuspendedView.jsx";
@@ -15,7 +15,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Request from "@material-ui/icons/RecordVoiceOver";
 import Salestax from "@material-ui/icons/LibraryBooks";
 import CreateOrganization from "@material-ui/icons/Create";
-// import Location from "@material-ui/icons/LocationCity";
+import Location from "@material-ui/icons/LocationCity";
 import Category from "@material-ui/icons/Category";
 
 import axios from "axios";
@@ -27,7 +27,7 @@ export default function Dashboard(props) {
     "request",
     "salestax",
     "createorganization",
-    // "locations",
+    "locations",
     "categories",
     "suspended"
   ];
@@ -38,7 +38,7 @@ export default function Dashboard(props) {
     <Request />,
     <Salestax />,
     <CreateOrganization />,
-    // <Location />,
+    <Location />,
     <Category />,
     <RemoveCircleIcon/>
   ];
@@ -64,7 +64,7 @@ export default function Dashboard(props) {
     request: <RequestView token={token} />,
     salestax: <SalestaxView token={token} />,
     createorganization: <CreateOrganizationView token={token} />,
-    // locations: <LocationView token={token} />,
+    locations: <LocationView token={token} />,
     categories: <CategoryView token={token} />,
     suspended: <SuspendedView token={token} />
   };
