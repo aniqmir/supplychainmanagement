@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 
-import DashboardView from "../../views/ProfileAdminViews/DashboardView/DashboardView.jsx";
+// import DashboardView from "../../views/ProfileAdminViews/DashboardView/DashboardView.jsx";
 import UserManagementView from "../../views/ProfileAdminViews/UserManagementView/UserManagementView.jsx";
 import MarketPlaceView from "../../views/ProfileAdminViews/MarketplaceView/MarketplaceView.jsx";
 import InventoryView from "../../views/ProfileAdminViews/InventoryView/InventoryView.jsx";
 import LocationView from "../../views/ProfileAdminViews/LocationView/LocationView.jsx";
 import CategoryView from "../../views/ProfileAdminViews/CategoryView/CategoryView.jsx";
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
+// import DashboardIcon from "@material-ui/icons/Dashboard";
 import UserManagementIcon from "@material-ui/icons/SupervisorAccount";
 import MarketplaceIcon from "@material-ui/icons/ShoppingCart";
 import InventoryIcon from "@material-ui/icons/AccountBalance";
@@ -20,7 +20,7 @@ import axios from "axios";
 
 export default function Dashboard(props) {
   const listitemnames = [
-    "dashboard",
+    // "dashboard",
     "usermanagement",
     "marketplace",
     "inventory",
@@ -29,7 +29,7 @@ export default function Dashboard(props) {
   ];
 
   const icons = [
-    <DashboardIcon />,
+    // <DashboardIcon />,
     <UserManagementIcon />,
     <MarketplaceIcon />,
     <InventoryIcon />,
@@ -52,7 +52,7 @@ export default function Dashboard(props) {
   });
 
   const view = {
-    dashboard: <DashboardView token={token} setPending={setPending} />,
+    // dashboard: <DashboardView token={token} setPending={setPending} />,
     marketplace: <MarketPlaceView token={token} setPending={setPending} />,
     inventory: <InventoryView token={token} setPending={setPending} />,
     location: <LocationView token={token} setPending={setPending} />,

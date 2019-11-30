@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
-import DashboardView from "../../views/LocationManagerViews/DashboardView/DashboardView";
+// import DashboardView from "../../views/LocationManagerViews/DashboardView/DashboardView";
 import RequestsView from "../../views/LocationManagerViews/RequestsView/RequestsView";
 // import InventoryView from "../../views/LocationManagerViews/InventoryView/InventoryView";
 import ApprovedOrdersView from "../../views/LocationManagerViews/ApprovedOrdersView/ApprovedOrdersView";
 import RejectedOrdersView from "../../views/LocationManagerViews/RejectedOrdersView/RejectedOrdersView";
 
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
+// import DashboardIcon from "@material-ui/icons/Dashboard";
 import MarketplaceIcon from "@material-ui/icons/ShoppingCart";
 // import InventoryIcon from "@material-ui/icons/AccountBalance";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -19,7 +19,7 @@ import axios from "axios";
 
 export default function Dashboard(props) {
   const listitemnames = [
-    "dashboard",
+    // "dashboard",
     "requests",
     // "inventory",
     "approvedorders",
@@ -27,7 +27,7 @@ export default function Dashboard(props) {
   ];
 
   const icons = [
-    <DashboardIcon />,
+    // <DashboardIcon />,
     <MarketplaceIcon />,
     // <InventoryIcon />,
     <CheckCircleIcon />,
@@ -49,7 +49,7 @@ export default function Dashboard(props) {
   });
 
   const view = {
-    dashboard: <DashboardView token={token} setPending={setPending} />,
+    // dashboard: <DashboardView token={token} setPending={setPending} />,
     requests: <RequestsView token={token} setPending={setPending} />,
     // inventory: <InventoryView token={token} setPending={setPending} />,
     approvedorders: <ApprovedOrdersView token={token} setPending={setPending} />,

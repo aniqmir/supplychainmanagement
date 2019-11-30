@@ -150,7 +150,7 @@ export default function ResponsiveDialog(props) {
                         getSubCategories();
                         setNotiOpen(true);
                         setNotification("Subcategory Added Succesfully!");
-                        setName("");
+                        setName(undefined);
                     }
                 })
                 .catch(error => {
@@ -316,6 +316,19 @@ export default function ResponsiveDialog(props) {
                                     </div>
                                 </Grid>
                             ))) : (null)}
+                            <Grid item xs={12}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                size="large"
+                                justifyContent="flex-end"
+                                alignContent="flex-end"
+                                alignItems="flex-end"
+                                 onClick={handleClose}
+                              >
+                            Close
+                            </Button>
+                            </Grid> 
                         <Notification
                             open={notiOpen}
                             handleClose={handleNotiClose}

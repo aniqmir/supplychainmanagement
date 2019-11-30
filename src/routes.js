@@ -32,7 +32,7 @@ function CustomRoutes() {
     } else if (type === "Profileadmin") {
       return (
         <div>
-          <Route exact path="/dashboard" component={ProfileAdmin} />
+          {/* <Route exact path="/dashboard" component={ProfileAdmin} /> */}
           <Route exact path="/usermanagement" component={ProfileAdmin} />
           <Route
             exact
@@ -53,7 +53,7 @@ function CustomRoutes() {
     }else if (type === "Locationuser") {
       return (
         <div>
-          <Route exact path="/dashboard" component={LocationUser} />
+          {/* <Route exact path="/dashboard" component={LocationUser} /> */}
           <Route exact path="/orders" component={LocationUser} />
           <Route exact path="/profileinventory" component={LocationUser} />
           <Route exact path="/locationinventory" component={LocationUser} />
@@ -62,7 +62,7 @@ function CustomRoutes() {
     }else if (type === "Locationmanager") {
       return (
         <div>
-          <Route exact path="/dashboard" component={LocationManager} />
+          {/* <Route exact path="/dashboard" component={LocationManager} /> */}
           <Route exact path="/requests" component={LocationManager} />
           {/* <Route exact path="/inventory" component={LocationManager} /> */}
           <Route exact path="/approvedorders" component={LocationManager} />
@@ -72,7 +72,7 @@ function CustomRoutes() {
     }else if (type === "Inventorymanager") {
       return (
         <div>
-          <Route exact path="/dashboard" component={InventoryManager} />
+          {/* <Route exact path="/dashboard" component={InventoryManager} /> */}
           <Route exact path="/requests" component={InventoryManager} />
           {/* <Route exact path="/inventory" component={InventoryManager} /> */}
           <Route exact path="/approvedorders" component={InventoryManager} />
@@ -82,7 +82,7 @@ function CustomRoutes() {
     }else if (type === "Procurementmanager") {
       return (
         <div>
-          <Route exact path="/dashboard" component={ProcurementManager} />
+          {/* <Route exact path="/dashboard" component={ProcurementManager} /> */}
           <Route exact path="/marketplace" component={ProcurementManager} />
           <Route exact path="/profileinventory" component={ProcurementManager} />
         </div>

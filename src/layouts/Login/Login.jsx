@@ -143,7 +143,7 @@ export default function Login(props) {
             localStorage.setItem("type", "Profileadmin");
             localStorage.setItem("loggedIn", true);
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
-            props.history.push("/dashboard");
+            props.history.push("/usermanagement");
             window.location.reload();
           }
           else if (
@@ -153,7 +153,7 @@ export default function Login(props) {
             localStorage.setItem("type", "Procurementmanager");
             localStorage.setItem("loggedIn", true);
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
-            props.history.push("/dashboard");
+            props.history.push("/marketplace");
             window.location.reload();
           } else if (
             res.data.success === true &&
@@ -162,7 +162,7 @@ export default function Login(props) {
             localStorage.setItem("type", "Inventorymanager");
             localStorage.setItem("loggedIn", true);
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
-            props.history.push("/dashboard");
+            props.history.push("/requests");
             window.location.reload();
           }
            else if (
@@ -172,7 +172,7 @@ export default function Login(props) {
             localStorage.setItem("type", "Locationuser");
             localStorage.setItem("loggedIn", true);
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
-            props.history.push("/dashboard");
+            props.history.push("/orders");
             window.location.reload();
           } 
           else if (
@@ -182,7 +182,7 @@ export default function Login(props) {
             localStorage.setItem("type", "Locationmanager");
             localStorage.setItem("loggedIn", true);
             localStorage.setItem("token", res.data["data"]["data"]["token"]);
-            props.history.push("/dashboard");
+            props.history.push("/requests");
             window.location.reload();
           }
         })

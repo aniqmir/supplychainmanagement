@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 
-import DashboardView from "../../views/LocationUserViews/DashboardView/DashboardView.jsx";
+// import DashboardView from "../../views/LocationUserViews/DashboardView/DashboardView.jsx";
 import OrdersView from "../../views/LocationUserViews/OrdersView/OrdersView.jsx";
 import ProfileInventoryView from "../../views/LocationUserViews/ProfileInventoryView/ProfileInventoryView.jsx";
 // import LocationInventoryView from "../../views/LocationUserViews/LocationInventoryView/LocationInventoryView.jsx";
 
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
+// import DashboardIcon from "@material-ui/icons/Dashboard";
 import MarketplaceIcon from "@material-ui/icons/ShoppingCart";
 import InventoryIcon from "@material-ui/icons/AccountBalance";
 
@@ -16,14 +16,14 @@ import axios from "axios";
 
 export default function Dashboard(props) {
   const listitemnames = [
-    "dashboard",
+    // "dashboard",
     "orders",
     "profileinventory"
     // "locationinventory"
   ];
 
   const icons = [
-    <DashboardIcon />,
+    // <DashboardIcon />,
     <MarketplaceIcon />,
     <InventoryIcon />
     // <InventoryIcon />
@@ -44,7 +44,7 @@ export default function Dashboard(props) {
   });
 
   const view = {
-    dashboard: <DashboardView token={token} setPending={setPending} />,
+    // dashboard: <DashboardView token={token} setPending={setPending} />,
     orders: <OrdersView token={token} setPending={setPending} />,
     profileinventory: <ProfileInventoryView token={token} setPending={setPending} />
     // locationinventory: <LocationInventoryView token={token} setPending={setPending} />
